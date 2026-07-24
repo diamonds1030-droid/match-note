@@ -25,16 +25,22 @@ window.onload = function () {
 // 画面切替
 // ==============================
 
-function showPage(pageId){
+function showPage(pageId) {
 
-    document.querySelectorAll(".page").forEach(page=>{
-
+    document.querySelectorAll(".page").forEach(page => {
         page.classList.remove("active");
-
+        page.style.display = "none";
     });
 
-    document.getElementById(pageId).classList.add("active");
+    const page = document.getElementById(pageId);
 
+    if (pageId === "matchPage") {
+        page.style.display = "flex";
+    } else {
+        page.style.display = "block";
+    }
+
+    page.classList.add("active");
 }
 
 // ==============================
