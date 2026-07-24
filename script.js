@@ -20,18 +20,12 @@ const matchState = {
         FP6: "",
         FP7: ""
     },
-    substitutions: [
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false },
-    { out: "", in: "", done:false }
-　　　],
+    substitutions:
+    Array.from({length:10},()=>({
+        out:"",
+        in:"",
+        done:false
+    })),
     goals: []
 };
 
@@ -308,7 +302,11 @@ function createLineup() {
 // ==============================
 // 交代欄生成
 // ==============================
+// ==============================
+// 交代欄生成
+// ==============================
 function createSubstitutionArea(){
+
     const area = document.getElementById("substitutionArea");
     if(!area) return;
     area.innerHTML = "";
@@ -316,79 +314,90 @@ function createSubstitutionArea(){
         const sub = matchState.substitutions[i];
         const card = document.createElement("div");
         card.className = "subCard";
+        card.innerHTML = `
+        <h4>交代 ${i + 1}</h4>
 
-card.innerHTML = `
-<h4>交代 ${i + 1}</h4>
-<div class="subRow">
-    <label>OUT</label>
-    ${
-    sub.done
-    ?
-    `<div class="subPlayer">
-        ${sub.out}
-    </div>`
-    :
-    `<select class="outSelect">
-        ${createOptions(getLineupPlayers())}
-    </select>`
-    }
-    <label>IN</label>
-    ${
-    sub.done
-    ?
-    `<div class="subPlayer">
-        ${sub.in}
-    </div>`
-    :
-    `<select class="inSelect">
-        ${createOptions(getBenchPlayers())}
-    </select>`
-    }
-    <button class="subButton"
-        ${sub.done ? "disabled" : ""}>
-        ${sub.done ? "済" : "交代"}
-    </button>
-</div>
+        <div class="subRow">
 
-`;
-        const outSelect =
-            card.querySelector(".outSelect");
-        const inSelect =
-            card.querySelector(".inSelect");
+            <label>OUT</label>
+
+            ${
+                sub.done
+                ?
+                `
+                <div class="subPlayer">
+                    ${sub.out}
+                </div>
+                `
+                :
+                `
+                <select class="outSelect">
+                    ${createOptions(getLineupPlayers())}
+                </select>
+                `
+            }
+            <label>IN</label>
+
+            ${
+                sub.done
+                ?
+                `
+                <div class="subPlayer">
+                    ${sub.in}
+                </div>
+                `
+                :
+                `
+                <select class="inSelect">
+                    ${createOptions(getBenchPlayers())}
+                </select>
+                `
+            }
+            <button 
+                class="subButton"
+                ${sub.done ? "disabled" : ""}
+            >
+                ${sub.done ? "済" : "交代"}
+            </button>
+
+
+        </div>
+        `;
         const button =
             card.querySelector(".subButton");
-        if(sub.done){
-            area.appendChild(card);
-            return;
-        }
-        // ★ 過去の選択を復元
-        if(sub.out !== ""){
-            outSelect.value = sub.out;
-        }
-        if(sub.in !== ""){
-            inSelect.value = sub.in;
-        }
-        // ★ 実行済みの場合
-        if(sub.done){
-            button.disabled = true;
-            button.textContent = "済";
-        }
-        button.addEventListener("click",()=>{
-            const outPlayer = outSelect.value;
-            const inPlayer = inSelect.value;
-            if(outPlayer === "" || inPlayer === ""){
-                alert("OUTとINを選択してください");
-                return;
+        // 未実施の場合のみ処理
+        if(!sub.done){
+            const outSelect =
+                card.querySelector(".outSelect");
+            const inSelect =
+                card.querySelector(".inSelect");
+            // 選択状態を復元
+            if(sub.out !== ""){
+                outSelect.value = sub.out;
             }
-            executeSubstitution(
-                outPlayer,
-                inPlayer,
-                i
-            );
-        });
+            if(sub.in !== ""){
+                inSelect.value = sub.in;
+            }
+            button.addEventListener("click",()=>{
+                const outPlayer =
+                    outSelect.value;
+                const inPlayer =
+                    inSelect.value;
+                if(outPlayer === "" || inPlayer === ""){
+                    alert("OUTとINを選択してください");
+                    return;
+                }
+                executeSubstitution(
+                    outPlayer,
+                    inPlayer,
+                    i
+                );
+            });
+        }
         area.appendChild(card);
     }
 }
+
 // ==============================
 // 交代実行
 // ==============================
@@ -397,24 +406,19 @@ function executeSubstitution(
     inPlayer,
     index
 ){
-
     // 出場選手を変更
-    Object.keys(matchState.lineup)
-    .forEach(position=>{
-
+    Object.keys(matchState.lineup).forEach(position=>{
         if(matchState.lineup[position] === outPlayer){
             matchState.lineup[position] = inPlayer;
         }
-
     });
-    // 交代履歴を保存
+    // 実施した交代枠だけ保存
     matchState.substitutions[index].out = outPlayer;
     matchState.substitutions[index].in = inPlayer;
     matchState.substitutions[index].done = true;
     // 表示更新
     createLineup();
     createSubstitutionArea();
-
 }
 // ==============================
 // スタメン取得
