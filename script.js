@@ -316,10 +316,9 @@ function createSubstitutionArea(){
                 sub.done
                 ?
                 `
-<div class="subPlayer">
-OUT：${sub.out}
-</div>
-
+            <div class="subPlayer">
+                OUT：${sub.out}
+            </div>
 <div class="subPlayer">
 IN：${sub.in}
 </div>
@@ -359,12 +358,16 @@ IN：${sub.in}
 </div>
 
 `;
+
         const outSelect =
             card.querySelector(".outSelect");
         const inSelect =
             card.querySelector(".inSelect");
         const button =
             card.querySelector(".subButton");
+        if(!button){
+            return;
+        }
         // ★ 過去の選択を復元
         if(sub.out !== ""){
             outSelect.value = sub.out;
