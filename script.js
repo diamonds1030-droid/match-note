@@ -23,6 +23,13 @@ const matchState = {
     substitutions: [
     { out: "", in: "", done:false },
     { out: "", in: "", done:false },
+    { out: "", in: "", done:false },
+    { out: "", in: "", done:false },
+    { out: "", in: "", done:false },
+    { out: "", in: "", done:false },
+    { out: "", in: "", done:false },
+    { out: "", in: "", done:false },
+    { out: "", in: "", done:false },
     { out: "", in: "", done:false }
 　　　],
     goals: []
@@ -305,7 +312,7 @@ function createSubstitutionArea(){
     const area = document.getElementById("substitutionArea");
     if(!area) return;
     area.innerHTML = "";
-    for(let i = 0; i < 3; i++){
+    for(let i = 0; i < 10; i++){
         const sub = matchState.substitutions[i];
         const card = document.createElement("div");
         card.className = "subCard";
