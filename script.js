@@ -17,6 +17,7 @@ window.onload = function () {
     createPlayerList();
     createLineup();
     createGoalButtons();
+    initializeButtons();
 
 };
 
@@ -337,3 +338,34 @@ function goalButtonClick(name){
 
 }
 
+// ==============================
+// ボタンイベント
+// ==============================
+
+function initializeButtons() {
+
+    // ホーム画面
+    document.getElementById("playerButton").addEventListener("click", () => {
+        showPage("playerPage");
+    });
+
+    document.getElementById("matchButton").addEventListener("click", () => {
+        showPage("matchPage");
+    });
+
+    document.getElementById("historyButton").addEventListener("click", () => {
+        showPage("historyPage");
+    });
+
+    // 戻るボタン
+    document.querySelectorAll(".backButton").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            showPage("homePage");
+
+        });
+
+    });
+
+}
