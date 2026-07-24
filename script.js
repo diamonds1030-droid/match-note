@@ -19,10 +19,10 @@ const matchState = {
         FP7: ""
     },
     substitutions: [
-        { out: "", in: "" },
-        { out: "", in: "" },
-        { out: "", in: "" }
-    ],
+    { out: "", in: "", done:false },
+    { out: "", in: "", done:false },
+    { out: "", in: "", done:false }
+　　　],
     goals: []
 };
 
@@ -334,6 +334,15 @@ function createSubstitutionArea() {
             card.querySelector(".inSelect");
         const button =
             card.querySelector(".subButton");
+        // すでに交代済みなら表示だけ保持
+if(matchState.substitutions[i].done){
+    outSelect.value =
+        matchState.substitutions[i].out;
+    inSelect.value =
+        matchState.substitutions[i].in;
+    button.disabled = true;
+    button.textContent = "済";
+}
         button.addEventListener("click",()=>{
             const outPlayer = outSelect.value;
             const inPlayer = inSelect.value;
@@ -346,7 +355,8 @@ function createSubstitutionArea() {
             }
             executeSubstitution(
                 outPlayer,
-                inPlayer
+                inPlayer,
+                i
             );
         });
         area.appendChild(card);
@@ -356,21 +366,30 @@ function createSubstitutionArea() {
 // ==============================
 // 交代実行
 // ==============================
+// ==============================
+// 交代実行
+// ==============================
 
-function executeSubstitution(outPlayer, inPlayer) {
-
-    for (let position in matchState.lineup) {
-
-        if (matchState.lineup[position] === outPlayer) {
+function executeSubstitution(
+    outPlayer,
+    inPlayer,
+    index
+){
+    Object.keys(matchState.lineup)
+    .forEach(position=>{
+        if(matchState.lineup[position] === outPlayer){
             matchState.lineup[position] = inPlayer;
-            break;
         }
-    }
-    console.log("交代後");
-    console.log(matchState.lineup);
-    // 表示更新
+    });
+    // 交代履歴保存
+    matchState.substitutions[index].out = outPlayer;
+    matchState.substitutions[index].in = inPlayer;
+    matchState.substitutions[index].done = true;
+    // 出場選手更新
     createLineup();
+    // 交代欄更新
     createSubstitutionArea();
+
 }
 
 // ==============================
