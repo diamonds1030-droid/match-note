@@ -427,11 +427,15 @@ button:active{
 .subCard{
 
     border:1px solid #dddddd;
+
     border-radius:8px;
+
     padding:12px;
+
     margin-bottom:15px;
 
 }
+
 
 .subCard h4{
 
@@ -440,13 +444,17 @@ button:active{
 }
 
 
+/* OUT IN ボタン横並び */
+
 .subRow{
 
     display:flex;
 
     align-items:center;
 
-    gap:10px;
+    gap:8px;
+
+    width:100%;
 
 }
 
@@ -455,10 +463,12 @@ button:active{
 
     font-weight:bold;
 
-    width:40px;
+    width:35px;
 
 }
 
+
+/* OUT IN 選択 */
 
 .subRow select{
 
@@ -470,12 +480,18 @@ button:active{
 
     border-radius:6px;
 
+    padding:5px;
+
+    font-size:14px;
+
 }
 
 
+/* 交代ボタン */
+
 .subButton{
 
-    width:90px;
+    width:70px;
 
     height:40px;
 
@@ -486,6 +502,41 @@ button:active{
     background:#1976d2;
 
 }
+
+
+/*==============================
+  交代済み表示
+==============================*/
+
+.subPlayer{
+
+    flex:1;
+
+    height:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:0 8px;
+
+    background:#f0f0f0;
+
+    border-radius:6px;
+
+    font-size:14px;
+
+}
+
+
+/* 済ボタン */
+
+.subButton:disabled{
+    background:#999;
+    color:white;
+
+}
+
 
 /*==============================
   保存ボタン
