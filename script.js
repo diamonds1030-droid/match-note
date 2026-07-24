@@ -536,38 +536,52 @@ function createSpecialGoalButtons(){
 function goalButtonClick(name) {
     const history =
         document.getElementById("goalHistory");
-    if(!history) return;
     const item =
         document.createElement("div");
-    item.className = "goalItem";
     const text =
         document.createElement("span");
-    // 相手得点の場合
-
+    // 相手得点
     if(name === "相手得点"){
-        item.classList.add("goalAway");
-        text.textContent = "相手得点";
+        matchState.awayScore++;
+        item.className="goalItem goalAway";
+        text.textContent =
+            "相手得点";
     }
     else{
-        // 自チーム得点
-
-        item.classList.add("goalHome");
-
-        text.textContent = name;
+        matchState.homeScore++;
+        item.className="goalItem goalHome";
+        text.textContent =
+            name + " ⚽";
     }
     item.appendChild(text);
     history.appendChild(item);
-    // 得点データ保存
-
+    updateScore();
     matchState.goals.push({
-
         scorer:name,
-
-        time:new Date()
-
+        homeScore:
+            matchState.homeScore,
+        awayScore:
+            matchState.awayScore
     });
+}
 
+// ==============================
+// スコア表示更新
+// ==============================
 
+function updateScore(){
+    const home =
+        document.getElementById("homeScore");
+    const away =
+        document.getElementById("awayScore");
+    if(home){
+        home.textContent =
+            matchState.homeScore;
+    }
+    if(away){
+        away.textContent =
+            matchState.awayScore;
+    }
 }
 // ==============================
 // ボタンイベント
