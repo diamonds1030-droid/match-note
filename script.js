@@ -316,63 +316,49 @@ function createSubstitutionArea(){
         const sub = matchState.substitutions[i];
         const card = document.createElement("div");
         card.className = "subCard";
-        card.innerHTML = `
-            <h4>交代 ${i + 1}</h4>
-            <div class="subRow">
-            ${
-                sub.done
-                ?
-                `
-            <div class="subPlayer">
-                OUT：${sub.out}
-            </div>
-<div class="subPlayer">
-IN：${sub.in}
-</div>
 
-<button class="subButton" disabled>
-済
-</button>
-
-`
-
-:
-
-`
-
-<label>OUT</label>
-
-<select class="outSelect">
-    ${createOptions(getLineupPlayers())}
-</select>
-
-
-<label>IN</label>
-
-<select class="inSelect">
-    ${createOptions(getBenchPlayers())}
-</select>
-
-
-<button class="subButton">
-    交代
-</button>
-
-`
-
-}
-
+card.innerHTML = `
+<h4>交代 ${i + 1}</h4>
+<div class="subRow">
+    <label>OUT</label>
+    ${
+    sub.done
+    ?
+    `<div class="subPlayer">
+        ${sub.out}
+    </div>`
+    :
+    `<select class="outSelect">
+        ${createOptions(getLineupPlayers())}
+    </select>`
+    }
+    <label>IN</label>
+    ${
+    sub.done
+    ?
+    `<div class="subPlayer">
+        ${sub.in}
+    </div>`
+    :
+    `<select class="inSelect">
+        ${createOptions(getBenchPlayers())}
+    </select>`
+    }
+    <button class="subButton"
+        ${sub.done ? "disabled" : ""}>
+        ${sub.done ? "済" : "交代"}
+    </button>
 </div>
 
 `;
-
         const outSelect =
             card.querySelector(".outSelect");
         const inSelect =
             card.querySelector(".inSelect");
         const button =
             card.querySelector(".subButton");
-        if(!button){
+        if(sub.done){
+            area.appendChild(card);
             return;
         }
         // ★ 過去の選択を復元
