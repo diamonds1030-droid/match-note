@@ -419,11 +419,8 @@ button:active{
 .subCard{
 
     border:1px solid #dddddd;
-
     border-radius:8px;
-
     padding:12px;
-
     margin-bottom:15px;
 
 }
@@ -434,27 +431,30 @@ button:active{
 
 }
 
+
 .subRow{
 
-    display:grid;
-
-    grid-template-columns:50px 1fr;
-
-    gap:10px;
+    display:flex;
 
     align-items:center;
 
-    margin-bottom:10px;
+    gap:10px;
 
 }
+
 
 .subRow label{
 
     font-weight:bold;
 
+    width:40px;
+
 }
 
+
 .subRow select{
+
+    flex:1;
 
     height:40px;
 
@@ -462,7 +462,20 @@ button:active{
 
     border-radius:6px;
 
-    padding:5px;
+}
+
+
+.subButton{
+
+    width:90px;
+
+    height:40px;
+
+    margin:0;
+
+    font-size:14px;
+
+    background:#1976d2;
 
 }
 
