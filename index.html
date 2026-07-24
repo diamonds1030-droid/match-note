@@ -75,33 +75,59 @@
     <!-- ========================= -->
     <!-- 選手登録 -->
     <!-- ========================= -->
-    <section id="playerPage" class="page">
+    <!-- ========================= -->
+<!-- 選手登録 -->
+<!-- ========================= -->
+<section id="playerPage" class="page">
 
-        <header class="subHeader">
+    <!-- ヘッダー -->
+    <header class="subHeader">
 
-            <button
-                class="backButton"
-                onclick="showPage('homePage')">
+        <button
+            class="backButton"
+            onclick="showPage('homePage')">
 
-                ← 戻る
+            ← 戻る
 
-            </button>
+        </button>
 
-            <h2>選手登録</h2>
+        <h2>選手登録</h2>
 
-        </header>
+        <button
+            id="savePlayersButton"
+            class="saveButton">
 
-        <main class="container">
+            保存
 
-            <div class="comingSoon">
+        </button>
 
-                選手登録画面（次回実装）
+    </header>
+
+    <!-- メイン -->
+    <main class="container">
+
+        <div class="card">
+
+            <div class="playerTitle">
+
+                <div class="playerNoHeader">
+                    No
+                </div>
+
+                <div class="playerNameHeader">
+                    選手名
+                </div>
 
             </div>
 
-        </main>
+            <!-- JSで30人生成 -->
+            <div id="playerList"></div>
 
-    </section>
+        </div>
+
+    </main>
+
+</section>
 
     <!-- ========================= -->
     <!-- 試合ノート -->
