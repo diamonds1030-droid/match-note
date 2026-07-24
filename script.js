@@ -352,28 +352,27 @@ function createSubstitutionArea() {
         area.appendChild(card);
     }
 }
+
 // ==============================
 // 交代実行
 // ==============================
 
-function executeSubstitution(
-    outPlayer,
-    inPlayer
-){
-    Object.keys(matchState.lineup)
-    .forEach(position=>{
-        if(
-            matchState.lineup[position]
-            === outPlayer
-        ){
-            matchState.lineup[position]
-            = inPlayer;
+function executeSubstitution(outPlayer, inPlayer) {
+
+    for (let position in matchState.lineup) {
+
+        if (matchState.lineup[position] === outPlayer) {
+            matchState.lineup[position] = inPlayer;
+            break;
         }
-    });
-    // 交代後、画面更新
+    }
+    console.log("交代後");
+    console.log(matchState.lineup);
+    // 表示更新
     createLineup();
     createSubstitutionArea();
 }
+
 // ==============================
 // スタメン取得
 // ==============================
