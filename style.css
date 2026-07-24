@@ -334,18 +334,14 @@ button:active{
 .lineupRow .goalButton{
 
     width:80px;
-
     height:40px;
-
     margin:0;
 
 }
 .goalGrid{
 
     display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
     gap:10px;
 
 }
@@ -391,27 +387,39 @@ button:active{
 ==============================*/
 
 .goalHistory{
-
     display:flex;
-
     flex-direction:column;
-
     gap:8px;
-
 }
-
 .goalItem{
+    display:flex;
+    width:100%;
+    font-size:16px;
+    min-height:40px;
+    align-items:center;
+}
+/* 自チーム得点 */
+.goalHome{
+    justify-content:flex-start;
+}
+.goalHome span{
+    background:#43a047;
+    color:white;
+    padding:8px 20px;
+    border-radius:20px;
+}
+/* 相手得点 */
+.goalAway{
+    justify-content:flex-end;
+}
+.goalAway span{
 
-    background:#eeeeee;
-
-    border-radius:6px;
-
-    padding:10px;
-
-    font-size:15px;
+    background:#e53935;
+    color:white;
+    padding:8px 20px;
+    border-radius:20px;
 
 }
-
 /*==============================
   交代
 ==============================*/
