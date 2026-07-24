@@ -5,6 +5,26 @@
 
 "use strict";
 
+// ==========================================
+// 選手データ
+// ==========================================
+
+const MAX_PLAYERS = 30;
+
+let players = [];
+
+for (let i = 1; i <= MAX_PLAYERS; i++) {
+
+    players.push({
+
+        number: i,
+
+        name: ""
+
+    });
+
+}
+
 // 現在表示中のページ
 let currentPage = "homePage";
 
@@ -50,6 +70,8 @@ function waitFirebase() {
 
 function initializeApp() {
 
+    createPlayerList();
+    setupPlayerEvents();
     showPage("homePage");
 
 }
@@ -204,3 +226,81 @@ window.appInfo = function() {
 // ==========================================
 
 console.log("script.js 読込完了");
+
+// ==========================================
+// 選手一覧生成
+// ==========================================
+
+function createPlayerList() {
+
+    const list = document.getElementById("playerList");
+
+    if (!list) return;
+    list.innerHTML = "";
+    players.forEach(player => {
+        const row = document.createElement("div");
+        row.className = "playerRow";
+        row.innerHTML = `
+            <div class="playerNo">
+                ${player.number}
+            </div>
+            <input
+                class="playerName"
+                type="text"
+                maxlength="20"
+                placeholder="選手名"
+                data-number="${player.number}"
+                value="${player.name}"
+            >
+        `;
+
+        list.appendChild(row);
+
+    });
+
+}
+
+// ==========================================
+// 入力イベント
+// ==========================================
+
+function setupPlayerEvents() {
+
+    const saveButton = document.getElementById("savePlayersButton");
+
+    if (saveButton) {
+        saveButton.addEventListener("click", () => {
+            savePlayers();
+        });
+    }
+
+    document.addEventListener("input", event => {
+
+        if (!event.target.classList.contains("playerName")) {
+
+            return;
+
+        }
+
+        const number = Number(event.target.dataset.number);
+        const player = players.find(p => p.number === number);
+        if (!player) {
+            return;
+        }
+
+        player.name = event.target.value;
+
+    });
+
+}
+
+// ==========================================
+// 保存（次回Firestore実装）
+// ==========================================
+
+function savePlayers() {
+
+    console.log(players);
+    alert("次回Firestoreへ保存します");
+
+}
