@@ -420,6 +420,7 @@ button:active{
     border-radius:20px;
 
 }
+
 /*==============================
   交代
 ==============================*/
@@ -427,15 +428,11 @@ button:active{
 .subCard{
 
     border:1px solid #dddddd;
-
     border-radius:8px;
-
     padding:12px;
-
     margin-bottom:15px;
 
 }
-
 
 .subCard h4{
 
@@ -443,32 +440,23 @@ button:active{
 
 }
 
-
-/* OUT IN ボタン横並び */
-
 .subRow{
 
     display:flex;
 
     align-items:center;
 
-    gap:8px;
-
-    width:100%;
+    gap:10px;
 
 }
-
 
 .subRow label{
 
     font-weight:bold;
 
-    width:35px;
+    width:40px;
 
 }
-
-
-/* OUT IN 選択 */
 
 .subRow select{
 
@@ -480,18 +468,11 @@ button:active{
 
     border-radius:6px;
 
-    padding:5px;
-
-    font-size:14px;
-
 }
-
-
-/* 交代ボタン */
 
 .subButton{
 
-    width:70px;
+    width:90px;
 
     height:40px;
 
@@ -502,8 +483,6 @@ button:active{
     background:#1976d2;
 
 }
-
-
 /*==============================
   交代済み表示
 ==============================*/
