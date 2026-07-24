@@ -413,7 +413,6 @@ button:active{
 
 }
 
-
 /* 自チーム得点 */
 
 .goalHome{
@@ -426,15 +425,10 @@ button:active{
 .goalHome span{
 
     background:none;
-
     color:#000;
-
     padding:0;
-
     border-radius:0;
-
 }
-
 
 /* 相手得点 */
 
@@ -496,25 +490,20 @@ button:active{
 .subRow select{
 
     flex:1;
-
     height:40px;
-
     border:1px solid #cccccc;
-
     border-radius:6px;
+    padding:0 8px;
+    font-size:14px;
 
 }
 
 .subButton{
 
     width:90px;
-
     height:40px;
-
     margin:0;
-
     font-size:14px;
-
     background:#1976d2;
 
 }
@@ -527,19 +516,12 @@ button:active{
     flex:1;
 
     height:40px;
-
     display:flex;
-
     align-items:center;
-
     padding:0 8px;
-
     background:#f0f0f0;
-
     border-radius:6px;
-
     font-size:14px;
-
 }
 
 
@@ -575,15 +557,11 @@ button:active{
 @media (max-width:600px){
 
     .matchInfo{
-
         grid-template-columns:70px 1fr;
-
     }
 
     .score{
-
         font-size:36px;
-
     }
 
     .goalGrid{
