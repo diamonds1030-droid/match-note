@@ -312,19 +312,53 @@ function createSubstitutionArea(){
         card.innerHTML = `
             <h4>交代 ${i + 1}</h4>
             <div class="subRow">
-                <label>OUT</label>
-                <select class="outSelect">
-                    ${createOptions(getLineupPlayers())}
-                </select>
-                <label>IN</label>
-                <select class="inSelect">
-                    ${createOptions(getBenchPlayers())}
-                </select>
-                <button class="subButton">
-                    交代
-                </button>
-            </div>
-        `;
+            ${
+                sub.done
+                ?
+                `
+<div class="subPlayer">
+OUT：${sub.out}
+</div>
+
+<div class="subPlayer">
+IN：${sub.in}
+</div>
+
+<button class="subButton" disabled>
+済
+</button>
+
+`
+
+:
+
+`
+
+<label>OUT</label>
+
+<select class="outSelect">
+    ${createOptions(getLineupPlayers())}
+</select>
+
+
+<label>IN</label>
+
+<select class="inSelect">
+    ${createOptions(getBenchPlayers())}
+</select>
+
+
+<button class="subButton">
+    交代
+</button>
+
+`
+
+}
+
+</div>
+
+`;
         const outSelect =
             card.querySelector(".outSelect");
         const inSelect =
@@ -367,24 +401,25 @@ function executeSubstitution(
     inPlayer,
     index
 ){
-    // 出場選手変更
+
+    // 出場選手を変更
     Object.keys(matchState.lineup)
     .forEach(position=>{
+
         if(matchState.lineup[position] === outPlayer){
             matchState.lineup[position] = inPlayer;
         }
+
     });
-    // ★ 交代枠ごとに保存
-    matchState.substitutions[index] = {
-        out: outPlayer,
-        in: inPlayer,
-        done:true
-    };
+    // 交代履歴を保存
+    matchState.substitutions[index].out = outPlayer;
+    matchState.substitutions[index].in = inPlayer;
+    matchState.substitutions[index].done = true;
     // 表示更新
     createLineup();
     createSubstitutionArea();
-}
 
+}
 // ==============================
 // スタメン取得
 // ==============================
