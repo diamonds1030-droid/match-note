@@ -481,7 +481,7 @@ button:active{
 
 .subRow select,
 .subPlayer{
-    width:80px;
+    width:100px;
     height:40px;
     border:1px solid #cccccc;
     border-radius:6px;
@@ -496,10 +496,10 @@ button:active{
 
 /* 交代後の選手名 */
 .subPlayer{
-    flex: 0 0 80px;
-    width: 80px;
-    max-width: 80px;
-    min-width: 80px;
+    flex: 0 0 100px;
+    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -513,10 +513,10 @@ button:active{
 
 /* 交代ボタン */
 .subButton{
-    flex: 0 0 90px;
-    width: 90px;
-    max-width: 90px;
-    min-width: 90px;
+    flex: 0 0 50px;
+    width: 50px;
+    max-width: 50px;
+    min-width: 50px;
     height: 40px;
     margin: 0;
     font-size: 14px;
