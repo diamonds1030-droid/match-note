@@ -513,10 +513,10 @@ button:active{
 
 /* 交代ボタン */
 .subButton{
-    flex: 0 0 50px;
-    width: 50px;
-    max-width: 50px;
-    min-width: 50px;
+    flex: 0 0 60px;
+    width: 60px;
+    max-width: 60px;
+    min-width: 60px;
     height: 40px;
     margin: 0;
     font-size: 14px;
