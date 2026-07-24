@@ -450,6 +450,7 @@ button:active{
     border-radius:0;
 
 }
+
 /*==============================
   交代
 ==============================*/
@@ -463,11 +464,14 @@ button:active{
 
 }
 
+
 .subCard h4{
 
     margin-bottom:10px;
 
 }
+
+/* OUT・IN・ボタン横並び */
 
 .subRow{
 
@@ -479,24 +483,50 @@ button:active{
 
 }
 
+
+/* OUT / IN ラベル */
+
 .subRow label{
 
     font-weight:bold;
 
-    width:40px;
+    width:35px;
 
 }
 
-.subRow select{
 
-    flex:1;
+/* 選手選択欄 */
+
+.subRow select,
+.subPlayer{
+    width:120px;
     height:40px;
     border:1px solid #cccccc;
     border-radius:6px;
+    box-sizing:border-box;
+    font-size:16px;
+}
+
+/* プルダウン */
+
+.subRow select{
+
     padding:0 8px;
-    font-size:14px;
 
 }
+
+/* 交代後の選手名 */
+.subPlayer{
+
+    display:flex;
+    align-items:center;
+    padding:0 8px;
+    background:white;
+
+}
+
+
+/* 交代ボタン */
 
 .subButton{
 
@@ -507,6 +537,9 @@ button:active{
     background:#1976d2;
 
 }
+
+
+
 /*==============================
   交代済み表示
 ==============================*/
