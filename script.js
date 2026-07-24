@@ -8,6 +8,8 @@ const STORAGE_KEY = "soccerPlayers";
 let players = [];
 
 const matchState = {
+    homeScore:0,
+    awayScore:0,
     lineup: {
         GK: "",
         FP1: "",
