@@ -1,4 +1,4 @@
-っ// ==============================
+// ==============================
 // 設定
 // ==============================
 
@@ -194,7 +194,6 @@ function loadPlayers(){
     }
 
 }
-
 // ==============================
 // 出場選手一覧生成
 // ==============================
@@ -221,42 +220,66 @@ function createLineup() {
     positions.forEach(position => {
 
         const row = document.createElement("div");
-
         row.className = "lineupRow";
+
+        // 他のポジションで選択済みの選手は候補から除外
+        let options = '<option value="">選択してください</option>';
+
+        players.forEach(player => {
+
+            if (player === "") return;
+
+            const used = Object.entries(matchState.lineup).some(([pos, name]) => {
+                return pos !== position && name === player;
+            });
+
+            if (!used || matchState.lineup[position] === player) {
+
+                options += `
+                    <option value="${player}">
+                        ${player}
+                    </option>
+                `;
+
+            }
+
+        });
 
         row.innerHTML = `
             <label>${position}</label>
 
             <select class="lineupSelect">
-                ${createPlayerOptions(matchState.lineup[position])}
+                ${options}
             </select>
-            select.value = matchState.lineup[position];
 
             <button class="goalButton">
                 得点
             </button>
         `;
 
+        const select = row.querySelector(".lineupSelect");
         const button = row.querySelector(".goalButton");
 
-        const select = row.querySelector("select");
+        // 現在の選択を復元
+        select.value = matchState.lineup[position];
 
-// スタメン変更時
+        // 選手変更
+        select.addEventListener("change", () => {
 
-select.addEventListener("change", () => {
+            matchState.lineup[position] = select.value;
 
-    matchState.lineup[position] = select.value;
-    createLineup();
-    createSubstitutionArea();
+            // プルダウン・交代欄を更新
+            createLineup();
+            createSubstitutionArea();
 
-});
+        });
 
+        // 得点
         button.addEventListener("click", () => {
 
             if (select.value === "") {
 
                 alert("選手を選択してください");
-
                 return;
 
             }
@@ -370,9 +393,7 @@ function createOptions(list){
 // プルダウン生成
 // ==============================
 
-function createPlayerOptions(currentPlayer = "") {
-
-    const selectedPlayers = getLineupPlayers();
+function createPlayerOptions(position) {
 
     let html = '<option value="">選択してください</option>';
 
@@ -380,18 +401,17 @@ function createPlayerOptions(currentPlayer = "") {
 
         if (player === "") return;
 
-        // 自分が選んでいる選手だけは残す
-        if (
-            player === currentPlayer ||
-            !selectedPlayers.includes(player)
-        ) {
+        const selected = Object.entries(matchState.lineup).some(([pos, name]) => {
+            return pos !== position && name === player;
+        });
+
+        if (!selected) {
             html += `<option value="${player}">${player}</option>`;
         }
 
     });
 
     return html;
-
 }
 
 // ==============================
