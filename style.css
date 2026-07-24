@@ -387,28 +387,18 @@ button:active{
 ==============================*/
 
 .goalHistory{
-
     display:flex;
-
     flex-direction:column;
-
     gap:3px;
-
 }
-
 
 .goalItem{
 
     display:flex;
-
     width:100%;
-
     font-size:13px;
-
     min-height:25px;
-
     align-items:center;
-
     color:#000;
 
 }
@@ -472,26 +462,18 @@ button:active{
 }
 
 /* OUT・IN・ボタン横並び */
-
 .subRow{
-
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
 }
 
 
 /* OUT / IN ラベル */
 
 .subRow label{
-
     font-weight:bold;
-
     width:35px;
-
 }
 
 
@@ -499,37 +481,29 @@ button:active{
 
 .subRow select,
 .subPlayer{
-    width:120px;
+    width:80px;
     height:40px;
     border:1px solid #cccccc;
     border-radius:6px;
     box-sizing:border-box;
-    font-size:16px;
+    font-size:14px;
 }
 
 /* プルダウン */
-
 .subRow select{
-
     padding:0 8px;
-
 }
 
 /* 交代後の選手名 */
 .subPlayer{
-
     display:flex;
     align-items:center;
     padding:0 8px;
     background:white;
-
 }
 
-
 /* 交代ボタン */
-
 .subButton{
-
     width:90px;
     height:40px;
     margin:0;
