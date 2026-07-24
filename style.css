@@ -21,9 +21,17 @@ body{
 
 }
 
-.active{
+.page.active{
 
     display:block;
+
+}
+
+/* 試合ノートだけflex */
+
+#matchPage.active{
+
+    display:flex;
 
 }
 
