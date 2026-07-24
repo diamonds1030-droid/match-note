@@ -91,68 +91,119 @@ content="width=device-width, initial-scale=1.0">
 <!-- 試合ノート -->
 <!-- ===================================== -->
 
+<!-- ===================================== -->
+<!-- 試合ノート -->
+<!-- ===================================== -->
+
 <section id="matchPage" class="page">
 
-    <!-- 固定ヘッダー -->
     <header class="subHeader">
         <button class="backButton">← 戻る</button>
+
         <h2>試合ノート</h2>
+
         <button id="saveMatchButton">保存</button>
     </header>
 
-    <!-- 上部固定エリア -->
-    <div class="matchFixedArea">
+    <main class="matchMain">
 
-        <div class="matchInfo">
-
-            <label>日付</label>
-            <input type="date" id="matchDate">
-
-            <label>会場</label>
-            <input type="text" id="matchPlace">
-
-            <label>ホーム</label>
-            <input type="text" id="homeTeam">
-
-            <label>アウェイ</label>
-            <input type="text" id="awayTeam">
-
-        </div>
-
-        <div class="scoreBoard">
-            <span id="homeScore" class="score">0</span>
-            <span class="scoreSeparator">－</span>
-            <span id="awayScore" class="score">0</span>
-        </div>
-
-    </div>
-
-    <!-- 下部スクロールエリア -->
-    <div class="matchScrollArea">
-
+        <!-- 試合情報 -->
         <div class="card">
-            <h3>スタメン</h3>
-            <div id="lineupArea"></div>
-        </div>
 
-        <div class="card">
-            <h3>得点入力</h3>
-            <div id="goalArea" class="goalGrid"></div>
-        </div>
-
-        <div class="card">
-            <h3>得点履歴</h3>
-            <div id="goalHistory" class="goalHistory">
-                まだ得点はありません
+            <div class="inputRow">
+                <label>日付</label>
+                <input type="date" id="matchDate">
             </div>
+
+            <div class="inputRow">
+                <label>会場</label>
+                <input type="text" id="matchPlace" placeholder="会場名">
+            </div>
+
         </div>
 
+        <!-- チーム -->
         <div class="card">
-            <h3>交代</h3>
-            <div id="substitutionArea"></div>
+
+            <div class="teamRow">
+
+                <input
+                    type="text"
+                    id="homeTeam"
+                    placeholder="ホームチーム">
+
+                <span class="vs">VS</span>
+
+                <input
+                    type="text"
+                    id="awayTeam"
+                    placeholder="アウェイチーム">
+
+            </div>
+
         </div>
 
-    </div>
+        <!-- スコア -->
+        <div class="card">
+
+            <h3>得点</h3>
+
+            <div class="scoreBoard">
+
+                <span id="homeScore" class="score">0</span>
+
+                <span class="scoreSeparator">－</span>
+
+                <span id="awayScore" class="score">0</span>
+
+            </div>
+
+        </div>
+
+        <!-- 出場選手 -->
+        <div class="card">
+
+            <h3>出場選手</h3>
+
+            <div id="lineupArea"></div>
+
+            <div class="specialGoalButtons">
+
+                <button id="ownGoalButton" class="goalButton own">
+                    オウンゴール
+                </button>
+
+                <button id="opponentGoalButton" class="goalButton opponent">
+                    相手得点
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- 得点履歴 -->
+        <div class="card">
+
+            <h3>得点履歴</h3>
+
+            <div id="goalHistory">
+
+                まだ得点はありません
+
+            </div>
+
+        </div>
+
+        <!-- 交代 -->
+        <div class="card">
+
+            <h3>交代</h3>
+
+            <div id="substitutionArea"></div>
+
+        </div>
+
+    </main>
 
 </section>
 
