@@ -63,3 +63,65 @@ button:active{
     transform:scale(.98);
 
 }
+
+/* ==========================
+   選手登録画面
+========================== */
+
+/* 選手一覧全体 */
+#playerList{
+    margin:20px 0;
+}
+
+/* 1行分 */
+.playerRow{
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+/* 背番号 */
+.playerNo{
+    width:50px;
+    text-align:center;
+    font-weight:bold;
+    font-size:18px;
+}
+
+/* 名前入力欄 */
+.playerName{
+    flex:1;
+    height:42px;
+    padding:8px 12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:16px;
+}
+
+/* タイトル行 */
+.playerHeader{
+    display:flex;
+    margin-bottom:10px;
+    font-weight:bold;
+    border-bottom:2px solid #2e7d32;
+    padding-bottom:8px;
+}
+
+.playerHeaderNo{
+    width:50px;
+    text-align:center;
+}
+
+.playerHeaderName{
+    flex:1;
+}
+
+/* 保存ボタン */
+#savePlayersButton{
+    margin-top:20px;
+    background:#1976d2;
+}
+
+#savePlayersButton:hover{
+    background:#1565c0;
+}
