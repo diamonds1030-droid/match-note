@@ -542,7 +542,7 @@ function goalButtonClick(name) {
         matchState.awayScore++;
         item.className="goalItem goalAway";
         text.textContent =
-            "相手得点";
+            "⚽相手得点";
     }
     else{
         matchState.homeScore++;
