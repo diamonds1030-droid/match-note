@@ -3,10 +3,9 @@
 // ==============================
 
 const MAX_PLAYERS = 30;
+const STORAGE_KEY = "soccerPlayers";
 
-// 選手データ
-const players = [];
-
+let players = [];
 
 // ==============================
 // 初期化
@@ -14,10 +13,11 @@ const players = [];
 
 window.onload = function () {
 
+    loadPlayers();
+
     createPlayerList();
 
 };
-
 
 // ==============================
 // 画面切替
@@ -25,21 +25,15 @@ window.onload = function () {
 
 function showPage(pageId){
 
-    const pages = document.querySelectorAll(".page");
-
-    pages.forEach(page => {
+    document.querySelectorAll(".page").forEach(page=>{
 
         page.classList.remove("active");
 
     });
 
-    document
-        .getElementById(pageId)
-        .classList
-        .add("active");
+    document.getElementById(pageId).classList.add("active");
 
 }
-
 
 // ==============================
 // 選手一覧生成
@@ -47,45 +41,128 @@ function showPage(pageId){
 
 function createPlayerList(){
 
-    const list = document.getElementById("playerList");
+    const list=document.getElementById("playerList");
 
-    if(!list){
-        return;
-    }
+    if(!list) return;
+
+    list.innerHTML="";
 
     // タイトル
-    list.innerHTML = `
-        <div class="playerHeader">
-            <div class="playerHeaderNo">No</div>
-            <div class="playerHeaderName">選手名</div>
-        </div>
+    const header=document.createElement("div");
+
+    header.className="playerHeader";
+
+    header.innerHTML=`
+        <div class="playerHeaderNo">No</div>
+        <div class="playerHeaderName">選手名</div>
     `;
 
-    players.length = 0;
+    list.appendChild(header);
 
-    for(let i = 1; i <= MAX_PLAYERS; i++){
+    for(let i=0;i<MAX_PLAYERS;i++){
 
-        players.push({
-            number: i,
-            name: ""
-        });
+        const row=document.createElement("div");
 
-        const row = document.createElement("div");
+        row.className="playerRow";
 
-        row.className = "playerRow";
+        row.innerHTML=`
 
-        row.innerHTML = `
-            <div class="playerNo">${i}</div>
+            <div class="playerNo">
+
+                ${i+1}
+
+            </div>
 
             <input
                 class="playerName"
                 type="text"
                 maxlength="20"
-                placeholder="選手名"
-                data-index="${i-1}">
+                value="${players[i]}"
+                data-index="${i}"
+
+            >
+
         `;
 
         list.appendChild(row);
+
+    }
+
+    addInputEvents();
+
+}
+
+// ==============================
+// 入力イベント
+// ==============================
+
+function addInputEvents(){
+
+    document
+        .querySelectorAll(".playerName")
+        .forEach(input=>{
+
+            input.addEventListener("input",function(){
+
+                const index=this.dataset.index;
+
+                players[index]=this.value;
+
+            });
+
+        });
+
+}
+
+// ==============================
+// 保存ボタン
+// ==============================
+
+document.addEventListener("click",function(e){
+
+    if(e.target.id==="savePlayersButton"){
+
+        savePlayers();
+
+    }
+
+});
+
+// ==============================
+// 保存
+// ==============================
+
+function savePlayers(){
+
+    localStorage.setItem(
+
+        STORAGE_KEY,
+
+        JSON.stringify(players)
+
+    );
+
+    alert("保存しました");
+
+}
+
+// ==============================
+// 読込
+// ==============================
+
+function loadPlayers(){
+
+    const data=localStorage.getItem(STORAGE_KEY);
+
+    if(data){
+
+        players=JSON.parse(data);
+
+    }
+
+    while(players.length<MAX_PLAYERS){
+
+        players.push("");
 
     }
 
