@@ -496,31 +496,32 @@ button:active{
 
 /* 交代後の選手名 */
 .subPlayer{
-
-    width:80px;
-    height:40px;
-    display:flex;
-    align-items:center;
-    padding:0 8px;
-    background:#f0f0f0;
-    border:1px solid #cccccc;
-    border-radius:6px;
-    box-sizing:border-box;
-    font-size:14px;
-
+    flex: 0 0 80px;
+    width: 80px;
+    max-width: 80px;
+    min-width: 80px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    background: #f0f0f0;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
 /* 交代ボタン */
 .subButton{
-    width:90px;
-    min-width:90px;
-    height:40px;
-    margin:0;
-    font-size:14px;
-    background:#1976d2;
+    flex: 0 0 90px;
+    width: 90px;
+    max-width: 90px;
+    min-width: 90px;
+    height: 40px;
+    margin: 0;
+    font-size: 14px;
+    background: #1976d2;
 }
-
-
 
 /*==============================
   交代済み表示
