@@ -1,4 +1,4 @@
-// ==============================
+っ// ==============================
 // 設定
 // ==============================
 
@@ -228,8 +228,9 @@ function createLineup() {
             <label>${position}</label>
 
             <select class="lineupSelect">
-                ${createPlayerOptions()}
+                ${createPlayerOptions(matchState.lineup[position])}
             </select>
+            select.value = matchState.lineup[position];
 
             <button class="goalButton">
                 得点
@@ -264,7 +265,7 @@ select.addEventListener("change", () => {
     }
 
     matchState.lineup[position] = select.value;
-
+    createLineup();
     createSubstitutionArea();
 
 });
@@ -388,25 +389,24 @@ function createOptions(list){
 // プルダウン生成
 // ==============================
 
-function createPlayerOptions(){
+function createPlayerOptions(currentValue = "") {
 
-    let html = "";
+    const selected = getLineupPlayers();
 
-    html += `<option value="">選択してください</option>`;
+    let html = '<option value="">選択してください</option>';
 
-    players.forEach(player=>{
+    players.forEach(player => {
 
-        if(player==="") return;
+        if (player === "") return;
 
-        html += `
+        if (
+            player === currentValue ||
+            !selected.includes(player)
+        ) {
 
-            <option value="${player}">
+            html += `<option value="${player}">${player}</option>`;
 
-                ${player}
-
-            </option>
-
-        `;
+        }
 
     });
 
