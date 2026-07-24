@@ -1,106 +1,296 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>少年サッカー試合ノート</title>
-    <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>少年サッカー試合ノート</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
-<!-- ホーム画面 -->
-<div id="homePage" class="page active">
+<div id="app">
 
-    <h1>⚽ 少年サッカー試合ノート</h1>
+<!-- ===================================== -->
+<!-- ホーム -->
+<!-- ===================================== -->
 
-    <button onclick="showPage('playerPage')">
-        選手登録
-    </button>
+<section id="homePage" class="page active">
 
-    <button onclick="showPage('matchPage')">
-        試合ノート
-    </button>
+<header>
 
-    <button onclick="showPage('historyPage')">
-        試合ノート履歴
-    </button>
+<h1>⚽ 少年サッカー試合ノート</h1>
 
-</div>
+</header>
 
+<main>
+
+<button id="playerButton">
+
+👤 選手登録
+
+</button>
+
+<button id="matchButton">
+
+📝 試合ノート
+
+</button>
+
+<button id="historyButton">
+
+📖 試合ノート履歴
+
+</button>
+
+</main>
+
+</section>
+
+<!-- ===================================== -->
 <!-- 選手登録 -->
-<div id="playerPage" class="page">
+<!-- ===================================== -->
 
-    <h2>選手登録</h2>
+<section id="playerPage" class="page">
 
-    <!-- 選手一覧 -->
-    <div id="playerList"></div>
+<header class="subHeader">
 
-    <!-- 保存ボタン -->
-    <button id="savePlayersButton">
-        保存
-    </button>
+<button class="backButton">
 
-    <!-- ホームへ戻る -->
-    <button onclick="showPage('homePage')">
-        ← ホームへ戻る
-    </button>
+← 戻る
 
-</div>
+</button>
 
+<h2>選手登録</h2>
+
+<button id="savePlayersButton">
+
+保存
+
+</button>
+
+</header>
+
+<main>
+
+<div id="playerList"></div>
+
+</main>
+
+</section>
+
+<!-- ===================================== -->
 <!-- 試合ノート -->
-<div id="matchPage" class="page">
+<!-- ===================================== -->
 
-    <h2>試合ノート</h2>
-    <div class="matchHeader">
+<section id="matchPage" class="page">
 
-        <label>日付</label>
-        <input type="date" id="matchDate">
+<header class="subHeader">
 
-        <label>会場</label>
-        <input type="text" id="matchPlace">
+<button class="backButton">
 
-        <label>ホーム</label>
-        <input type="text" id="homeTeam">
+← 戻る
 
-        <label>アウェイ</label>
-        <input type="text" id="awayTeam">
+</button>
 
-    </div>
+<h2>試合ノート</h2>
 
-    <div class="scoreArea">
+<button id="saveMatchButton">
 
-        <span id="homeScore">0</span>
-        <span>－</span>
-        <span id="awayScore">0</span>
+保存
 
-    </div>
-    <h3>スタメン</h3>
-    <div id="lineupArea"></div>
-    <h3>得点</h3>
-    <div id="goalArea"></div>
-    <h3>交代</h3>
-    <div id="substitutionArea"></div>
-    <button id="saveMatchButton">
-        保存
-    </button>
-    <button onclick="showPage('homePage')">
-        ← ホームへ戻る
-    </button>
+</button>
+
+</header>
+
+<main>
+
+<!-- 基本情報 -->
+
+<div class="card">
+
+<label>
+
+日付
+
+</label>
+
+<input
+type="date"
+id="matchDate">
+
+<label>
+
+会場
+
+</label>
+
+<input
+type="text"
+id="matchPlace">
+
+<label>
+
+ホーム
+
+</label>
+
+<input
+type="text"
+id="homeTeam">
+
+<label>
+
+アウェイ
+
+</label>
+
+<input
+type="text"
+id="awayTeam">
 
 </div>
 
+<!-- スコア -->
+
+<div class="scoreCard">
+
+<span id="homeScore">
+
+0
+
+</span>
+
+<span>
+
+－
+
+</span>
+
+<span id="awayScore">
+
+0
+
+</span>
+
+</div>
+
+<!-- 得点履歴 -->
+
+<div class="card">
+
+<h3>
+
+得点履歴
+
+</h3>
+
+<div id="goalHistory">
+
+まだ得点はありません
+
+</div>
+
+</div>
+
+<!-- スタメン -->
+
+<div class="card">
+
+<h3>
+
+スタメン
+
+</h3>
+
+<div id="lineupArea">
+
+</div>
+
+</div>
+
+<!-- 得点 -->
+
+<div class="card">
+
+<h3>
+
+得点入力
+
+</h3>
+
+<div id="goalArea">
+
+</div>
+
+</div>
+
+<!-- 交代 -->
+
+<div class="card">
+
+<h3>
+
+交代
+
+</h3>
+
+<div id="substitutionArea">
+
+</div>
+
+</div>
+
+</main>
+
+</section>
+
+<!-- ===================================== -->
 <!-- 試合履歴 -->
-<div id="historyPage" class="page">
+<!-- ===================================== -->
 
-    <h2>試合ノート履歴</h2>
+<section id="historyPage" class="page">
 
-    <button onclick="showPage('homePage')">
-        ← ホームへ戻る
-    </button>
+<header class="subHeader">
+
+<button class="backButton">
+
+← 戻る
+
+</button>
+
+<h2>
+
+試合履歴
+
+</h2>
+
+</header>
+
+<main>
+
+<div id="historyList">
+
+試合データはありません
+
+</div>
+
+</main>
+
+</section>
 
 </div>
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
