@@ -245,25 +245,6 @@ function createLineup() {
 
 select.addEventListener("change", () => {
 
-    const selected = select.value;
-
-    // 他のスタメンで同じ選手が選ばれていないか確認
-    const selects = document.querySelectorAll(".lineupSelect");
-
-    let duplicate = false;
-
-    selects.forEach(s => {
-        if (s !== select && s.value === selected && selected !== "") {
-            duplicate = true;
-        }
-    });
-
-    if (duplicate) {
-        alert("同じ選手は複数選択できません");
-        select.value = "";
-        return;
-    }
-
     matchState.lineup[position] = select.value;
     createLineup();
     createSubstitutionArea();
