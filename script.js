@@ -39,6 +39,7 @@ window.onload = function () {
     createLineup();
     createSubstitutionArea();
     initializeButtons();
+    updateScore();
 
 };
 
@@ -487,45 +488,6 @@ function createGoalButtons(){
     });
 
     createSpecialGoalButtons();
-
-}
-
-// ==============================
-// 特殊得点ボタン
-// ==============================
-
-function createSpecialGoalButtons(){
-
-    const area = document.getElementById("goalArea");
-
-    const ownGoalButton = document.createElement("button");
-
-    ownGoalButton.className = "goalButton";
-
-    ownGoalButton.textContent = "オウンゴール";
-
-    ownGoalButton.addEventListener("click", () => {
-
-        goalButtonClick("オウンゴール");
-
-    });
-
-    area.appendChild(ownGoalButton);
-
-
-    const opponentButton = document.createElement("button");
-
-    opponentButton.className = "goalButton";
-
-    opponentButton.textContent = "相手得点";
-
-    opponentButton.addEventListener("click", () => {
-
-        goalButtonClick("相手得点");
-
-    });
-
-    area.appendChild(opponentButton);
 
 }
 
