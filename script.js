@@ -14,8 +14,8 @@ let players = [];
 window.onload = function () {
 
     loadPlayers();
-
     createPlayerList();
+    createLineup();
 
 };
 
@@ -165,5 +165,82 @@ function loadPlayers(){
         players.push("");
 
     }
+
+}
+
+// ==============================
+// スタメン生成
+// ==============================
+
+function createLineup(){
+
+    const area = document.getElementById("lineupArea");
+
+    if(!area) return;
+
+    area.innerHTML = "";
+
+    const positions = [
+        "GK",
+        "FP1",
+        "FP2",
+        "FP3",
+        "FP4",
+        "FP5",
+        "FP6",
+        "FP7"
+    ];
+
+    positions.forEach(position=>{
+
+        const row = document.createElement("div");
+
+        row.className = "lineupRow";
+
+        row.innerHTML = `
+
+            <label>${position}</label>
+
+            <select>
+
+                ${createPlayerOptions()}
+
+            </select>
+
+        `;
+
+        area.appendChild(row);
+
+    });
+
+}
+
+// ==============================
+// プルダウン生成
+// ==============================
+
+function createPlayerOptions(){
+
+    let html = "";
+
+    html += `<option value="">選択してください</option>`;
+
+    players.forEach(player=>{
+
+        if(player==="") return;
+
+        html += `
+
+            <option value="${player}">
+
+                ${player}
+
+            </option>
+
+        `;
+
+    });
+
+    return html;
 
 }
