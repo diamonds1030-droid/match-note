@@ -16,7 +16,7 @@ window.onload = function () {
     loadPlayers();
     createPlayerList();
     createLineup();
-    createGoalButtons();
+    createSubstitutionArea();
     initializeButtons();
 
 };
@@ -177,14 +177,14 @@ function loadPlayers(){
 }
 
 // ==============================
-// スタメン生成
+// 出場選手一覧生成
 // ==============================
 
-function createLineup(){
+function createLineup() {
 
     const area = document.getElementById("lineupArea");
 
-    if(!area) return;
+    if (!area) return;
 
     area.innerHTML = "";
 
@@ -199,27 +199,99 @@ function createLineup(){
         "FP7"
     ];
 
-    positions.forEach(position=>{
+    positions.forEach(position => {
 
         const row = document.createElement("div");
 
         row.className = "lineupRow";
 
         row.innerHTML = `
-
             <label>${position}</label>
 
-            <select>
-
+            <select class="lineupSelect">
                 ${createPlayerOptions()}
-
             </select>
 
+            <button class="goalButton">
+                得点
+            </button>
         `;
+
+        const button = row.querySelector(".goalButton");
+
+        const select = row.querySelector("select");
+
+        button.addEventListener("click", () => {
+
+            if (select.value === "") {
+
+                alert("選手を選択してください");
+
+                return;
+
+            }
+
+            goalButtonClick(select.value);
+
+        });
 
         area.appendChild(row);
 
     });
+
+}
+
+// ==============================
+// 交代欄生成
+// ==============================
+
+function createSubstitutionArea() {
+
+    const area = document.getElementById("substitutionArea");
+
+    if (!area) return;
+
+    area.innerHTML = "";
+
+    for (let i = 1; i <= 3; i++) {
+
+        const card = document.createElement("div");
+
+        card.className = "subCard";
+
+        card.innerHTML = `
+
+            <h4>交代 ${i}</h4>
+
+            <div class="subRow">
+
+                <label>OUT</label>
+
+                <select>
+
+                    ${createPlayerOptions()}
+
+                </select>
+
+            </div>
+
+            <div class="subRow">
+
+                <label>IN</label>
+
+                <select>
+
+                    ${createPlayerOptions()}
+
+                </select>
+
+            </div>
+
+        `;
+
+        area.appendChild(card);
+
+    }
 
 }
 
@@ -333,14 +405,28 @@ function createSpecialGoalButtons(){
 }
 
 // ==============================
-// 得点ボタン押下
+// 得点処理
 // ==============================
 
-function goalButtonClick(name){
+function goalButtonClick(name) {
 
-    console.log("得点 :", name);
+    const history = document.getElementById("goalHistory");
 
-    alert(name + " が選択されました");
+    if (!history) return;
+
+    if (history.textContent === "まだ得点はありません") {
+        history.innerHTML = "";
+    }
+
+    const item = document.createElement("div");
+
+    item.className = "goalItem";
+
+    item.textContent = name;
+
+    history.appendChild(item);
+
+    console.log(name + " 得点");
 
 }
 
@@ -373,5 +459,14 @@ function initializeButtons() {
         });
 
     });
+    // オウンゴール
+document.getElementById("ownGoalButton")?.addEventListener("click", () => {
+    goalButtonClick("オウンゴール");
+});
+
+// 相手得点
+document.getElementById("opponentGoalButton")?.addEventListener("click", () => {
+    goalButtonClick("相手得点");
+});
 
 }
