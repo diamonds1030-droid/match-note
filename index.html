@@ -51,7 +51,38 @@
 <div id="matchPage" class="page">
 
     <h2>試合ノート</h2>
+    <div class="matchHeader">
 
+        <label>日付</label>
+        <input type="date" id="matchDate">
+
+        <label>会場</label>
+        <input type="text" id="matchPlace">
+
+        <label>ホーム</label>
+        <input type="text" id="homeTeam">
+
+        <label>アウェイ</label>
+        <input type="text" id="awayTeam">
+
+    </div>
+
+    <div class="scoreArea">
+
+        <span id="homeScore">0</span>
+        <span>－</span>
+        <span id="awayScore">0</span>
+
+    </div>
+    <h3>スタメン</h3>
+    <div id="lineupArea"></div>
+    <h3>得点</h3>
+    <div id="goalArea"></div>
+    <h3>交代</h3>
+    <div id="substitutionArea"></div>
+    <button id="saveMatchButton">
+        保存
+    </button>
     <button onclick="showPage('homePage')">
         ← ホームへ戻る
     </button>
