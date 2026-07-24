@@ -7,6 +7,25 @@ const STORAGE_KEY = "soccerPlayers";
 
 let players = [];
 
+const matchState = {
+    lineup: {
+        GK: "",
+        FP1: "",
+        FP2: "",
+        FP3: "",
+        FP4: "",
+        FP5: "",
+        FP6: "",
+        FP7: ""
+    },
+    substitutions: [
+        { out: "", in: "" },
+        { out: "", in: "" },
+        { out: "", in: "" }
+    ],
+    goals: []
+};
+
 // ==============================
 // 初期化
 // ==============================
