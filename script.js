@@ -294,32 +294,26 @@ function createLineup() {
 
 }
 
+            
 // ==============================
 // 交代欄生成
 // ==============================
-
-function createSubstitutionArea() {
-
+function createSubstitutionArea(){
     const area = document.getElementById("substitutionArea");
-
-    if (!area) return;
+    if(!area) return;
     area.innerHTML = "";
-    for (let i = 0; i < 3; i++) {
+    for(let i = 0; i < 3; i++){
+        const sub = matchState.substitutions[i];
         const card = document.createElement("div");
-
         card.className = "subCard";
         card.innerHTML = `
             <h4>交代 ${i + 1}</h4>
             <div class="subRow">
-
                 <label>OUT</label>
-
                 <select class="outSelect">
-
                     ${createOptions(getLineupPlayers())}
                 </select>
                 <label>IN</label>
-
                 <select class="inSelect">
                     ${createOptions(getBenchPlayers())}
                 </select>
@@ -334,22 +328,22 @@ function createSubstitutionArea() {
             card.querySelector(".inSelect");
         const button =
             card.querySelector(".subButton");
-        // すでに交代済みなら表示だけ保持
-if(matchState.substitutions[i].done){
-    outSelect.value =
-        matchState.substitutions[i].out;
-    inSelect.value =
-        matchState.substitutions[i].in;
-    button.disabled = true;
-    button.textContent = "済";
-}
+        // ★ 過去の選択を復元
+        if(sub.out !== ""){
+            outSelect.value = sub.out;
+        }
+        if(sub.in !== ""){
+            inSelect.value = sub.in;
+        }
+        // ★ 実行済みの場合
+        if(sub.done){
+            button.disabled = true;
+            button.textContent = "済";
+        }
         button.addEventListener("click",()=>{
             const outPlayer = outSelect.value;
             const inPlayer = inSelect.value;
-            if(
-                outPlayer === "" ||
-                inPlayer === ""
-            ){
+            if(outPlayer === "" || inPlayer === ""){
                 alert("OUTとINを選択してください");
                 return;
             }
@@ -362,34 +356,30 @@ if(matchState.substitutions[i].done){
         area.appendChild(card);
     }
 }
-
 // ==============================
 // 交代実行
 // ==============================
-// ==============================
-// 交代実行
-// ==============================
-
 function executeSubstitution(
     outPlayer,
     inPlayer,
     index
 ){
+    // 出場選手変更
     Object.keys(matchState.lineup)
     .forEach(position=>{
         if(matchState.lineup[position] === outPlayer){
             matchState.lineup[position] = inPlayer;
         }
     });
-    // 交代履歴保存
-    matchState.substitutions[index].out = outPlayer;
-    matchState.substitutions[index].in = inPlayer;
-    matchState.substitutions[index].done = true;
-    // 出場選手更新
+    // ★ 交代枠ごとに保存
+    matchState.substitutions[index] = {
+        out: outPlayer,
+        in: inPlayer,
+        done:true
+    };
+    // 表示更新
     createLineup();
-    // 交代欄更新
     createSubstitutionArea();
-
 }
 
 // ==============================
