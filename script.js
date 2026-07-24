@@ -16,6 +16,7 @@ window.onload = function () {
     loadPlayers();
     createPlayerList();
     createLineup();
+    createGoalButtons();
 
 };
 
@@ -244,3 +245,95 @@ function createPlayerOptions(){
     return html;
 
 }
+
+// ==============================
+// 得点ボタン生成
+// ==============================
+
+function createGoalButtons(){
+
+    const area = document.getElementById("goalArea");
+
+    if(!area){
+        return;
+    }
+
+    area.innerHTML = "";
+
+    players.forEach(player => {
+
+        if(player === ""){
+            return;
+        }
+
+        const button = document.createElement("button");
+
+        button.className = "goalButton";
+
+        button.textContent = player;
+
+        button.addEventListener("click", () => {
+
+            goalButtonClick(player);
+
+        });
+
+        area.appendChild(button);
+
+    });
+
+    createSpecialGoalButtons();
+
+}
+
+// ==============================
+// 特殊得点ボタン
+// ==============================
+
+function createSpecialGoalButtons(){
+
+    const area = document.getElementById("goalArea");
+
+    const ownGoalButton = document.createElement("button");
+
+    ownGoalButton.className = "goalButton";
+
+    ownGoalButton.textContent = "オウンゴール";
+
+    ownGoalButton.addEventListener("click", () => {
+
+        goalButtonClick("オウンゴール");
+
+    });
+
+    area.appendChild(ownGoalButton);
+
+
+    const opponentButton = document.createElement("button");
+
+    opponentButton.className = "goalButton";
+
+    opponentButton.textContent = "相手得点";
+
+    opponentButton.addEventListener("click", () => {
+
+        goalButtonClick("相手得点");
+
+    });
+
+    area.appendChild(opponentButton);
+
+}
+
+// ==============================
+// 得点ボタン押下
+// ==============================
+
+function goalButtonClick(name){
+
+    console.log("得点 :", name);
+
+    alert(name + " が選択されました");
+
+}
+
