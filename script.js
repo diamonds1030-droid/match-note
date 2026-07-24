@@ -221,6 +221,16 @@ function createLineup() {
 
         const select = row.querySelector("select");
 
+// スタメン変更時
+
+select.addEventListener("change", () => {
+
+    createSubstitutionArea();
+
+});
+
+
+
         button.addEventListener("click", () => {
 
             if (select.value === "") {
@@ -269,7 +279,7 @@ function createSubstitutionArea() {
 
                 <select>
 
-                    ${createPlayerOptions()}
+                    ${createOptions(getLineupPlayers())}
 
                 </select>
 
@@ -281,7 +291,7 @@ function createSubstitutionArea() {
 
                 <select>
 
-                    ${createPlayerOptions()}
+                    ${createOptions(getBenchPlayers())}
 
                 </select>
 
@@ -292,6 +302,61 @@ function createSubstitutionArea() {
         area.appendChild(card);
 
     }
+
+}
+
+// ==============================
+// スタメン取得
+// ==============================
+function getLineupPlayers(){
+
+    const list=[];
+
+    document.querySelectorAll(".lineupSelect").forEach(select=>{
+
+        if(select.value!==""){
+
+            list.push(select.value);
+
+        }
+
+    });
+
+    return list;
+
+}
+
+// ==============================
+// ベンチ取得
+// ==============================
+function getBenchPlayers(){
+
+    const lineup=getLineupPlayers();
+
+    return players.filter(player=>
+
+        player!=="" &&
+
+        !lineup.includes(player)
+
+    );
+
+}
+
+// ==============================
+// 交代用プルダウン生成
+// ==============================
+function createOptions(list){
+
+    let html='<option value="">選択してください</option>';
+
+    list.forEach(player=>{
+
+        html+=`<option>${player}</option>`;
+
+    });
+
+    return html;
 
 }
 
