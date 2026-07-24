@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <title>少年サッカー試合ノート</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2E7D32">
+
+    <!-- iPhone -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="試合ノート">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+</head>
+<body>
+
+<div id="app">
+
+    <!-- ========================= -->
+    <!-- ホーム画面 -->
+    <!-- ========================= -->
+    <section id="homePage" class="page active">
+
+        <header class="header">
+            <h1>⚽ 少年サッカー試合ノート</h1>
+        </header>
+
+        <main class="container">
+
+            <button
+                class="menuButton"
+                onclick="showPage('playerPage')">
+                👤 選手登録
+            </button>
+
+            <button
+                class="menuButton"
+                onclick="showPage('matchPage')">
+
+                <span>⚽ 試合ノート</span>
+
+                <span
+                    id="editingStatus"
+                    class="editingStatus hidden">
+
+                    🔴更新中
+
+                </span>
+
+            </button>
+
+            <button
+                class="menuButton"
+                onclick="showPage('historyPage')">
+
+                📖 試合履歴
+
+            </button>
+
+        </main>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- 選手登録 -->
+    <!-- ========================= -->
+    <section id="playerPage" class="page">
+
+        <header class="subHeader">
+
+            <button
+                class="backButton"
+                onclick="showPage('homePage')">
+
+                ← 戻る
+
+            </button>
+
+            <h2>選手登録</h2>
+
+        </header>
+
+        <main class="container">
+
+            <div class="comingSoon">
+
+                選手登録画面（次回実装）
+
+            </div>
+
+        </main>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- 試合ノート -->
+    <!-- ========================= -->
+    <section id="matchPage" class="page">
+
+        <header class="subHeader">
+
+            <button
+                class="backButton"
+                onclick="showPage('homePage')">
+
+                ← 戻る
+
+            </button>
+
+            <h2>試合ノート</h2>
+
+        </header>
+
+        <main class="container">
+
+            <div class="comingSoon">
+
+                試合ノート画面（次回実装）
+
+            </div>
+
+        </main>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- 試合履歴 -->
+    <!-- ========================= -->
+    <section id="historyPage" class="page">
+
+        <header class="subHeader">
+
+            <button
+                class="backButton"
+                onclick="showPage('homePage')">
+
+                ← 戻る
+
+            </button>
+
+            <h2>試合履歴</h2>
+
+        </header>
+
+        <main class="container">
+
+            <div class="comingSoon">
+
+                試合履歴画面（後日実装）
+
+            </div>
+
+        </main>
+
+    </section>
+
+</div>
+
+<!-- ====================================== -->
+<!-- Firebase SDK -->
+<!-- ====================================== -->
+
+<script type="module">
+
+import "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+import "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+</script>
+
+<!-- Firebase設定 -->
+<script type="module" src="firebase.js"></script>
+
+<!-- メイン処理 -->
+<script src="script.js"></script>
+
+</body>
+</html>
