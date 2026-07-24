@@ -303,49 +303,54 @@ function createSubstitutionArea() {
     const area = document.getElementById("substitutionArea");
 
     if (!area) return;
-
     area.innerHTML = "";
-
-    for (let i = 1; i <= 3; i++) {
-
+    for (let i = 0; i < 3; i++) {
         const card = document.createElement("div");
 
         card.className = "subCard";
-
         card.innerHTML = `
-
-            <h4>交代 ${i}</h4>
-
+            <h4>交代 ${i + 1}</h4>
             <div class="subRow">
 
                 <label>OUT</label>
 
-                <select>
+                <select class="outSelect">
 
                     ${createOptions(getLineupPlayers())}
-
                 </select>
-
-            </div>
-
-            <div class="subRow">
-
                 <label>IN</label>
 
-                <select>
-
+                <select class="inSelect">
                     ${createOptions(getBenchPlayers())}
-
                 </select>
-
+                <button class="subButton">
+                    交代
+                </button>
             </div>
-
         `;
-
+        const outSelect =
+            card.querySelector(".outSelect");
+        const inSelect =
+            card.querySelector(".inSelect");
+        const button =
+            card.querySelector(".subButton");
+        button.addEventListener("click",()=>{
+            const outPlayer = outSelect.value;
+            const inPlayer = inSelect.value;
+            if(
+                outPlayer === "" ||
+                inPlayer === ""
+            ){
+                alert("OUTとINを選択してください");
+                return;
+            }
+            executeSubstitution(
+                outPlayer,
+                inPlayer
+            );
+        });
         area.appendChild(card);
-
     }
-
 }
 
 // ==============================
