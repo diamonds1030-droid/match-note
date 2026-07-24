@@ -370,9 +370,9 @@ function createOptions(list){
 // プルダウン生成
 // ==============================
 
-function createPlayerOptions(currentValue = "") {
+function createPlayerOptions(currentPlayer = "") {
 
-    const selected = getLineupPlayers();
+    const selectedPlayers = getLineupPlayers();
 
     let html = '<option value="">選択してください</option>';
 
@@ -380,13 +380,12 @@ function createPlayerOptions(currentValue = "") {
 
         if (player === "") return;
 
+        // 自分が選んでいる選手だけは残す
         if (
-            player === currentValue ||
-            !selected.includes(player)
+            player === currentPlayer ||
+            !selectedPlayers.includes(player)
         ) {
-
             html += `<option value="${player}">${player}</option>`;
-
         }
 
     });
