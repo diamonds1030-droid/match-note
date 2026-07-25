@@ -541,7 +541,7 @@ async function createTeamSelect(){
 
     const select =
         document.getElementById(
-            "teamSelect"
+            "matchTeamSelect"
         );
 
     if(!select) return;
@@ -839,6 +839,13 @@ async function loadPlayersByTeam(teamId){
 
 }
 
+const matchTeamSelect =
+
+document.getElementById(
+
+"matchTeamSelect"
+
+);
 teamSelect.addEventListener(
 "change",
 async function(){
