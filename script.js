@@ -87,6 +87,7 @@ window.onload=function(){
     //await loadTeams();
     createPlayerList()
     initializeButtons();
+    createTeamSelect()
     refreshMatch();
     loadTournamentList();
 
@@ -493,6 +494,34 @@ function createTeamList(){
         area.appendChild(button);
     });
 
+}
+// ==============================
+// チーム選択
+// ==============================
+async function createTeamSelect(){
+
+    const select =
+        document.getElementById(
+            "teamSelect"
+        );
+
+    if(!select) return;
+    select.innerHTML =
+    `
+    <option value="">
+    チームを選択してください
+    </option>
+    `;
+    teams.forEach(team=>{
+
+        const option =
+        document.createElement("option");
+        option.value =
+            team.id;
+        option.textContent =
+            team.teamName;
+        select.appendChild(option);
+    });
 }
 // ==============================
 // 選手一覧生成
@@ -1449,6 +1478,43 @@ document
     }
 
     loadTournament(id);
+
+});
+
+document
+.getElementById("teamSelect")
+?.addEventListener(
+"change",
+async function(){
+
+    const id=this.value;
+
+
+    if(id===""){
+        return;
+    }
+
+
+    const snapshot =
+    await getDoc(
+        doc(
+            db,
+            "teams",
+            id
+        )
+    );
+
+
+    const data =
+        snapshot.data();
+
+
+    players =
+        data.players;
+
+
+    createPlayerList();
+
 
 });
 }
