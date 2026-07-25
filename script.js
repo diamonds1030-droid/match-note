@@ -803,6 +803,53 @@ function loadTeamList(){
 
 loadTeamList();
 
+function loadPlayersByTeam(teamName){
+
+    const teams =
+    JSON.parse(localStorage.getItem("teams"))
+    || [];
+
+    const team =
+    teams.find(
+        t=>t.name===teamName
+    );
+    const playerArea =
+    document.getElementById(
+        "playerList"
+    );
+    playerArea.innerHTML="";
+    if(!team) return;
+    team.players.forEach(player=>{
+        const div =
+        document.createElement("div");
+        div.innerHTML=`
+
+        <label>
+        <input type="checkbox"
+        value="${player.name}">
+        ${player.number}
+        ${player.name}
+        </label>
+
+        `;
+        playerArea.appendChild(div);
+    });
+
+}
+
+teamSelect.addEventListener(
+"change",
+function(){
+
+    const teamName=this.value;
+
+    document.getElementById(
+        "homeTeam"
+    ).textContent = teamName;
+    loadPlayersByTeam(teamName);
+
+});
+
 // ==============================
 // 出場選手一覧生成
 // ==============================
