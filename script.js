@@ -84,7 +84,8 @@ const tournament={
 
 window.onload=function(){
 
-    await loadTeams();
+    //await loadTeams();
+    createPlayerList()
     initializeButtons();
     refreshMatch();
     loadTournamentList();
