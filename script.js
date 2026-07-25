@@ -173,6 +173,7 @@ async function createTournament(){
     try{
 
         // 空の大会を保存
+        console.log("保存開始", tournament);
         await setDoc(
             doc(
                 db,
