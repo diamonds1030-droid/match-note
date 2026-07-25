@@ -817,27 +817,30 @@ async function loadTeamList(){
 
 loadTeamList();
 
-async function loadPlayersByTeam(teamId){
+function loadPlayersByTeam(team){
 
- const snapshot =
- await getDocs(
-   collection(
-     db,
-     "teams",
-     teamId,
-     "players"
-   )
- );
- playerArea.innerHTML="";
- snapshot.forEach(doc=>{
-   const player =
-   doc.data();
+    const area =
+    document.getElementById(
+        "lineupArea"
+    );
 
-   // 選手表示処理
-
- });
+    area.innerHTML="";
+    team.players.forEach((player,index)=>{
+        if(player==="") return;
+        const label =
+        document.createElement("label");
+        label.innerHTML =
+        `
+        <input 
+        type="checkbox"
+        value="${player}">
+        ${player}
+        `;
+        area.appendChild(label);
+    });
 
 }
+
 
 const matchTeamSelect =
 
