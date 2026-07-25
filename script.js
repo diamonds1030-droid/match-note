@@ -1278,6 +1278,7 @@ document
         ),
         tournament
     );
+    await loadTournamentList();
     document
     .getElementById("tournamentDialog")
     .classList
