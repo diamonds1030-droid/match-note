@@ -1,3 +1,22 @@
+// =================================
+
+// Firebase
+
+// =================================
+
+import {
+
+    db,
+    doc,
+    setDoc,
+    getDoc,
+    collection,
+    getDocs
+
+}
+
+from "./firebase.js";
+
 // ==============================
 // 設定
 // ==============================
@@ -9,15 +28,6 @@ let players = [];
 let currentTeamId = "";
 let teams = [];
 let currentTournamentId="";
-import {
-    db,
-    doc,
-    setDoc,
-    getDoc,
-    collection,
-    getDocs
-}
-from "./firebase.js";
 
 function createEmptyMatch(){
 
