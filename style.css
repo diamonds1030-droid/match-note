@@ -233,6 +233,48 @@ button:active{
 
 }
 /*==============================
+  タブ
+==============================*/
+.matchTabs{
+
+    display:flex;
+
+    gap:8px;
+
+    overflow-x:auto;
+
+    margin-bottom:15px;
+
+}
+
+.matchTab{
+
+    padding:8px 18px;
+
+    border-radius:8px;
+
+    background:#ddd;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+}
+
+.matchTab.active{
+
+    background:#1976d2;
+
+    color:white;
+
+}
+
+#addMatchButton{
+
+    flex:none;
+
+}
+/*==============================
   スコア
 ==============================*/
 
