@@ -1265,7 +1265,15 @@ function initializeButtons() {
     document.getElementById("matchButton").addEventListener("click", () => {
         showPage("matchPage");
     });
+// チーム管理画面
 
+document
+.getElementById("teamButton")
+?.addEventListener("click",()=>{
+
+    showPage("teamPage");
+
+});
     //document.getElementById("historyButton").addEventListener("click", () => {
         //showPage("historyPage");
   //  });
@@ -1493,8 +1501,6 @@ async function(){
     if(id===""){
         return;
     }
-
-
     const snapshot =
     await getDoc(
         doc(
@@ -1503,19 +1509,11 @@ async function(){
             id
         )
     );
-
-
     const data =
         snapshot.data();
-
-
     players =
         data.players;
-
-
     createPlayerList();
-
-
 });
 }
 
