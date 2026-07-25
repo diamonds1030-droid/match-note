@@ -1300,6 +1300,14 @@ document
 
 });
 
+document
+.getElementById("savePlayersButton")
+?.addEventListener("click",()=>{
+
+    savePlayers();
+
+});
+
 const homeInput = document.getElementById("homeTeam");
 const awayInput = document.getElementById("awayTeam");
 
