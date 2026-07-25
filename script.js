@@ -84,7 +84,15 @@ const tournament={
 
 window.onload=async function(){
 
-    await loadTeams();
+    try{
+        await loadTeams();
+    }
+    catch(e){
+        console.log(
+            "チーム読込エラー",
+            e
+        );
+    }
     createPlayerList()
     initializeButtons();
     createTeamSelect()
