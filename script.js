@@ -6,6 +6,8 @@ const MAX_PLAYERS = 30;
 const STORAGE_KEY = "soccerPlayers";
 
 let players = [];
+let currentTeamId = "";
+let teams = [];
 let currentTournamentId="";
 import {
     db,
@@ -72,8 +74,7 @@ const tournament={
 
 window.onload=function(){
 
-    loadPlayers();
-    createPlayerList();
+    await loadTeams();
     initializeButtons();
     refreshMatch();
     loadTournamentList();
@@ -395,6 +396,92 @@ async function loadTournament(id){
     }
 
 }
+//===============================
+// チーム作成
+//===============================
+
+async function createTeam(){
+
+    const name =
+        document
+        .getElementById("teamName")
+        .value
+        .trim();
+    if(name===""){
+        alert("チーム名を入力してください");
+        return;
+    }
+    const id =
+        "TEAM_" +
+        Date.now();
+    await setDoc(
+        doc(
+            db,
+            "teams",
+            id
+        ),
+
+        {
+            id:id,
+            teamName:name,
+            players:Array(30).fill("")
+        }
+    );
+    alert(
+        "チームを作成しました"
+    );
+    loadTeams();
+
+}
+//===============================
+// チーム一覧取得
+//===============================
+
+async function loadTeams(){
+
+    const snapshot =
+        await getDocs(
+            collection(
+                db,
+                "teams"
+            )
+        );
+    teams=[];
+    snapshot.forEach(docSnap=>{
+        teams.push(
+            docSnap.data()
+        );
+    });
+    createTeamList();
+
+}
+function createTeamList(){
+
+    const area =
+        document.getElementById(
+            "teamList"
+        );
+    area.innerHTML="";
+    teams.forEach(team=>{
+        const button =
+            document.createElement("button");
+        button.textContent =
+            team.teamName;
+        button.onclick=()=>{
+            currentTeamId =
+                team.id;
+            players =
+                team.players;
+            createPlayerList();
+            alert(
+                team.teamName+
+                "を選択しました"
+            );
+        };
+        area.appendChild(button);
+    });
+
+}
 // ==============================
 // 選手一覧生成
 // ==============================
@@ -491,19 +578,31 @@ document.addEventListener("click",function(e){
 // ==============================
 // 保存
 // ==============================
+async function savePlayers(){
 
-function savePlayers(){
+    if(currentTeamId===""){
 
-    localStorage.setItem(
-
-        STORAGE_KEY,
-
-        JSON.stringify(players)
-
+        alert(
+            "チームを選択してください"
+        );
+        return;
+    }
+    await setDoc(
+        doc(
+            db,
+            "teams",
+            currentTeamId
+        ),
+        {
+            players:players
+        },
+        {
+            merge:true
+        }
     );
-
-    alert("保存しました");
-
+    alert(
+        "選手を保存しました"
+    );
 }
 
 // ==============================
