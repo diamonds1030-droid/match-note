@@ -571,7 +571,21 @@ button:active{
 
 }
 
+/*==============================
+  操作取消ボタン
+==============================*/
+.headerButtons{
+    display:flex;
+    gap:8px;
+}
 
+#undoButton,
+#saveMatchButton{
+    width:80px;
+    height:40px;
+    margin:0;
+    font-size:14px;
+}
 /*==============================
   保存ボタン
 ==============================*/
