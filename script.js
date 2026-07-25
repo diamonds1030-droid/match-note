@@ -1190,6 +1190,13 @@ document
 
 });
 document
+.getElementById("cancelTournamentButton")
+.addEventListener("click",()=>{
+
+    showPage("homePage");
+
+});
+document
 .getElementById("createTournamentOk")
 .addEventListener("click",()=>{
 
