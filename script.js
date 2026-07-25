@@ -11,6 +11,9 @@ function createEmptyMatch(){
 
     return {
 
+        homeTeam:"",
+        awayTeam:"",
+        
         homeScore:0,
         awayScore:0,
 
@@ -44,8 +47,6 @@ const tournament={
 
     date:"",
     place:"",
-    homeTeam:"",
-    awayTeam:"",
 
     matches:[
         createEmptyMatch()
@@ -70,6 +71,23 @@ window.onload=function(){
 
 function refreshMatch(){
 
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
+
+document.getElementById("homeTeam").value =
+    matchState.homeTeam;
+
+document.getElementById("awayTeam").value =
+    matchState.awayTeam;
+
+document.getElementById("homeTeamName").textContent =
+    matchState.homeTeam || "ホーム";
+
+document.getElementById("awayTeamName").textContent =
+    matchState.awayTeam || "アウェイ";
+    
     createMatchTabs();
     updateScore();
     createLineup();
@@ -875,14 +893,38 @@ document.getElementById("undoButton")
 const homeInput = document.getElementById("homeTeam");
 const awayInput = document.getElementById("awayTeam");
 
+// ホームチーム
 homeInput?.addEventListener("input", () => {
+
+    const matchState =
+        tournament.matches[
+            tournament.currentMatch
+        ];
+
+    matchState.homeTeam = homeInput.value;
+
     document.getElementById("homeTeamName").textContent =
         homeInput.value || "ホーム";
+
+    createMatchTabs();
+
 });
 
+// アウェイチーム
 awayInput?.addEventListener("input", () => {
+
+    const matchState =
+        tournament.matches[
+            tournament.currentMatch
+        ];
+
+    matchState.awayTeam = awayInput.value;
+
     document.getElementById("awayTeamName").textContent =
         awayInput.value || "アウェイ";
+
+    createMatchTabs();
+
 });
 }
 
