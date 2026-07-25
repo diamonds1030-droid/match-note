@@ -7,6 +7,13 @@ const STORAGE_KEY = "soccerPlayers";
 
 let players = [];
 let currentTournamentId="";
+import {
+    db,
+    doc,
+    setDoc,
+    getDoc
+}
+from "./firebase.js";
 
 function createEmptyMatch(){
 
