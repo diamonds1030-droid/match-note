@@ -12,7 +12,8 @@ import {
     setDoc,
     getDoc,
     collection,
-    getDocs  
+    getDocs,
+    deleteDoc
     
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
@@ -34,5 +35,6 @@ export {
     setDoc,
     getDoc,
     collection,
-    getDocs
+    getDocs,
+    deleteDoc
 };
