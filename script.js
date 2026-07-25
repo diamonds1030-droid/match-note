@@ -1130,9 +1130,18 @@ function initializeButtons() {
         showPage("matchPage");
     });
 
-    document.getElementById("historyButton").addEventListener("click", () => {
-        showPage("historyPage");
-    });
+    //document.getElementById("historyButton").addEventListener("click", () => {
+        //showPage("historyPage");
+  //  });
+    document
+.getElementById("historyButton")
+.addEventListener("click", async()=>{
+
+    await loadTournamentList();
+
+    showPage("historyPage");
+
+});
 
     // 戻るボタン
     document.querySelectorAll(".backButton").forEach(button => {
