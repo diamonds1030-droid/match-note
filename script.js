@@ -82,7 +82,7 @@ const tournament={
 // 初期化
 // ==============================
 
-window.onload=function(){
+window.onload=async function(){
 
     await loadTeams();
     createPlayerList()
