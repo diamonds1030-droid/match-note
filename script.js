@@ -649,6 +649,8 @@ document.getElementById("ownGoalButton")?.addEventListener("click", () => {
 document.getElementById("opponentGoalButton")?.addEventListener("click", () => {
     goalButtonClick("相手得点");
 });
+document.getElementById("undoButton")
+.addEventListener("click", undo);
 
 const homeInput = document.getElementById("homeTeam");
 const awayInput = document.getElementById("awayTeam");
