@@ -141,6 +141,86 @@ function generateTournamentId(){
     }
     return id;
 }
+
+
+//===============================
+// 大会保存
+//===============================
+async function saveTournament(){
+
+    if(!tournament.id){
+        alert("大会を作成してください");
+        return;
+    }
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
+
+matchState.homeTeam =
+    document
+    .getElementById("homeTeam")
+    .value;
+
+matchState.awayTeam =
+    document
+    .getElementById("awayTeam")
+    .value;
+    try{
+        await setDoc(
+            doc(
+                db,
+                "tournaments",
+                tournament.id
+            ),
+            tournament
+        );
+        alert("保存しました");
+    }
+    catch(e){
+        console.log(e);
+        alert("保存失敗");
+    }
+}
+
+//===============================
+// 大会読込
+//===============================
+async function loadTournament(id){
+
+    try{
+        const snapshot=
+            await getDoc(
+                doc(
+                    db,
+                    "tournaments",
+                    id
+                )
+            );
+        if(!snapshot.exists()){
+            alert("大会がありません");
+            return;
+        }
+        Object.assign(
+            tournament,
+            snapshot.data()
+        );
+        refreshMatch();
+        document.getElementById("homeTeam").value =
+            tournament.matches[
+                tournament.currentMatch
+            ].homeTeam || "";
+        document.getElementById("awayTeam").value =
+            tournament.matches[
+                tournament.currentMatch
+            ].awayTeam || "";
+        alert("読込しました");
+    }
+    catch(e){
+        console.log(e);
+    }
+
+}
 // ==============================
 // 選手一覧生成
 // ==============================
@@ -1004,6 +1084,34 @@ document
         "大会ID：" +
         currentTournamentId
     );
+
+});
+document
+.getElementById("saveMatchButton")
+.addEventListener(
+    "click",
+    saveTournament
+);
+
+document
+.getElementById("openTournamentButton")
+.addEventListener(
+"click",
+()=>{
+    const id=
+    document
+    .getElementById(
+        "tournamentIdInput"
+    )
+    .value
+    .trim()
+    .toUpperCase();
+    if(id===""){
+        alert("大会IDを入力してください");
+        return;
+    }
+
+    loadTournament(id);
 
 });
 }
