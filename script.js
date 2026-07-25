@@ -441,7 +441,7 @@ async function createTeam(){
     alert(
         "チームを作成しました"
     );
-    loadTeams();
+    await loadTeams();
 
 }
 //===============================
@@ -1287,6 +1287,18 @@ document
 
 document.getElementById("undoButton")
 .addEventListener("click", undo);
+
+//===============================
+// チーム作成
+//===============================
+
+document
+.getElementById("createTeamButton")
+?.addEventListener("click",()=>{
+
+    createTeam();
+
+});
 
 const homeInput = document.getElementById("homeTeam");
 const awayInput = document.getElementById("awayTeam");
