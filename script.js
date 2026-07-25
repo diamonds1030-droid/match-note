@@ -208,17 +208,10 @@ async function createTournament(){
             "Firestore保存完了"
         );
 
-
-        // ★ここを追加
-        await loadTournamentList();
-
-
         alert(
             "大会を作成しました\n大会ID：" +
             tournament.id
         );
-
-
         refreshMatch();
 
         showPage(
