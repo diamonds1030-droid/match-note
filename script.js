@@ -6,7 +6,6 @@ const MAX_PLAYERS = 30;
 const STORAGE_KEY = "soccerPlayers";
 
 let players = [];
-let undoStack = [];
 
 function createEmptyMatch(){
 
@@ -35,7 +34,8 @@ function createEmptyMatch(){
             })
         ),
 
-        goals:[]
+        goals:[],
+        undoStack:[]
     };
 
 }
@@ -236,13 +236,32 @@ function loadPlayers(){
 // ==============================
 function saveUndo(){
 
-    undoStack.push(
-        JSON.stringify(
-            tournament.matches[
-                tournament.currentMatch
-            ]
-        )
+    const matchState =
+        tournament.matches[
+            tournament.currentMatch
+        ];
+
+    matchState.undoStack.push(
+
+        JSON.stringify({
+
+            homeScore:matchState.homeScore,
+            awayScore:matchState.awayScore,
+
+            lineup:structuredClone(matchState.lineup),
+
+            substitutions:structuredClone(
+                matchState.substitutions
+            ),
+
+            goals:structuredClone(
+                matchState.goals
+            )
+
+        })
+
     );
+
 }
 // ==============================
 // タブ生成
@@ -739,14 +758,37 @@ function undoGoal() {
 // ==============================
 function undo(){
 
-    if(undoStack.length===0){
+    const matchState =
+        tournament.matches[
+            tournament.currentMatch
+        ];
+
+    if(matchState.undoStack.length===0){
+
         alert("戻せる操作はありません");
         return;
+
     }
 
-    tournament.matches[
-        tournament.currentMatch
-    ] = JSON.parse(undoStack.pop());
+    const previous =
+        JSON.parse(
+            matchState.undoStack.pop()
+        );
+
+    matchState.homeScore =
+        previous.homeScore;
+
+    matchState.awayScore =
+        previous.awayScore;
+
+    matchState.lineup =
+        previous.lineup;
+
+    matchState.substitutions =
+        previous.substitutions;
+
+    matchState.goals =
+        previous.goals;
 
     refreshMatch();
 
