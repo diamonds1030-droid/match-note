@@ -59,17 +59,24 @@ const tournament={
 // 初期化
 // ==============================
 
-window.onload = function () {
+window.onload=function(){
 
     loadPlayers();
     createPlayerList();
+    initializeButtons();
+    refreshMatch();
+
+}
+
+function refreshMatch(){
+
+    createMatchTabs();
+    updateScore();
     createLineup();
     createSubstitutionArea();
-    initializeButtons();
-    updateScore();
+    drawGoalHistory();
 
-};
-
+}
 // ==============================
 // 画面切替
 // ==============================
