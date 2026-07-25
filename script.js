@@ -859,7 +859,7 @@ async function(){
     docSnap.data();
     document.getElementById(
       "homeTeam"
-    ).textContent =
+    ).value =
     team.teamName;
     loadPlayersByTeam(team);
 
