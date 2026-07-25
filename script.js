@@ -279,20 +279,27 @@ matchState.awayTeam =
 //===============================
 
 async function loadTournamentList(){
-
+        
     const area =
         document.getElementById("historyList");
-
-    area.innerHTML = "";
-
+    area.innerHTML="";
     const snapshot =
         await getDocs(
             collection(db,"tournaments")
         );
-
+    // 配列化
+    const tournaments = [];
     snapshot.forEach(docSnap=>{
-
-        const data = docSnap.data();
+        tournaments.push(
+            docSnap.data()
+        );
+    });
+    // 日付の新しい順に並び替え
+    tournaments.sort((a,b)=>{
+        return new Date(b.date) - new Date(a.date);
+    });
+    
+    tournaments.forEach(data=>{
 
         const card =
             document.createElement("div");
@@ -300,18 +307,14 @@ async function loadTournamentList(){
         card.className="historyCard";
 
         card.innerHTML=`
-
             <h3>${data.name}</h3>
-
+            <p>日付：${data.date || "未設定"}</p>
             <p>大会ID：${data.id}</p>
-
             <p>試合数：${data.matches.length}</p>
-
             <button class="openButton">
                 開く
             </button>
-
-        `;
+            `;
 
         card
         .querySelector("button")
