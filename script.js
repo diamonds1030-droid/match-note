@@ -182,6 +182,7 @@ async function createTournament(){
             ),
             tournament
         );
+        console.log("Firestore保存完了");
 
         alert(
             "大会を作成しました\n大会ID：" +
