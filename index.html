@@ -72,13 +72,14 @@ content="width=device-width, initial-scale=1.0">
 </header>
 <main>
     
-<select id="teamSelect">
-<option>
-チームを選択してください
-</option>
-</select>
-<div id="teamManageList"></div>
-</main>
+<input
+    id="teamName"
+    placeholder="チーム名">
+<button id="createTeamButton">
+    チーム作成
+</button>
+<div id="teamList"></div>
+
 
 </section>
 
@@ -97,25 +98,21 @@ content="width=device-width, initial-scale=1.0">
 </button>
 
 <h2>選手登録</h2>
-
 <button id="savePlayersButton">
-
 保存
-
 </button>
-
 </header>
 
 <main>
 
 <h3>チーム選択</h3>
-<input
-    id="teamName"
-    placeholder="チーム名">
-<button id="createTeamButton">
-    チーム作成
-</button>
-<div id="teamList"></div>
+<select id="teamSelect">
+<option>
+チームを選択してください
+</option>
+</select>
+<div id="teamManageList"></div>
+</main>
 
 <h3>選手登録</h3>
 <div id="playerList"></div>
