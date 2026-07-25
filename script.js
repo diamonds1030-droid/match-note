@@ -235,6 +235,43 @@ function saveUndo(){
 
 }
 // ==============================
+// タブ生成
+// ==============================
+function createMatchTabs(){
+
+    const area=document.getElementById("matchTabArea");
+
+    area.innerHTML="";
+
+    tournament.matches.forEach((m,index)=>{
+
+        const tab=document.createElement("button");
+
+        tab.className="matchTab";
+
+        if(index===tournament.currentMatch){
+
+            tab.classList.add("active");
+
+        }
+
+        tab.textContent=(index+1)+"試合目";
+
+        tab.onclick=()=>{
+
+            tournament.currentMatch=index;
+
+            refreshMatch();
+
+        };
+
+        area.appendChild(tab);
+
+    });
+
+}
+
+// ==============================
 // 出場選手一覧生成
 // ==============================
 
@@ -757,6 +794,22 @@ document.getElementById("ownGoalButton")?.addEventListener("click", () => {
 document.getElementById("opponentGoalButton")?.addEventListener("click", () => {
     goalButtonClick("相手得点");
 });
+
+document
+.getElementById("addMatchButton")
+.addEventListener("click",()=>{
+
+    tournament.matches.push(
+        createEmptyMatch()
+    );
+
+    tournament.currentMatch=
+        tournament.matches.length-1;
+
+    refreshMatch();
+
+});
+
 document.getElementById("undoButton")
 .addEventListener("click", undo);
 
