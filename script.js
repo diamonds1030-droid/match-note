@@ -1227,12 +1227,14 @@ document
 });
 document
 .getElementById("cancelTournamentButton")
-.addEventListener("click",()=>{
+?.addEventListener("click",()=>{
 
     document
     .getElementById("tournamentDialog")
     .classList
     .remove("show");
+
+    showPage("homePage");
 
 });
 document
