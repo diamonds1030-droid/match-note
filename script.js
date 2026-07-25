@@ -619,4 +619,17 @@ document.getElementById("opponentGoalButton")?.addEventListener("click", () => {
     goalButtonClick("相手得点");
 });
 
+const homeInput = document.getElementById("homeTeam");
+const awayInput = document.getElementById("awayTeam");
+
+homeInput?.addEventListener("input", () => {
+    document.getElementById("homeTeamName").textContent =
+        homeInput.value || "ホーム";
+});
+
+awayInput?.addEventListener("input", () => {
+    document.getElementById("awayTeamName").textContent =
+        awayInput.value || "アウェイ";
+});
 }
+
