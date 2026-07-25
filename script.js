@@ -82,30 +82,30 @@ window.onload=function(){
 
 function refreshMatch(){
 
-    const matchState =
-    tournament.matches[
-        tournament.currentMatch
-    ];
-
-document.getElementById("homeTeam").value =
-    matchState.homeTeam;
-
-document.getElementById("awayTeam").value =
-    matchState.awayTeam;
-
-document.getElementById("homeTeamName").textContent =
-    matchState.homeTeam || "ホーム";
-
-document.getElementById("awayTeamName").textContent =
-    matchState.awayTeam || "アウェイ";
-    
     createMatchTabs();
     updateScore();
     createLineup();
     createSubstitutionArea();
     drawGoalHistory();
+    // ==========================
+    // 大会情報を試合ノートへ反映
+    // ==========================
+
+    const matchDate =
+        document.getElementById("matchDate");
+    const matchPlace =
+        document.getElementById("matchPlace");
+    if(matchDate){
+        matchDate.value =
+            tournament.date || "";
+    }
+    if(matchPlace){
+        matchPlace.value =
+            tournament.name || "";
+    }
 
 }
+
 // ==============================
 // 画面切替
 // ==============================
