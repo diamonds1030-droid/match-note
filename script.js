@@ -11,7 +11,9 @@ import {
     db,
     doc,
     setDoc,
-    getDoc
+    getDoc,
+    collection,
+    getDocs
 }
 from "./firebase.js";
 
@@ -74,6 +76,7 @@ window.onload=function(){
     createPlayerList();
     initializeButtons();
     refreshMatch();
+    loadTournamentList();
 
 }
 
@@ -187,50 +190,118 @@ matchState.awayTeam =
 //===============================
 // 一覧取得
 //===============================
+
 async function loadTournamentList(){
 
     const area =
         document.getElementById("historyList");
 
-    area.innerHTML="";
+    area.innerHTML = "";
 
-    // Firestoreから全大会取得
+    const snapshot =
+        await getDocs(
+            collection(db,"tournaments")
+        );
+
+    snapshot.forEach(docSnap=>{
+
+        const data = docSnap.data();
+
+        const card =
+            document.createElement("div");
+
+        card.className="historyCard";
+
+        card.innerHTML=`
+
+            <h3>${data.name}</h3>
+
+            <p>大会ID：${data.id}</p>
+
+            <p>試合数：${data.matches.length}</p>
+
+            <button class="openButton">
+                開く
+            </button>
+
+        `;
+
+        card
+        .querySelector("button")
+        .onclick=()=>{
+
+            loadTournament(data.id);
+
+            showPage("matchPage");
+
+        };
+
+        area.appendChild(card);
+
+    });
+
 }
+
 //===============================
 // 大会読込
 //===============================
 async function loadTournament(id){
 
     try{
-        const snapshot=
-            await getDoc(
-                doc(
-                    db,
-                    "tournaments",
-                    id
-                )
-            );
+
+        const snapshot = await getDoc(
+            doc(
+                db,
+                "tournaments",
+                id
+            )
+        );
+
         if(!snapshot.exists()){
             alert("大会がありません");
             return;
         }
+
+        // 大会データを復元
         Object.assign(
             tournament,
             snapshot.data()
         );
+
+        // 現在表示する試合
+        const matchState =
+            tournament.matches[
+                tournament.currentMatch
+            ];
+
+        // 画面更新
         refreshMatch();
+
+        // チーム名を画面へ反映
         document.getElementById("homeTeam").value =
-            tournament.matches[
-                tournament.currentMatch
-            ].homeTeam || "";
+            matchState.homeTeam || "";
+
         document.getElementById("awayTeam").value =
-            tournament.matches[
-                tournament.currentMatch
-            ].awayTeam || "";
+            matchState.awayTeam || "";
+
+        // 得点表示用チーム名も更新
+        document.getElementById("homeTeamName").textContent =
+            matchState.homeTeam || "ホーム";
+
+        document.getElementById("awayTeamName").textContent =
+            matchState.awayTeam || "アウェイ";
+
+        // 試合ノート画面へ移動
+        showPage("matchPage");
+
         alert("読込しました");
+
     }
     catch(e){
+
         console.log(e);
+        alert("読込に失敗しました");
+
     }
 
 }
