@@ -774,6 +774,35 @@ function createMatchTabs(){
 
 }
 
+
+// ==============================
+// 試合ノート　チーム選択
+// ==============================
+const teamSelect = document.getElementById("teamSelect");
+
+function loadTeamList(){
+
+    const teams =
+    JSON.parse(localStorage.getItem("teams")) || [];
+
+    teamSelect.innerHTML =
+    `<option value="">チーム選択</option>`;
+
+    teams.forEach(team=>{
+
+        const option =
+        document.createElement("option");
+
+        option.value = team.name;
+        option.textContent = team.name;
+
+        teamSelect.appendChild(option);
+
+    });
+}
+
+loadTeamList();
+
 // ==============================
 // 出場選手一覧生成
 // ==============================
