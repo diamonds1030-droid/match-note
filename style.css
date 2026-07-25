@@ -256,12 +256,15 @@ button:active{
 .matchTab{
 
     flex:0 0 auto;
+    width:auto;
+    min-width:70px;
     height:38px;
-    padding:0 18px;
+    padding:0 16px;
     border:none;
     border-radius:8px;
     background:#dddddd;
     font-size:15px;
+    white-space:nowrap;
 
 }
 
