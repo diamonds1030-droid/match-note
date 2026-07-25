@@ -232,46 +232,65 @@ button:active{
     font-weight:bold;
 
 }
+
 /*==============================
-  タブ
+  試合タブ
 ==============================*/
-.matchTabs{
+
+.matchTabHeader{
 
     display:flex;
-
+    align-items:center;
     gap:8px;
-
-    overflow-x:auto;
-
     margin-bottom:15px;
+
+}
+
+#matchTabArea{
+
+    display:flex;
+    gap:8px;
+    flex:1;
+    overflow-x:auto;
+    white-space:nowrap;
 
 }
 
 .matchTab{
 
-    padding:8px 18px;
-
+    flex:0 0 auto;
+    height:38px;
+    padding:0 18px;
+    border:none;
     border-radius:8px;
-
-    background:#ddd;
-
-    cursor:pointer;
-
-    white-space:nowrap;
+    background:#dddddd;
+    font-size:15px;
 
 }
 
 .matchTab.active{
 
-    background:#1976d2;
-
+    background:#2e7d32;
     color:white;
 
 }
 
 #addMatchButton{
 
-    flex:none;
+    width:38px;
+    min-width:38px;
+    height:38px;
+
+    padding:0;
+
+    border:none;
+    border-radius:50%;
+
+    background:#1976d2;
+    color:#fff;
+
+    font-size:24px;
+    font-weight:bold;
 
 }
 /*==============================
