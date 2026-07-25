@@ -570,6 +570,65 @@ function goalButtonClick(name) {
             matchState.awayScore
     });
 }
+
+// ==============================
+// 得点履歴再描画
+// ==============================
+
+function drawGoalHistory() {
+
+    const history = document.getElementById("goalHistory");
+
+    if (!history) return;
+
+    history.innerHTML = "";
+
+    matchState.goals.forEach(goal => {
+
+        const item = document.createElement("div");
+        const text = document.createElement("span");
+
+        if (goal.scorer === "相手得点") {
+
+            item.className = "goalItem goalAway";
+            text.textContent = "⚽ 相手得点";
+
+        } else {
+
+            item.className = "goalItem goalHome";
+            text.textContent = goal.scorer + " ⚽";
+
+        }
+
+        item.appendChild(text);
+        history.appendChild(item);
+
+    });
+
+}
+// ==============================
+// 得点取り消し
+// ==============================
+
+function undoGoal() {
+
+    if (matchState.goals.length === 0) {
+        alert("取り消す得点がありません");
+        return;
+    }
+
+    const last = matchState.goals.pop();
+
+    if (last.scorer === "相手得点") {
+        matchState.awayScore--;
+    } else {
+        matchState.homeScore--;
+    }
+
+    updateScore();
+    drawGoalHistory();
+
+}
 // ==============================
 // 戻る操作
 // ==============================
