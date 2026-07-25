@@ -1234,39 +1234,49 @@ document
 });
 document
 .getElementById("createTournamentOk")
-.addEventListener("click",()=>{
+.addEventListener("click",async()=>{
 
-    currentTournamentId=
+    currentTournamentId =
         document
         .getElementById(
             "generatedTournamentId"
         ).textContent;
-
-    tournament.id=currentTournamentId;
-
-    tournament.name=
+    tournament.id =
+        currentTournamentId;
+    tournament.name =
         document
         .getElementById(
             "tournamentName"
         ).value;
-
-    tournament.date=
+    tournament.date =
         document
         .getElementById(
             "tournamentDate"
         ).value;
-
-    tournament.place=
+    tournament.place =
         document
         .getElementById(
             "tournamentPlace"
         ).value;
+    // ★追加
+    tournament.currentMatch = 0;
 
+    tournament.matches = [
+        createEmptyMatch()
+    ];
+    // ★追加
+    await setDoc(
+        doc(
+            db,
+            "tournaments",
+            tournament.id
+        ),
+        tournament
+    );
     document
     .getElementById("tournamentDialog")
     .classList
     .remove("show");
-
     alert(
         "大会ID：" +
         currentTournamentId
