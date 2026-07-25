@@ -6,6 +6,7 @@ const MAX_PLAYERS = 30;
 const STORAGE_KEY = "soccerPlayers";
 
 let players = [];
+let undoStack = [];
 
 const matchState = {
     homeScore:0,
@@ -199,6 +200,16 @@ function loadPlayers(){
 
 }
 // ==============================
+// 操作の戻り
+// ==============================
+function saveUndo(){
+
+    undoStack.push(
+        JSON.stringify(matchState)
+    );
+
+}
+// ==============================
 // 出場選手一覧生成
 // ==============================
 
@@ -298,10 +309,6 @@ function createLineup() {
 
 }
 
-            
-// ==============================
-// 交代欄生成
-// ==============================
 // ==============================
 // 交代欄生成
 // ==============================
@@ -406,6 +413,7 @@ function executeSubstitution(
     inPlayer,
     index
 ){
+    saveUndo();
     // 出場選手を変更
     Object.keys(matchState.lineup).forEach(position=>{
         if(matchState.lineup[position] === outPlayer){
@@ -531,6 +539,7 @@ function createGoalButtons(){
 // ==============================
 
 function goalButtonClick(name) {
+    saveUndo();
     const history =
         document.getElementById("goalHistory");
     const item =
@@ -561,7 +570,29 @@ function goalButtonClick(name) {
             matchState.awayScore
     });
 }
+// ==============================
+// 戻る操作
+// ==============================
+function undo(){
 
+    if(undoStack.length===0){
+
+        alert("戻せる操作はありません");
+        return;
+
+    }
+
+    const previous =
+        JSON.parse(undoStack.pop());
+
+    Object.assign(matchState, previous);
+
+    createLineup();
+    createSubstitutionArea();
+    updateScore();
+    drawGoalHistory();
+
+}
 // ==============================
 // スコア表示更新
 // ==============================
