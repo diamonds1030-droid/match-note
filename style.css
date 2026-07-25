@@ -238,22 +238,19 @@ button:active{
 ==============================*/
 
 .matchTabHeader{
-
     display:flex;
+    flex-direction:row;
     align-items:center;
     gap:8px;
-    margin-bottom:15px;
-
 }
 
 #matchTabArea{
-
     display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
     gap:8px;
-    flex:1;
     overflow-x:auto;
-    white-space:nowrap;
-
+    flex:1;
 }
 
 .matchTab{
