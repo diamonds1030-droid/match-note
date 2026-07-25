@@ -135,10 +135,34 @@ content="width=device-width, initial-scale=1.0">
             </div>
         </div>
 
-        <!-- スコア -->
-        <div class="card">
+    <!-- スコア -->
+    <div class="scoreBoard">
+        <span id="homeScore" class="score">0</span>
+        <span class="scoreSeparator">－</span>
+        <span id="awayScore" class="score">0</span>
+    </div>
+    <div id="goalHistory" class="goalHistory"></div>
+</div>
 
-            <h3>得点</h3>
+<!-- スコア -->
+<div class="card">
+
+    <h3>得点</h3>
+
+    <!-- チーム名 -->
+    <div class="scoreTeamRow">
+
+        <span id="homeTeamName" class="scoreTeam">
+            ホーム
+        </span>
+
+        <span class="scoreVs">VS</span>
+
+        <span id="awayTeamName" class="scoreTeam">
+            アウェイ
+        </span>
+
+    </div>
 
             <div class="scoreBoard">
                 <span id="homeScore" class="score">0</span>
