@@ -29,4 +29,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
-export { doc, setDoc, getDoc };
+export {
+    doc,
+    setDoc,
+    getDoc,
+    collection,
+    getDocs
+};
