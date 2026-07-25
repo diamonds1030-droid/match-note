@@ -150,30 +150,50 @@ function generateTournamentId(){
 //===============================
 async function createTournament(){
 
-    const name = document
+    const name =
+        document
         .getElementById("tournamentName")
         .value
         .trim();
 
+
     if(name===""){
+
         alert("大会名を入力してください");
         return;
+
     }
 
-    // 大会初期化
-    tournament.id = createTournamentId();
-    tournament.name = name;
-    tournament.date = "";
-    tournament.place = "";
-    tournament.currentMatch = 0;
-    tournament.matches = [
+
+    tournament.id =
+        createTournamentId();
+
+    tournament.name =
+        name;
+
+    tournament.date =
+        "";
+
+    tournament.place =
+        "";
+
+    tournament.currentMatch =
+        0;
+
+    tournament.matches =
+    [
         createEmptyMatch()
     ];
 
+
     try{
 
-        // 空の大会を保存
-        console.log("保存開始", tournament);
+        console.log(
+            "保存開始",
+            tournament
+        );
+
+
         await setDoc(
             doc(
                 db,
@@ -182,30 +202,44 @@ async function createTournament(){
             ),
             tournament
         );
-        console.log("Firestore保存完了");
+
+
+        console.log(
+            "Firestore保存完了"
+        );
+
+
+        // ★ここを追加
+        await loadTournamentList();
+
 
         alert(
             "大会を作成しました\n大会ID：" +
             tournament.id
         );
 
-        // 一覧更新
-        loadTournamentList();
 
-        // 試合ノートへ
         refreshMatch();
-        showPage("matchPage");
+
+        showPage(
+            "matchPage"
+        );
+
 
     }
     catch(e){
 
         console.log(e);
 
-        alert("大会作成に失敗しました");
+        alert(
+            "大会作成に失敗しました"
+        );
 
     }
 
 }
+
+
 //===============================
 // 大会保存
 //===============================
