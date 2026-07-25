@@ -1510,6 +1510,7 @@ async function(){
     if(id===""){
         return;
     }
+    currentTeamId = id
     const snapshot =
     await getDoc(
         doc(
