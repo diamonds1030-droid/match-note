@@ -472,6 +472,7 @@ function createTeamList(){
         document.getElementById(
             "teamList"
         );
+    if(!area) return;
     area.innerHTML="";
     teams.forEach(team=>{
         const button =
