@@ -7,7 +7,10 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
-    getFirestore
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -20,11 +23,7 @@ const firebaseConfig = {
   appId: "1:878349586781:web:7bef8b524716f86931d8b4",
   measurementId: "G-Z04TCV21P7"
 };
+const app = initializeApp(firebaseConfig);
 
-const app=
-initializeApp(firebaseConfig);
-
-const db=
-getFirestore(app);
-
-window.db=db;
+export const db = getFirestore(app);
+export { doc, setDoc, getDoc };
