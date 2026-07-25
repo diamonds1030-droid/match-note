@@ -8,26 +8,51 @@ const STORAGE_KEY = "soccerPlayers";
 let players = [];
 let undoStack = [];
 
-const matchState = {
-    homeScore:0,
-    awayScore:0,
-    lineup: {
-        GK: "",
-        FP1: "",
-        FP2: "",
-        FP3: "",
-        FP4: "",
-        FP5: "",
-        FP6: "",
-        FP7: ""
-    },
-    substitutions:
-    Array.from({length:10},()=>({
-        out:"",
-        in:"",
-        done:false
-    })),
-    goals: []
+function createEmptyMatch(){
+
+    return {
+
+        homeScore:0,
+        awayScore:0,
+
+        lineup:{
+            GK:"",
+            FP1:"",
+            FP2:"",
+            FP3:"",
+            FP4:"",
+            FP5:"",
+            FP6:"",
+            FP7:""
+        },
+
+        substitutions:Array.from(
+            {length:10},
+            ()=>({
+                out:"",
+                in:"",
+                done:false
+            })
+        ),
+
+        goals:[]
+    };
+
+}
+
+const tournament={
+
+    date:"",
+    place:"",
+    homeTeam:"",
+    awayTeam:"",
+
+    matches:[
+        createEmptyMatch()
+    ],
+
+    currentMatch:0
+
 };
 
 // ==============================
@@ -215,6 +240,10 @@ function saveUndo(){
 
 function createLineup() {
 
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
     const area = document.getElementById("lineupArea");
 
     if (!area) return;
@@ -314,6 +343,10 @@ function createLineup() {
 // ==============================
 function createSubstitutionArea(){
 
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
     const area = document.getElementById("substitutionArea");
     if(!area) return;
     area.innerHTML = "";
@@ -414,6 +447,10 @@ function executeSubstitution(
     index
 ){
     saveUndo();
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
     // 出場選手を変更
     Object.keys(matchState.lineup).forEach(position=>{
         if(matchState.lineup[position] === outPlayer){
@@ -540,6 +577,10 @@ function createGoalButtons(){
 
 function goalButtonClick(name) {
     saveUndo();
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
     const history =
         document.getElementById("goalHistory");
     const item =
@@ -577,6 +618,10 @@ function goalButtonClick(name) {
 
 function drawGoalHistory() {
 
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
     const history = document.getElementById("goalHistory");
 
     if (!history) return;
@@ -657,6 +702,10 @@ function undo(){
 // ==============================
 
 function updateScore(){
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
     const home =
         document.getElementById("homeScore");
     const away =
