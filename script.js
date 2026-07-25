@@ -780,73 +780,80 @@ function createMatchTabs(){
 // ==============================
 const teamSelect = document.getElementById("teamSelect");
 
-function loadTeamList(){
+async function loadTeamList(){
 
-    const teams =
-    JSON.parse(localStorage.getItem("teams")) || [];
+    const select =
+    document.getElementById("teamSelect");
 
-    teamSelect.innerHTML =
-    `<option value="">チーム選択</option>`;
 
-    teams.forEach(team=>{
+    select.innerHTML =
+    `<option value="">
+      チーム選択
+    </option>`;
 
+
+    const snapshot =
+    await getDocs(
+        collection(db,"teams")
+    );
+    snapshot.forEach(doc=>{
+
+        const team =
+        doc.data();
         const option =
         document.createElement("option");
+        option.value =
+        doc.id;
+        option.textContent =
+        team.name;
 
-        option.value = team.name;
-        option.textContent = team.name;
 
-        teamSelect.appendChild(option);
+        select.appendChild(option);
 
     });
+
 }
 
 loadTeamList();
 
-function loadPlayersByTeam(teamName){
+async function loadPlayersByTeam(teamId){
 
-    const teams =
-    JSON.parse(localStorage.getItem("teams"))
-    || [];
+ const snapshot =
+ await getDocs(
+   collection(
+     db,
+     "teams",
+     teamId,
+     "players"
+   )
+ );
+ playerArea.innerHTML="";
+ snapshot.forEach(doc=>{
+   const player =
+   doc.data();
 
-    const team =
-    teams.find(
-        t=>t.name===teamName
-    );
-    const playerArea =
-    document.getElementById(
-        "playerList"
-    );
-    playerArea.innerHTML="";
-    if(!team) return;
-    team.players.forEach(player=>{
-        const div =
-        document.createElement("div");
-        div.innerHTML=`
+   // 選手表示処理
 
-        <label>
-        <input type="checkbox"
-        value="${player.name}">
-        ${player.number}
-        ${player.name}
-        </label>
-
-        `;
-        playerArea.appendChild(div);
-    });
+ });
 
 }
 
 teamSelect.addEventListener(
 "change",
-function(){
+async function(){
 
-    const teamName=this.value;
-
+    const teamId=this.value;
+    const docSnap =
+    await getDoc(
+      doc(db,"teams",teamId)
+    );
+    const team =
+    docSnap.data();
     document.getElementById(
-        "homeTeam"
-    ).textContent = teamName;
-    loadPlayersByTeam(teamName);
+      "homeTeam"
+    ).textContent =
+    team.name;
+    loadPlayersByTeam(teamId);
 
 });
 
