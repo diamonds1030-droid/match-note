@@ -51,6 +51,16 @@ content="width=device-width, initial-scale=1.0">
 
 </button>
 
+<hr>
+
+<button id="createTournamentButton">
+    🏆 新しい大会
+</button>
+
+<button id="openTournamentButton">
+    📂 大会を開く
+</button>
+
 </main>
 
 </section>
@@ -208,6 +218,41 @@ content="width=device-width, initial-scale=1.0">
 </section>
 
 <!-- ===================================== -->
+<!-- 大会作成ダイアログ -->
+<!-- ===================================== -->
+<div id="tournamentDialog" class="dialog">
+
+    <div class="dialogBody">
+
+        <h3>大会作成</h3>
+
+        <input
+            id="tournamentName"
+            placeholder="大会名">
+
+        <input
+            id="tournamentDate"
+            type="date">
+
+        <input
+            id="tournamentPlace"
+            placeholder="開催場所">
+
+        <div>
+
+            大会ID
+
+            <span id="generatedTournamentId">
+                ------
+            </span>
+        </div>
+        <button id="createTournamentOk">
+            作成
+        </button>
+    </div>
+
+</div>
+<!-- ===================================== -->
 <!-- 試合履歴 -->
 <!-- ===================================== -->
 
@@ -244,6 +289,14 @@ content="width=device-width, initial-scale=1.0">
 </div>
 
 <script src="script.js"></script>
+
+<!-- Firebase -->
+<script type="module" src="firebase.js"></script>
+
+<!-- アプリ -->
+<script src="script.js"></script>
+
+</body>
 
 </body>
 
