@@ -6,6 +6,7 @@ const MAX_PLAYERS = 30;
 const STORAGE_KEY = "soccerPlayers";
 
 let players = [];
+let currentTournamentId="";
 
 function createEmptyMatch(){
 
@@ -117,6 +118,22 @@ function showPage(pageId) {
     page.classList.add("active");
 }
 
+// ==============================
+// 大会ID生成
+// ==============================
+function generateTournamentId(){
+    const chars=
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let id="";
+    for(let i=0;i<6;i++){
+        id+=chars[
+            Math.floor(
+                Math.random()*chars.length
+            )
+        ];
+    }
+    return id;
+}
 // ==============================
 // 選手一覧生成
 // ==============================
@@ -924,6 +941,62 @@ awayInput?.addEventListener("input", () => {
         awayInput.value || "アウェイ";
 
     createMatchTabs();
+
+});
+document
+.getElementById("createTournamentButton")
+.addEventListener("click",()=>{
+
+    document
+    .getElementById("generatedTournamentId")
+    .textContent=
+    generateTournamentId();
+
+    document
+    .getElementById("tournamentDialog")
+    .classList
+    .add("show");
+
+});
+document
+.getElementById("createTournamentOk")
+.addEventListener("click",()=>{
+
+    currentTournamentId=
+        document
+        .getElementById(
+            "generatedTournamentId"
+        ).textContent;
+
+    tournament.id=currentTournamentId;
+
+    tournament.name=
+        document
+        .getElementById(
+            "tournamentName"
+        ).value;
+
+    tournament.date=
+        document
+        .getElementById(
+            "tournamentDate"
+        ).value;
+
+    tournament.place=
+        document
+        .getElementById(
+            "tournamentPlace"
+        ).value;
+
+    document
+    .getElementById("tournamentDialog")
+    .classList
+    .remove("show");
+
+    alert(
+        "大会ID：" +
+        currentTournamentId
+    );
 
 });
 }
