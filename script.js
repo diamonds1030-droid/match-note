@@ -476,32 +476,27 @@ async function loadTeams(){
     createTeamList();
 
 }
+
 function createTeamList(){
+
     const area =
         document.getElementById(
             "teamList"
         );
+
     if(!area) return;
     area.innerHTML="";
     teams.forEach(team=>{
         const div =
             document.createElement("div");
-        div.className="teamItem";
-        const button =
-            document.createElement("button");
-        button.textContent =
+        div.className =
+            "teamItem";
+        // チーム名表示
+        const name =
+            document.createElement("span");
+        name.textContent =
             team.teamName;
-        button.onclick=()=>{
-
-            currentTeamId =
-                team.id;
-
-            players =
-                team.players;
-
-            createPlayerList();
-
-        };
+        // 削除ボタン
         const deleteButton =
             document.createElement("button");
         deleteButton.textContent =
@@ -510,8 +505,8 @@ function createTeamList(){
             async()=>{
             const result =
                 confirm(
-                team.teamName+
-                "を削除しますか？"
+                    team.teamName +
+                    "を削除しますか？"
                 );
             if(!result){
                 return;
@@ -528,12 +523,15 @@ function createTeamList(){
             );
             loadTeams();
         };
-        div.appendChild(button);
+        div.appendChild(name);
         div.appendChild(deleteButton);
         area.appendChild(div);
     });
 
 }
+
+
+
 
 // ==============================
 // チーム選択
