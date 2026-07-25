@@ -474,6 +474,7 @@ async function loadTeams(){
         );
     });
     createTeamList();
+    createTeamSelect();
 
 }
 
@@ -852,8 +853,8 @@ async function(){
     document.getElementById(
       "homeTeam"
     ).textContent =
-    team.name;
-    loadPlayersByTeam(teamId);
+    team.teamname;
+    loadPlayersByTeam(team);
 
 });
 
