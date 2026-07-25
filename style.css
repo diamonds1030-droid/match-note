@@ -717,7 +717,15 @@ button:active{
     font-size:16px;
 }
 .teamItem button{
-    padding:5px 12px;
+    /*padding:5px 12px;*/
+    flex: 0 0 60px;
+    width: 60px;
+    max-width: 60px;
+    min-width: 60px;
+    height: 40px;
+    margin: 0;
+    font-size: 14px;
+    background: #1976d2;
 }
 /*==============================
   スマホ
