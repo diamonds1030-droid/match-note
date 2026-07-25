@@ -237,9 +237,12 @@ function loadPlayers(){
 function saveUndo(){
 
     undoStack.push(
-        JSON.stringify(matchState)
+        JSON.stringify(
+            tournament.matches[
+                tournament.currentMatch
+            ]
+        )
     );
-
 }
 // ==============================
 // タブ生成
@@ -514,6 +517,11 @@ function executeSubstitution(
 // ==============================
 function getLineupPlayers() {
 
+    const matchState =
+        tournament.matches[
+            tournament.currentMatch
+        ];
+
     return Object.values(matchState.lineup)
         .filter(name => name !== "");
 
@@ -556,6 +564,10 @@ function createOptions(list){
 
 function createPlayerOptions(position) {
 
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
     let html = '<option value="">選択してください</option>';
 
     players.forEach(player => {
@@ -701,6 +713,10 @@ function drawGoalHistory() {
 
 function undoGoal() {
 
+    const matchState =
+    tournament.matches[
+        tournament.currentMatch
+    ];
     if (matchState.goals.length === 0) {
         alert("取り消す得点がありません");
         return;
@@ -724,21 +740,15 @@ function undoGoal() {
 function undo(){
 
     if(undoStack.length===0){
-
         alert("戻せる操作はありません");
         return;
-
     }
 
-    const previous =
-        JSON.parse(undoStack.pop());
+    tournament.matches[
+        tournament.currentMatch
+    ] = JSON.parse(undoStack.pop());
 
-    Object.assign(matchState, previous);
-
-    createLineup();
-    createSubstitutionArea();
-    updateScore();
-    drawGoalHistory();
+    refreshMatch();
 
 }
 // ==============================
