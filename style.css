@@ -198,6 +198,41 @@ button:active{
 }
 
 /*==============================
+  チーム名
+==============================*/
+
+.scoreTeamRow{
+
+    display:grid;
+
+    grid-template-columns:1fr auto 1fr;
+
+    align-items:center;
+
+    margin-bottom:8px;
+
+}
+
+.scoreTeam{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    text-align:center;
+
+}
+
+.scoreVs{
+
+    padding:0 12px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+}
+/*==============================
   スコア
 ==============================*/
 
