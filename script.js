@@ -1229,7 +1229,10 @@ document
 .getElementById("cancelTournamentButton")
 .addEventListener("click",()=>{
 
-    showPage("homePage");
+    document
+    .getElementById("tournamentDialog")
+    .classList
+    .remove("show");
 
 });
 document
