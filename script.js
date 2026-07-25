@@ -1266,21 +1266,22 @@ function updateScore(){
 function initializeButtons() {
 
     // ホーム画面
-    document.getElementById("playerButton").addEventListener("click", () => {
-        showPage("playerPage");
-    });
+
+    document
+.getElementById("playerButton")
+.addEventListener("click", async()=>{
+    await loadTeams();
+    createTeamSelect();
+    showPage("playerPage");
+});
 
     document.getElementById("matchButton").addEventListener("click", () => {
         showPage("matchPage");
     });
 // チーム管理画面
 
-document
-.getElementById("teamButton")
-?.addEventListener("click",()=>{
-
+document.getElementById("teamButton")?.addEventListener("click",()=>{
     showPage("teamPage");
-
 });
     //document.getElementById("historyButton").addEventListener("click", () => {
         //showPage("historyPage");
