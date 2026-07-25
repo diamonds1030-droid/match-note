@@ -853,7 +853,7 @@ async function(){
     document.getElementById(
       "homeTeam"
     ).textContent =
-    team.teamname;
+    team.teamName;
     loadPlayersByTeam(team);
 
 });
