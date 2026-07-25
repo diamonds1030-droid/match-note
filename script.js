@@ -175,6 +175,7 @@ matchState.awayTeam =
             ),
             tournament
         );
+        loadTournamentList();
         alert("保存しました");
     }
     catch(e){
@@ -183,6 +184,18 @@ matchState.awayTeam =
     }
 }
 
+//===============================
+// 一覧取得
+//===============================
+async function loadTournamentList(){
+
+    const area =
+        document.getElementById("historyList");
+
+    area.innerHTML="";
+
+    // Firestoreから全大会取得
+}
 //===============================
 // 大会読込
 //===============================
