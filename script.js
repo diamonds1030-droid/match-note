@@ -99,7 +99,6 @@ window.onload=async function(){
     }
     createPlayerList()
     initializeButtons();
-    createTeamSelect()
     refreshMatch();
     loadTournamentList();
 
@@ -695,7 +694,7 @@ document.addEventListener("click",function(e){
 // ==============================
 async function savePlayers(){
 
-    if(currentTeamId===""){
+    if(currentPlayerTeamId===""){
 
         alert(
             "チームを選択してください"
@@ -706,7 +705,7 @@ async function savePlayers(){
         doc(
             db,
             "teams",
-            currentTeamId
+            currentPlayerTeamId
         ),
         {
             players:players
@@ -1430,7 +1429,6 @@ function initializeButtons() {
 .getElementById("playerButton")
 .addEventListener("click", async()=>{
     await loadTeams();
-    createTeamSelect();
     showPage("playerPage");
 });
 
@@ -1690,7 +1688,7 @@ async function(){
     if(id===""){
         return;
     }
-    currentTeamId = id
+    currentPlayerTeamId = id
     const snapshot =
     await getDoc(
         doc(
