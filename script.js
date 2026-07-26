@@ -26,7 +26,10 @@ const MAX_PLAYERS = 30;
 const STORAGE_KEY = "soccerPlayers";
 
 let players = [];
-let currentTeamId = "";
+// 選手登録用
+let currentPlayerTeamId = "";
+// 試合ノート用
+let currentMatchTeamId = "";
 let teams = [];
 let currentTournamentId="";
 
@@ -474,7 +477,8 @@ async function loadTeams(){
         );
     });
     createTeamList();
-    createTeamSelect();
+    createPlayerTeamSelect();
+    createMatchTeamSelect();
 
 }
 
@@ -535,33 +539,64 @@ function createTeamList(){
 
 
 // ==============================
-// チーム選択
+// チーム選択　選手登録画面
 // ==============================
-async function createTeamSelect(){
+function createPlayerTeamSelect(){
 
     const select =
-        document.getElementById(
-            "matchTeamSelect"
-        );
+        document.getElementById("teamSelect");
 
     if(!select) return;
+
     select.innerHTML =
-    `
-    <option value="">
-    チームを選択してください
-    </option>
-    `;
+        '<option value="">チーム選択</option>';
+
     teams.forEach(team=>{
 
         const option =
-        document.createElement("option");
-        option.value =
-            team.id;
-        option.textContent =
-            team.teamName;
+            document.createElement("option");
+
+        option.value = team.id;
+        option.textContent = team.teamName;
+
         select.appendChild(option);
+
     });
+
 }
+// ==============================
+// チーム選択　試合ノート画面
+// ==============================
+
+function createMatchTeamSelect(){
+
+    const select =
+        document.getElementById("matchTeamSelect");
+
+    if(!select) return;
+
+    select.innerHTML =
+        '<option value="">チーム選択</option>';
+
+    teams.forEach(team=>{
+
+        const option =
+            document.createElement("option");
+
+        option.value = team.id;
+        option.textContent = team.teamName;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+
+
+
+
 // ==============================
 // 選手一覧生成
 // ==============================
@@ -815,7 +850,7 @@ async function loadTeamList(){
 
 }
 
-loadTeamList();
+//loadTeamList();
 
 function loadPlayersByTeam(team){
 
@@ -1634,9 +1669,9 @@ document.getElementById("matchTeamSelect")
         team.teamName;
 
     // 出場選手プルダウン更新
-    createLineupPlayerList(
-        team.players
-    );
+    players = [...team.players];
+    createLineup();
+    createSubstitutionArea();
 
     // 試合タブ更新
     createMatchTabs();
