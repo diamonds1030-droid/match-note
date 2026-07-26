@@ -1601,28 +1601,6 @@ document
 );
 
 document
-.getElementById("openTournamentButton")
-.addEventListener(
-"click",
-()=>{
-    const id=
-    document
-    .getElementById(
-        "tournamentIdInput"
-    )
-    .value
-    .trim()
-    .toUpperCase();
-    if(id===""){
-        alert("大会IDを入力してください");
-        return;
-    }
-
-    loadTournament(id);
-
-});
-
-document
 .getElementById("teamSelect")
 ?.addEventListener(
 "change",
