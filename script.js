@@ -1600,6 +1600,22 @@ document
     saveTournament
 );
 
+
+document.getElementById("matchTeamSelect")
+.addEventListener("change", async function(){
+
+    const id = this.value;
+
+    const snapshot = await getDoc(
+        doc(db,"teams",id)
+    );
+
+    const team = snapshot.data();
+
+    createLineupPlayerList(team.players);
+
+});
+
 document
 .getElementById("teamSelect")
 ?.addEventListener(
