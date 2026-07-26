@@ -1606,13 +1606,40 @@ document.getElementById("matchTeamSelect")
 
     const id = this.value;
 
+    if(id===""){
+        return;
+    }
+
     const snapshot = await getDoc(
         doc(db,"teams",id)
     );
 
     const team = snapshot.data();
 
-    createLineupPlayerList(team.players);
+    // ホームチームへ反映
+    document.getElementById("homeTeam").value =
+        team.teamName;
+
+    // 得点表示のホームチーム名へ反映
+    document.getElementById("homeTeamName").textContent =
+        team.teamName;
+
+    // 試合データへ保存
+    const matchState =
+        tournament.matches[
+            tournament.currentMatch
+        ];
+
+    matchState.homeTeam =
+        team.teamName;
+
+    // 出場選手プルダウン更新
+    createLineupPlayerList(
+        team.players
+    );
+
+    // 試合タブ更新
+    createMatchTabs();
 
 });
 
