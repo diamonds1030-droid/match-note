@@ -1604,7 +1604,7 @@ async function(){
     if(id===""){
         return;
     }
-    currentPlayerTeamId = id
+    currentPlayerTeamId = id;
     const snapshot =
     await getDoc(
         doc(
