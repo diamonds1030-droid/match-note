@@ -748,23 +748,31 @@ button:active{
 
 
 /*==============================
- ホーム戻るボタン
+ ヘッダー
 ==============================*/
 
 .subHeader{
+
+    height:60px;
+
+    position:relative;
 
     display:flex;
 
     align-items:center;
 
-    position:relative;
-
-    height:60px;
+    justify-content:center;
 
 }
 
 
+/* ホームボタン */
+
 .homeButton{
+
+    position:absolute;
+
+    left:10px;
 
     width:40px;
 
@@ -793,16 +801,15 @@ button:active{
 }
 
 
+/* タイトル */
+
 .subHeader h2{
-
-    flex:1;
-
-    text-align:center;
 
     margin:0;
 
-}
+    text-align:center;
 
+}
 /*==============================
   スマホ
 ==============================*/
