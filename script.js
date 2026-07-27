@@ -723,23 +723,7 @@ async function savePlayers(){
 // 読込
 // ==============================
 
-function loadPlayers(){
 
-    const data=localStorage.getItem(STORAGE_KEY);
-
-    if(data){
-
-        players=JSON.parse(data);
-
-    }
-
-    while(players.length<MAX_PLAYERS){
-
-        players.push("");
-
-    }
-
-}
 // ==============================
 // 操作の戻り
 // ==============================
@@ -1340,12 +1324,19 @@ function updateScore(){
 function initializeButtons() {
 
     // ホーム画面
-
-    document
+document
 .getElementById("playerButton")
 .addEventListener("click", async()=>{
+
     await loadTeams();
+
+    currentPlayerTeamId = "";
+    players = Array(MAX_PLAYERS).fill("");
+
+    createPlayerList();
+
     showPage("playerPage");
+
 });
 
     document.getElementById("matchButton").addEventListener("click", () => {
@@ -1554,6 +1545,7 @@ document.getElementById("matchTeamSelect")
 .addEventListener("change", async function(){
 
     const id = this.value;
+    currentMatchTeamId = id;
 
     if(id===""){
         return;
