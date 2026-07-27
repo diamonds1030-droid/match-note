@@ -360,7 +360,6 @@ content.onclick=()=>{
 
         deleteButton.onclick = (e) => {
             e.stopPropagation();
-            alert("削除ボタン");
             deleteTournamentId = data.id;
             document.getElementById(
                 "deleteTournamentName"
