@@ -356,32 +356,28 @@ content.onclick=()=>{
 
 };
         //削除ボタン
-        const deleteButton =
-    card.querySelector(".historyDelete");
+        const deleteButton = card.querySelector(".historyDelete");
 
-deleteButton.onclick=()=>{
+        deleteButton.onclick = (e) => {
+            e.stopPropagation();
+            deleteTournamentId = data.id;
+            document.getElementById(
+                "deleteTournamentName"
+            ).textContent = data.name;
+            document.getElementById(
+                "deleteDialog"
+            ).classList.add("show");
+        };
 
-    deleteTournamentId=data.id;
 
-    document.getElementById(
-        "deleteTournamentName"
-    ).textContent=data.name;
-
-    document.getElementById(
-        "deleteDialog"
-    ).classList.add("show");
-
-};
 
         let startX=0;
 
 content.addEventListener(
     "touchstart",
     e=>{
-
         startX=
             e.touches[0].clientX;
-
     }
 );
 
