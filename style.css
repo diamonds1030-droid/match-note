@@ -160,6 +160,27 @@ button:active{
     background:#1565c0;
 }
 
+/*==============================
+  ヘッダー右側アイコンボタン
+==============================*/
+
+.iconButton{
+
+    position:absolute;
+    right:0;
+    width:40px;
+    height:40px;
+    margin:0;
+    padding:0;
+    background:none;
+    border:none;
+    font-size:28px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
 /* ==========================================
    Step3 試合ノート
 ========================================== */
