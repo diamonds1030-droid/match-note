@@ -746,6 +746,63 @@ button:active{
     color:#666;
 }
 
+
+/*==============================
+ ホーム戻るボタン
+==============================*/
+
+.subHeader{
+
+    display:flex;
+
+    align-items:center;
+
+    position:relative;
+
+    height:60px;
+
+}
+
+
+.homeButton{
+
+    width:40px;
+
+    height:40px;
+
+    margin:0;
+
+    padding:0;
+
+    background:none;
+
+    color:#333;
+
+    font-size:32px;
+
+    font-weight:bold;
+
+    border:none;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+.subHeader h2{
+
+    flex:1;
+
+    text-align:center;
+
+    margin:0;
+
+}
+
 /*==============================
   スマホ
 ==============================*/
