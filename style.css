@@ -74,6 +74,14 @@ button:active{
     border-bottom:1px solid #ddd;
 }
 
+.teamSelectName{
+    flex:1;
+    cursor:pointer;
+}
+.teamSelectName:active{
+    opacity:0.5;
+}
+
 .teamItem span{
     flex:1;
     text-align:left;
