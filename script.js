@@ -1412,7 +1412,7 @@ document.getElementById("teamButton")?.addEventListener("click",()=>{
 });
 
     // 戻るボタン
-    document.querySelectorAll(".backButton").forEach(button => {
+    document.querySelectorAll(".homeButton").forEach(button => {
 
         button.addEventListener("click", () => {
 
