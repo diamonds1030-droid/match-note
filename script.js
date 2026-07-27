@@ -533,6 +533,7 @@ async function loadTeams(){
     createTeamList();
     createPlayerTeamSelect();
     createMatchTeamSelect();
+    createHomeTeamSelect();
 
 }
 
@@ -655,6 +656,30 @@ function createMatchTeamSelect(){
 
     const select =
         document.getElementById("matchTeamSelect");
+
+    if(!select) return;
+
+    select.innerHTML =
+        '<option value="">チーム選択</option>';
+
+    teams.forEach(team=>{
+
+        const option =
+            document.createElement("option");
+
+        option.value = team.id;
+        option.textContent = team.teamName;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+function createHomeTeamSelect(){
+
+    const select =
+        document.getElementById("homeTeamSelect");
 
     if(!select) return;
 
@@ -1667,6 +1692,19 @@ document.getElementById("matchTeamSelect")
     createMatchTabs();
 
 });
+
+document
+.getElementById("homeTeamSelect")
+.addEventListener(
+    "change",
+    e=>{
+
+        loadPlayers(
+            e.target.value
+        );
+
+    }
+);
 
 document
 .getElementById("teamSelect")
