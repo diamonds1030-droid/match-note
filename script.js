@@ -588,10 +588,10 @@ function createTeamList(){
             createPlayerList();
         };
         // 削除ボタン
-        const deleteButton =
-            document.createElement("button");
-        deleteButton.textContent =
-            "削除";
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "iconButton deleteIconButton";
+        deleteButton.innerHTML =
+            '<i class="fa-solid fa-trash"></i>';
         deleteButton.onclick =
             async()=>{
             const result =
