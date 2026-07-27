@@ -87,7 +87,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <section id="playerPage" class="page">
 <header class="subHeader">
 <button class="homeButton">
-⌂
+    <i class="fa-solid fa-house"></i>
 </button>
 <h2>選手登録</h2>
 <button id="savePlayersButton" class="iconButton">
@@ -123,7 +123,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
     <header class="subHeader">
         <button class="homeButton">
-        ⌂
+            <i class="fa-solid fa-house"></i>
         </button>
         <h2>試合ノート</h2>
         <div class="top-menu">
@@ -131,8 +131,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         <select id="matchTeamSelect">
         <option value="">チーム選択</option>
         </select>
-        <button id="undoButton">操作取消</button>
-        <button id="saveMatchButton">保存</button>
+        <button id="undoButton" class="iconButton">
+            <i class="fa-solid fa-rotate-left"></i>
+        </button>
+        <button id="saveMatchButton" class="iconButton">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+        </button>
     </header>
 
     <main class="matchMain">
@@ -154,7 +158,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
     <div class="matchTabHeader">
     <div id="matchTabArea"></div>
-    <button id="addMatchButton">＋</button>
+    <button id="addMatchButton" class="iconButton">
+        <i class="fa-solid fa-plus"></i>
+    </button>
 
 </div>
 
