@@ -164,20 +164,42 @@ button:active{
   ヘッダー右側アイコンボタン
 ==============================*/
 
+
 .iconButton{
 
     position:absolute;
+
     right:0;
+
     width:40px;
+
     height:40px;
+
     margin:0;
+
     padding:0;
+
     background:none;
+
     border:none;
-    font-size:28px;
+
+    color:#333;
+
+    font-size:24px;
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
+    cursor:pointer;
+
+}
+
+.iconButton i{
+
+    font-size:24px;
 
 }
 
