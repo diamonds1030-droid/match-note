@@ -23,7 +23,6 @@ from "./firebase.js";
 // ==============================
 
 const MAX_PLAYERS = 30;
-const STORAGE_KEY = "soccerPlayers";
 
 let players = [];
 // 選手登録用
@@ -1605,10 +1604,8 @@ async function(){
             id
         )
     );
-    const data =
-        snapshot.data();
-    players =
-        data.players;
+    const data = snapshot.data();
+    players = [...data.players];
     createPlayerList();
 });
 }
