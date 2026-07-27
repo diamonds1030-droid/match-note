@@ -1662,6 +1662,7 @@ async function(){
 });
 
 //試合ノート削除ダイアログ
+
 document
 .getElementById(
     "cancelDeleteButton"
@@ -1687,9 +1688,7 @@ document
 .addEventListener(
     "click",
     async()=>{
-
         await deleteDoc(
-
             doc(
                 db,
                 "tournaments",
@@ -1697,16 +1696,12 @@ document
             )
 
         );
-
         document
         .getElementById(
             "deleteDialog"
         )
-        .classList
-        .remove("show");
-
-        loadTournamentList();
-
+        .classList.remove("show");
+        await loadTournamentList();
     }
 );
 
