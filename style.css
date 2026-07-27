@@ -742,6 +742,93 @@ button:active{
     margin-left:auto;
 
 }
+/*=============================
+試合履歴カード
+=============================*/
+
+.historySwipe{
+
+    position:relative;
+
+    overflow:hidden;
+
+    margin-bottom:12px;
+
+}
+
+.historyContent{
+
+    background:#fff;
+
+    border-radius:12px;
+
+    padding:16px;
+
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+
+    transition:.25s;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.historyContent.open{
+
+    transform:translateX(-90px);
+
+}
+
+.historyDelete{
+
+    position:absolute;
+
+    right:0;
+
+    top:0;
+
+    width:90px;
+
+    height:100%;
+
+    background:#e53935;
+
+    color:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+    border-radius:0 12px 12px 0;
+
+    z-index:1;
+
+}
+
+.historyTitle{
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    margin-bottom:8px;
+
+}
+
+.historyInfo{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#666;
+
+}
 /*==============================
   試合履歴
 ==============================*/
