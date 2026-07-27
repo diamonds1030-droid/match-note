@@ -408,12 +408,6 @@ content.addEventListener(
     }
 );
 
-        card.onclick=()=>{
-
-            loadTournament(data.id);
-
-        };
-
         area.appendChild(card);
 
     });
