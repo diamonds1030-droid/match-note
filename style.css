@@ -53,9 +53,10 @@ button:active{
 
 }
 
-/* ==========================
-   チーム登録画面
-========================== */
+/*==============================
+  チーム管理画面
+==============================*/
+/* チーム名入力 */
 #teamName {
     width: 90%;
     max-width: 400px;
@@ -64,6 +65,31 @@ button:active{
     padding: 8px 12px;
     box-sizing: border-box;
 }
+/* チーム名一覧 */
+.teamItem{
+    display:flex;
+    align-items:center;
+    width:100%;
+    padding:10px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.teamItem span{
+    flex:1;
+    text-align:left;
+    font-size:16px;
+}
+
+.teamItem button{
+    width:60px;
+    height:36px;
+    margin:0;
+    margin-left:auto;
+    padding:0;
+    font-size:14px;
+    background:#e53935;
+}
+
 /* ==========================
    選手登録画面
 ========================== */
@@ -680,31 +706,7 @@ button:active{
     font-weight:bold;
     color:#1976d2;
 }
-/*==============================
-  チーム管理画面
-==============================*/
-.teamItem{
-    display:flex;
-    align-items:center;
-    width:250px;
-    padding:6px 0;
-    border-bottom:1px solid #ddd;
-}
 
-
-.teamItem span{
-    flex:1;
-    text-align:left;
-    font-size:16px;
-}
-
-
-.teamItem button{
-    width:50px;
-    padding:3px 5px;
-    font-size:12px;
-    margin-left:auto;
-}
 /*=============================
 試合履歴カード
 =============================*/
