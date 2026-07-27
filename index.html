@@ -275,6 +275,8 @@ content="width=device-width, initial-scale=1.0">
     </div>
 
 </div>
+
+
 <!-- ===================================== -->
 <!-- 試合履歴 -->
 <!-- ===================================== -->
@@ -308,6 +310,362 @@ content="width=device-width, initial-scale=1.0">
 </main>
 
 </section>
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>少年サッカー試合ノート</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div id="app">
+
+<!-- ===================================== -->
+<!-- ホーム -->
+<!-- ===================================== -->
+
+<section id="homePage" class="page active">
+
+<header>
+
+<h1>⚽ 少年サッカー試合ノート</h1>
+
+</header>
+
+<main>
+<button id="teamButton">
+👥 チーム管理
+</button>
+<button id="playerButton">
+👤 選手登録
+</button>
+<button id="matchButton">
+📝 試合ノート
+</button>
+<button id="historyButton">
+📖 試合ノート履歴
+</button>
+
+<button id="createTournamentButton">
+    🏆 新しい大会
+</button>
+
+</main>
+
+</section>
+
+<!-- ===================================== -->
+<!-- チーム管理 -->
+<!-- ===================================== -->
+<section id="teamPage" class="page">
+<header class="subHeader">
+<button class="backButton">
+← 戻る
+</button>
+<h2>チーム管理</h2>
+</header>
+<main>
+    
+<input
+    id="teamName"
+    placeholder="チーム名">
+<button id="createTeamButton">
+    チーム作成
+</button>
+<div id="teamList"></div>
+
+
+</section>
+
+<!-- ===================================== -->
+<!-- 選手登録 -->
+<!-- ===================================== -->
+
+<section id="playerPage" class="page">
+
+<header class="subHeader">
+
+<button class="backButton">
+
+← 戻る
+
+</button>
+
+<h2>選手登録</h2>
+<button id="savePlayersButton">
+保存
+</button>
+</header>
+
+<main>
+
+<h3>チーム選択</h3>
+<select id="teamSelect">
+<option>
+チームを選択してください
+</option>
+</select>
+<div id="teamManageList"></div>
+
+<h3>選手登録</h3>
+<div id="playerList"></div>
+</main>
+
+</section>
+
+<!-- ===================================== -->
+<!-- 試合ノート -->
+<!-- ===================================== -->
+
+<!-- ===================================== -->
+<!-- 試合ノート -->
+<!-- ===================================== -->
+
+<section id="matchPage" class="page">
+
+    <header class="subHeader">
+        <button class="backButton">← 戻る</button>
+
+        <h2>試合ノート</h2>
+        <div class="top-menu">
+
+        <select id="matchTeamSelect">
+        <option value="">チーム選択</option>
+        </select>
+        <button id="undoButton">操作取消</button>
+        <button id="saveMatchButton">保存</button>
+    </header>
+
+    <main class="matchMain">
+
+        <!-- 試合情報 -->
+        <div class="card">
+
+            <div class="inputRow">
+                <label>日付</label>
+                <input type="date" id="matchDate">
+            
+                <label>大会名</label>
+                <input type="text" id="matchPlace" placeholder="大会名">
+            </div>
+
+        </div>
+        
+<div class="matchTabs">
+
+    <div class="matchTabHeader">
+    <div id="matchTabArea"></div>
+    <button id="addMatchButton">＋</button>
+
+</div>
+
+</div>
+         <!-- チーム -->
+          <div class="teamRow">
+
+                <input
+                    type="text"
+                    id="homeTeam"
+                    placeholder="ホームチーム">
+
+                <span class="vs">VS</span>
+
+                <input
+                    type="text"
+                    id="awayTeam"
+                    placeholder="アウェイチーム">
+
+            </div>
+<!-- スコア -->
+<div class="card">
+
+    <h3>得点</h3>
+
+    <!-- チーム名 -->
+    <div class="scoreTeamRow">
+
+        <span id="homeTeamName" class="scoreTeam">
+            ホーム
+        </span>
+
+        <span class="scoreVs">VS</span>
+
+        <span id="awayTeamName" class="scoreTeam">
+            アウェイ
+        </span>
+
+    </div>
+
+            <div class="scoreBoard">
+                <span id="homeScore" class="score">0</span>
+                <span class="scoreSeparator">－</span>
+                <span id="awayScore" class="score">0</span>
+            </div>
+      <!-- 得点履歴 -->
+            <div id="goalHistory">
+            </div>
+
+        </div>
+
+        <!-- 出場選手 -->
+        <div class="card">
+
+            <h3>出場選手</h3>
+
+            <div id="lineupArea"></div>
+
+            <div class="specialGoalButtons">
+
+                <button id="ownGoalButton" class="goalButton own">
+                    オウンゴール
+                </button>
+
+                <button id="opponentGoalButton" class="goalButton opponent">
+                    相手得点
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- 交代 -->
+        <div class="card">
+            <h3>交代</h3>
+            <div id="substitutionArea"></div>
+        </div>
+
+    </main>
+
+</section>
+
+<!-- ===================================== -->
+<!-- 大会作成ダイアログ -->
+<!-- ===================================== -->
+<div id="tournamentDialog" class="dialog">
+
+    <div class="dialogBody">
+
+        <h3>大会作成</h3>
+
+        <input
+            id="tournamentName"
+            placeholder="大会名">
+
+        <input
+            id="tournamentDate"
+            type="date">
+
+        <input
+            id="tournamentPlace"
+            placeholder="開催場所">
+
+        <div>
+
+            大会ID
+
+            <span id="generatedTournamentId">
+                ------
+            </span>
+        </div>
+        <button id="createTournamentOk">
+            作成
+        </button>
+        <button id="cancelTournamentButton">
+            キャンセル
+        </button>
+    </div>
+
+</div>
+
+
+<!-- ===================================== -->
+<!-- 試合履歴 -->
+<!-- ===================================== -->
+
+<section id="historyPage" class="page">
+
+<header class="subHeader">
+
+<button class="backButton">
+
+← 戻る
+
+</button>
+
+<h2>
+
+試合履歴
+
+</h2>
+
+</header>
+
+<main>
+
+<div id="historyList">
+
+試合データはありません
+
+</div>
+
+</main>
+
+<!-- ===================================== -->
+<!-- 削除確認ダイアログ -->
+<!-- ===================================== -->
+
+<div id="deleteDialog" class="dialog">
+
+    <div class="dialogBody">
+
+        <h3>試合ノート削除</h3>
+
+        <p id="deleteTournamentName"></p>
+
+        <p>
+            この大会を削除しますか？
+        </p>
+
+        <div class="dialogButtons">
+
+            <button id="cancelDeleteButton">
+                キャンセル
+            </button>
+
+            <button id="confirmDeleteButton" class="deleteButton">
+                削除
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+</div>
+
+<!-- Firebase
+<script type="module" src="firebase.js"></script>
+-->
+<!-- アプリ -->
+<script type="module" src="script.js"></script>
+
+</body>
+
+</html>
 
 </div>
 
