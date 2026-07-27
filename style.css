@@ -54,6 +54,21 @@ button:active{
 }
 
 /*==============================
+  タイトル行
+==============================*/
+.top-menu{
+    position:absolute;
+    right:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.top-menu select{
+    width:150px;
+}
+
+/*==============================
   チーム管理画面
 ==============================*/
 /* チーム名入力 */
@@ -158,32 +173,6 @@ button:active{
 
 #savePlayersButton:hover{
     background:#1565c0;
-}
-
-/*==============================
-  ヘッダー右側アイコンボタン
-==============================*/
-
-
-.iconButton{
-    position:absolute;
-    right:0;
-    width:40px;
-    height:40px;
-    margin:0;
-    padding:0;
-    background:none;
-    border:none;
-    color:#333;
-    font-size:24px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-}
-
-.iconButton i{
-    font-size:24px;
 }
 
 /* ==========================================
