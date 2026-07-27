@@ -54,6 +54,17 @@ button:active{
 }
 
 /* ==========================
+   チーム登録画面
+========================== */
+#teamName {
+    width: 90%;
+    max-width: 400px;
+    height: 50px;
+    font-size: 22px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+/* ==========================
    選手登録画面
 ========================== */
 
