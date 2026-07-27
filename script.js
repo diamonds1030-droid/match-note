@@ -298,7 +298,7 @@ matchState.awayTeam =
 }
 
 //===============================
-// 一覧取得
+// 試合ノート一覧取得
 //===============================
 
 async function loadTournamentList(){
@@ -329,23 +329,21 @@ async function loadTournamentList(){
 
         card.className="historyCard";
 
-        card.innerHTML=`
-            <h3>${data.name}</h3>
-            <p>日付：${data.date || "未設定"}</p>
-            <p>大会ID：${data.id}</p>
-            <p>試合数：${data.matches.length}</p>
-            <button class="openButton">
-                開く
-            </button>
-            `;
 
-        card
-        .querySelector("button")
-        .onclick=()=>{
+        card.innerHTML=`
+    <div class="historyTitle">
+        ${data.name}
+    </div>
+
+    <div class="historyInfo">
+        <span>${data.date || "未設定"}</span>
+        <span>${data.matches.length}試合</span>
+    </div>
+`;
+
+        card.onclick=()=>{
 
             loadTournament(data.id);
-
-            showPage("matchPage");
 
         };
 
