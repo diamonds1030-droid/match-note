@@ -31,6 +31,7 @@ let currentPlayerTeamId = "";
 let currentMatchTeamId = "";
 let teams = [];
 let currentTournamentId="";
+let deleteTournamentId = "";
 
 function createEmptyMatch(){
 
@@ -324,22 +325,88 @@ async function loadTournamentList(){
     
     tournaments.forEach(data=>{
 
-        const card =
-            document.createElement("div");
 
-        card.className="historyCard";
-
-
+        const card=document.createElement("div");
+        card.className="historySwipe";
         card.innerHTML=`
-    <div class="historyTitle">
-        ${data.name}
-    </div>
+        <div class="historyDelete">
+        削除
+        </div>
+        <div class="historyContent">
+            <div class="historyTitle">
+                ${data.name}
+            </div>
+            <div class="historyInfo">
+                <span>${data.date || "未設定"}</span>
+            <span>${data.matches.length}試合</span>
+            </div>
+        </div>
 
-    <div class="historyInfo">
-        <span>${data.date || "未設定"}</span>
-        <span>${data.matches.length}試合</span>
-    </div>
-`;
+        `;
+        //カードタップ
+        const content =
+    card.querySelector(".historyContent");
+content.onclick=()=>{
+
+    if(content.classList.contains("open")){
+        return;
+    }
+
+    loadTournament(data.id);
+
+};
+        //削除ボタン
+        const deleteButton =
+    card.querySelector(".historyDelete");
+
+deleteButton.onclick=()=>{
+
+    deleteTournamentId=data.id;
+
+    document.getElementById(
+        "deleteTournamentName"
+    ).textContent=data.name;
+
+    document.getElementById(
+        "deleteDialog"
+    ).classList.add("show");
+
+};
+
+        let startX=0;
+
+content.addEventListener(
+    "touchstart",
+    e=>{
+
+        startX=
+            e.touches[0].clientX;
+
+    }
+);
+
+content.addEventListener(
+    "touchend",
+    e=>{
+
+        const diff=
+            startX-
+            e.changedTouches[0].clientX;
+
+        if(diff>50){
+
+            content.classList.add("open");
+
+        }
+
+        if(diff<-50){
+
+            content.classList.remove("open");
+
+        }
+
+    }
+);
 
         card.onclick=()=>{
 
@@ -1603,5 +1670,55 @@ async function(){
     players = [...data.players];
     createPlayerList();
 });
+
+//試合ノート削除ダイアログ
+document
+.getElementById(
+    "cancelDeleteButton"
+)
+.addEventListener(
+    "click",
+    ()=>{
+
+        document
+        .getElementById(
+            "deleteDialog"
+        )
+        .classList
+        .remove("show");
+
+    }
+);
+
+document
+.getElementById(
+    "confirmDeleteButton"
+)
+.addEventListener(
+    "click",
+    async()=>{
+
+        await deleteDoc(
+
+            doc(
+                db,
+                "tournaments",
+                deleteTournamentId
+            )
+
+        );
+
+        document
+        .getElementById(
+            "deleteDialog"
+        )
+        .classList
+        .remove("show");
+
+        loadTournamentList();
+
+    }
+);
+
 }
 
