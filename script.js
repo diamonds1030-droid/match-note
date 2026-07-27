@@ -1328,12 +1328,7 @@ document
 .addEventListener("click", async()=>{
 
     await loadTeams();
-
-    currentPlayerTeamId = "";
-    players = Array(MAX_PLAYERS).fill("");
-
     createPlayerList();
-
     showPage("playerPage");
 
 });
@@ -1341,13 +1336,8 @@ document
     document.getElementById("matchButton").addEventListener("click", async () => {
 
     await loadTeams();
-
-    currentMatchTeamId = "";
-    players = Array(MAX_PLAYERS).fill("");
-
     createLineup();
     createSubstitutionArea();
-
     showPage("matchPage");
 
 });
