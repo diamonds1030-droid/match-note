@@ -59,6 +59,8 @@ button:active{
 .top-menu{
     position:absolute;
     right:10px;
+    top:50%;
+    transform:translateY(-50%);
     display:flex;
     align-items:center;
     gap:8px;
@@ -163,6 +165,14 @@ button:active{
 
 .playerHeaderName{
     flex:1;
+}
+
+/* 選手登録 保存ボタン */
+#savePlayersButton{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
 }
 
 /* ==========================================
