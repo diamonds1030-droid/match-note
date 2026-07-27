@@ -165,16 +165,6 @@ button:active{
     flex:1;
 }
 
-/* 保存ボタン */
-#savePlayersButton{
-    margin-top:20px;
-    background:#1976d2;
-}
-
-#savePlayersButton:hover{
-    background:#1565c0;
-}
-
 /* ==========================================
    Step3 試合ノート
 ========================================== */
@@ -662,12 +652,6 @@ button:active{
     display:flex;
     gap:8px;
 }
-
-/*==============================
-  保存ボタン
-==============================*/
-#saveMatchButton{background:#1976d2;}
-#saveMatchButton:hover{background:#1565c0;}
 
 /*==============================
   ダイアログ
