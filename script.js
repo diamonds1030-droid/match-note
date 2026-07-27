@@ -813,94 +813,10 @@ function createMatchTabs(){
 // ==============================
 // 試合ノート　チーム選択
 // ==============================
-const teamSelect = document.getElementById("teamSelect");
-
-async function loadTeamList(){
-
-    const select =
-    document.getElementById("teamSelect");
-
-
-    select.innerHTML =
-    `<option value="">
-      チーム選択
-    </option>`;
-
-
-    const snapshot =
-    await getDocs(
-        collection(db,"teams")
-    );
-    snapshot.forEach(doc=>{
-
-        const team =
-        doc.data();
-        const option =
-        document.createElement("option");
-        option.value =
-        doc.id;
-        option.textContent =
-        team.name;
-
-
-        select.appendChild(option);
-
-    });
-
-}
-
-//loadTeamList();
-
-function loadPlayersByTeam(team){
-
-    const area =
-    document.getElementById(
-        "lineupArea"
-    );
-
-    area.innerHTML="";
-    team.players.forEach((player,index)=>{
-        if(player==="") return;
-        const label =
-        document.createElement("label");
-        label.innerHTML =
-        `
-        <input 
-        type="checkbox"
-        value="${player}">
-        ${player}
-        `;
-        area.appendChild(label);
-    });
-
-}
-
-
 const matchTeamSelect =
-
 document.getElementById(
-
 "matchTeamSelect"
-
 );
-teamSelect.addEventListener(
-"change",
-async function(){
-
-    const teamId=this.value;
-    const docSnap =
-    await getDoc(
-      doc(db,"teams",teamId)
-    );
-    const team =
-    docSnap.data();
-    document.getElementById(
-      "homeTeam"
-    ).value =
-    team.teamName;
-    loadPlayersByTeam(team);
-
-});
 
 // ==============================
 // 出場選手一覧生成
