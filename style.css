@@ -327,24 +327,6 @@ button:active{
 
 }
 
-#addMatchButton{
-
-    width:38px;
-    min-width:38px;
-    height:38px;
-
-    padding:0;
-
-    border:none;
-    border-radius:50%;
-
-    background:#1976d2;
-    color:#fff;
-
-    font-size:24px;
-    font-weight:bold;
-
-}
 /*==============================
   スコア
 ==============================*/
@@ -692,13 +674,6 @@ button:active{
     gap:8px;
 }
 
-#undoButton,
-#saveMatchButton{
-    width:80px;
-    height:40px;
-    margin:0;
-    font-size:14px;
-}
 /*==============================
   保存ボタン
 ==============================*/
@@ -855,6 +830,59 @@ button:active{
     margin:0;
 
     text-align:center;
+
+}
+
+/*==============================
+ Font Awesome アイコンボタン
+==============================*/
+
+.homeButton,
+.iconButton{
+
+    width:40px;
+    height:40px;
+
+    margin:0;
+    padding:0;
+
+    background:none;
+    border:none;
+
+    color:#333;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    box-shadow:none;
+
+}
+
+.homeButton:hover,
+.iconButton:hover{
+
+    background:none;
+
+}
+
+.homeButton:active,
+.iconButton:active{
+
+    opacity:.5;
+
+    transform:none;
+
+}
+
+.homeButton i,
+.iconButton i{
+
+    font-size:24px;
 
 }
 /*==============================
