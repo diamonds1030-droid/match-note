@@ -1338,9 +1338,19 @@ document
 
 });
 
-    document.getElementById("matchButton").addEventListener("click", () => {
-        showPage("matchPage");
-    });
+    document.getElementById("matchButton").addEventListener("click", async () => {
+
+    await loadTeams();
+
+    currentMatchTeamId = "";
+    players = Array(MAX_PLAYERS).fill("");
+
+    createLineup();
+    createSubstitutionArea();
+
+    showPage("matchPage");
+
+});
 // チーム管理画面
 
 document.getElementById("teamButton")?.addEventListener("click",()=>{
