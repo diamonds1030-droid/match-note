@@ -525,9 +525,10 @@ async function loadTeams(){
         );
     teams=[];
     snapshot.forEach(docSnap=>{
-        teams.push(
-            docSnap.data()
-        );
+        teams.push({
+            id: docSnap.id,
+            ...docSnap.data()
+        });
     });
     createTeamList();
     createPlayerTeamSelect();
@@ -554,6 +555,38 @@ function createTeamList(){
             document.createElement("span");
         name.textContent =
             team.teamName;
+        name.className =
+            "teamSelectName";
+        // チーム名タップ
+        name.onclick = async()=>{
+        // 選択チーム保存
+            currentPlayerTeamId =
+                team.id;
+        // 選手登録画面へ移動
+            showPage("playerPage");
+        // プルダウン選択
+            const select =
+                document.getElementById(
+                    "teamSelect"
+                );
+                select.value =
+                    team.id;
+        // 選手取得
+            const snapshot =
+                await getDoc(
+                    doc(
+                        db,
+                        "teams",
+                        team.id
+                    )
+                );
+            const data =
+                snapshot.data();
+            players =
+                [...data.players];
+        // 選手一覧表示
+            createPlayerList();
+        };
         // 削除ボタン
         const deleteButton =
             document.createElement("button");
