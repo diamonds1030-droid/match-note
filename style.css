@@ -790,7 +790,8 @@ button:active{
 
 .homeButton{
 
-    position:static;
+    position:absolute;
+    left:10px;
     width:40px;
     height:40px;
     margin:0;
@@ -803,7 +804,6 @@ button:active{
     display:flex;
     align-items:center;
     justify-self:start;
-    margin-left:10px;
 
 }
 
@@ -855,8 +855,13 @@ button:active{
 }
 
 #addTeamButton{
-    justify-self:end;
-    margin-right:10px;
+
+    position:absolute;
+    right:10px;
+
+    width:40px;
+    height:40px;
+
 }
 /*==============================
   スマホ
