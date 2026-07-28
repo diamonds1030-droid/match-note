@@ -57,102 +57,67 @@ button:active{
 }
 
 /*==============================
-  各画面のタイトル行右の設定
+ ヘッダー
 ==============================*/
-.headerRight{
+
+.subHeader{
+
+    position:sticky;
+    top:0;
+
+    height:60px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.75);
+
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+
+    z-index:100;
+
+    border-bottom:1px solid rgba(0,0,0,.08);
+
+}
+
+
+/* ホームボタン */
+
+.homeButton{
+
+    position:absolute;
+    left:10px;
+    width:40px;
+    height:40px;
+    margin:0;
+    padding:0;
+    background:none;
+    color:#333;
+    font-size:32px;
+    font-weight:bold;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-self:start;
+
+}
+
+/* タイトル */
+
+.subHeader h2{
+
+    margin:0;
+    text-align:center;
+
+}
+#headerRight{
     position:absolute;
     right:10px;
     display:flex;
     gap:8px;
     align-items:center;
-}
-
-function createHeader(title, rightHtml = "") {
-
-    return `
-<header class="subHeader">
-
-<button class="homeButton">
-<i class="fa-solid fa-house"></i>
-</button>
-
-<h2>${title}</h2>
-
-<div class="headerRight">
-${rightHtml}
-</div>
-
-</header>
-`;
-
-}
-
-document.querySelector("#teamPage").insertAdjacentHTML(
-    "afterbegin",
-    createHeader(
-        "チーム管理",
-        `
-<button id="addTeamButton" class="iconButton">
-<i class="fa-solid fa-pen-to-square"></i>
-</button>
-`
-    )
-);
-
-document.querySelector("#playerPage").insertAdjacentHTML(
-    "afterbegin",
-    createHeader(
-        "選手登録",
-        `
-<button id="savePlayersButton" class="iconButton">
-<i class="fa-solid fa-cloud-arrow-up"></i>
-</button>
-`
-    )
-);
-
-document.querySelector("#historyPage").insertAdjacentHTML(
-    "afterbegin",
-    createHeader("試合履歴")
-);
-
-document.querySelector("#matchPage").insertAdjacentHTML(
-    "afterbegin",
-    createHeader(
-        "試合ノート",
-        `
-<button id="undoButton" class="iconButton">
-<i class="fa-solid fa-rotate-left"></i>
-</button>
-
-<button id="saveMatchButton" class="iconButton">
-<i class="fa-solid fa-cloud-arrow-up"></i>
-</button>
-`
-    )
-);
-function initializeHeaderButtons(){
-
-    document.querySelectorAll(".homeButton").forEach(btn=>{
-        btn.onclick=()=>showPage("homePage");
-    });
-
-}
-/*==============================
-  タイトル行
-==============================*/
-.top-menu{
-    position:absolute;
-    right:10px;
-    top:50%;
-    transform:translateY(-50%);
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.top-menu select{
-    width:150px;
 }
 
 /*==============================
@@ -267,14 +232,6 @@ function initializeHeaderButtons(){
     flex:1;
     padding:0;
     background:#f5f5f5;
-}
-
-/*==============================
-  ヘッダー
-==============================*/
-
-#matchPage .subHeader{
-    flex-shrink:0;
 }
 
 /*==============================
@@ -860,63 +817,7 @@ function initializeHeaderButtons(){
 }
 
 
-/*==============================
- ヘッダー
-==============================*/
 
-.subHeader{
-
-    position:sticky;
-    top:0;
-
-    height:60px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:rgba(255,255,255,.75);
-
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-
-    z-index:100;
-
-    border-bottom:1px solid rgba(0,0,0,.08);
-
-}
-
-
-/* ホームボタン */
-
-.homeButton{
-
-    position:absolute;
-    left:10px;
-    width:40px;
-    height:40px;
-    margin:0;
-    padding:0;
-    background:none;
-    color:#333;
-    font-size:32px;
-    font-weight:bold;
-    border:none;
-    display:flex;
-    align-items:center;
-    justify-self:start;
-
-}
-
-
-/* タイトル */
-
-.subHeader h2{
-
-    margin:0;
-    text-align:center;
-
-}
 
 /*==============================
  各画面のmainをスクロール
