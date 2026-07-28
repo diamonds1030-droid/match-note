@@ -489,37 +489,35 @@ if (team) {
 //===============================
 // チーム作成
 //===============================
-
 async function createTeam(){
 
     const name =
         document
-        .getElementById("teamName")
+        .getElementById("newTeamName")
         .value
         .trim();
+
     if(name===""){
         alert("チーム名を入力してください");
         return;
     }
-    const id =
-        "TEAM_" +
-        Date.now();
-    await setDoc(
-        doc(
-            db,
-            "teams",
-            id
-        ),
 
+    const id =
+        "TEAM_" + Date.now();
+
+    await setDoc(
+        doc(db,"teams",id),
         {
             id:id,
             teamName:name,
             players:Array(30).fill("")
         }
     );
-    alert(
-        "チームを作成しました"
-    );
+
+    document
+    .getElementById("teamDialog")
+    .classList.remove("show");
+
     await loadTeams();
 
 }
@@ -1501,9 +1499,31 @@ document.getElementById("undoButton")
 //===============================
 // チーム作成
 //===============================
+document
+.getElementById("addTeamButton")
+.addEventListener("click",()=>{
+
+    document
+    .getElementById("newTeamName")
+    .value="";
+
+    document
+    .getElementById("teamDialog")
+    .classList.add("show");
+
+});
+document
+.getElementById("cancelTeamButton")
+.addEventListener("click",()=>{
+
+    document
+    .getElementById("teamDialog")
+    .classList.remove("show");
+
+});
 
 document
-.getElementById("createTeamButton")
+.getElementById("createTeamOk")
 ?.addEventListener("click",()=>{
 
     createTeam();
