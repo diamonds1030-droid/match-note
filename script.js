@@ -1392,11 +1392,8 @@ function createGoalButtons(){
         button.textContent = player;
 
         button.addEventListener("click", () => {
-
             goalButtonClick(player);
-
         });
-
         area.appendChild(button);
 
     });
@@ -1643,11 +1640,9 @@ document
 
 });
 
-
 //===============================
 // チーム作成
 //===============================
-
 
 // アウェイチーム
 const awayInput =
@@ -1695,9 +1690,7 @@ document
         .getElementById("generatedTournamentId")
         .textContent=
             generateTournamentId();
-
 });
-
 
 document.getElementById("homeTeamSelect")
 .addEventListener("change", async function () {
@@ -1712,21 +1705,16 @@ document.getElementById("homeTeamSelect")
 
     matchState.homeTeam = "";
     matchState.homeTeamId = "";
-
     updateScore();
-
     createLineup();
     createSubstitutionArea();
 
     return;
 }
-
     const snapshot = await getDoc(
         doc(db, "teams", id)
     );
-
     const team = snapshot.data();
-
     players = [...team.players];
 
     const matchState =
@@ -1752,8 +1740,6 @@ document
 async function(){
 
     const id=this.value;
-
-
     if(id===""){
         return;
     }
@@ -1770,9 +1756,5 @@ async function(){
     players = [...data.players];
     createPlayerList();
 });
-
-
-
-
 }
 
