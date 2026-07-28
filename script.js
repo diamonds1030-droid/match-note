@@ -81,22 +81,26 @@ const tournament={
 // 初期化
 // ==============================
 
-window.onload=async function(){
+window.onload = async function(){
+
+    alert("① onload開始");
 
     try{
         await loadTeams();
+        alert("② loadTeams完了");
     }
     catch(e){
-        console.log(
-            "チーム読込エラー",
-            e
-        );
+        alert("loadTeamsエラー");
     }
-    createPlayerList()
+    alert("③ createPlayerList");
+    createPlayerList();
+    alert("④ initializeButtons");
     initializeButtons();
+    alert("⑤ refreshMatch");
     refreshMatch();
+    alert("⑥ loadTournamentList");
     loadTournamentList();
-
+    alert("⑦ 完了");
 }
 
 function refreshMatch(){
