@@ -195,6 +195,92 @@ function showPage(pageId) {
     }
 
     page.classList.add("active");
+    updateHeader(pageId);
+}
+
+function updateHeader(pageId){
+
+    const header=document.getElementById("commonHeader");
+    const title=document.getElementById("headerTitle");
+    const right=document.getElementById("headerRight");
+
+    right.innerHTML="";
+
+    if(pageId==="homePage"){
+        header.style.display="none";
+        return;
+    }
+
+    header.style.display="flex";
+
+    switch(pageId){
+
+        case "teamPage":
+
+            title.textContent="チーム管理";
+
+            right.innerHTML=`
+                <button id="addTeamButton" class="iconButton">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            `;
+            break;
+
+        case "playerPage":
+
+            title.textContent="選手登録";
+
+            right.innerHTML=`
+                <button id="savePlayersButton" class="iconButton">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </button>
+            `;
+            break;
+
+        case "matchPage":
+
+            title.textContent="試合ノート";
+
+            right.innerHTML=`
+                <button id="undoButton" class="iconButton">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+
+                <button id="saveMatchButton" class="iconButton">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </button>
+            `;
+            break;
+
+        case "historyPage":
+
+            title.textContent="試合履歴";
+            break;
+
+    }
+
+    initializeHeaderButtons();
+
+}
+
+function initializeHeaderButtons(){
+
+    document.getElementById("headerHomeButton").onclick=()=>{
+        showPage("homePage");
+    };
+
+    document.getElementById("addTeamButton")?.onclick=()=>{
+        openCreateTeamDialog();
+    };
+
+    document.getElementById("savePlayersButton")?.onclick=()=>{
+        savePlayers();
+    };
+
+    document.getElementById("undoButton")?.onclick=undo;
+
+    document.getElementById("saveMatchButton")?.onclick=saveTournament;
+
 }
 
 // ==============================
@@ -1504,16 +1590,6 @@ document.getElementById("teamButton")?.addEventListener("click",()=>{
 
 });
 
-    // 戻るボタン
-    document.querySelectorAll(".homeButton").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            showPage("homePage");
-
-        });
-
-    });
     // オウンゴール
 document.getElementById("ownGoalButton")?.addEventListener("click", () => {
     goalButtonClick("オウンゴール");
