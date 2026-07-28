@@ -1100,13 +1100,6 @@ function createMatchTabs(){
 }
 
 
-// ==============================
-// 試合ノート　チーム選択
-// ==============================
-const matchTeamSelect =
-document.getElementById(
-"matchTeamSelect"
-);
 
 // ==============================
 // 出場選手一覧生成
@@ -1711,9 +1704,6 @@ awayInput?.addEventListener("input", () => {
         ];
 
     matchState.awayTeam = awayInput.value;
-
-    document.getElementById("awayTeamName").textContent =
-        awayInput.value || "アウェイ";
 
     createMatchTabs();
 
