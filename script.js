@@ -138,28 +138,26 @@ function openDialog({
     buttons
 }){
 
+    const dialogTitle =
+        document.getElementById("dialogTitle");
+    const dialogContent =
+        document.getElementById("dialogContent");
+    const dialogButtons =
+        document.getElementById("dialogButtons");
+    const commonDialog =
+        document.getElementById("commonDialog");
     dialogTitle.innerHTML = title;
-
     dialogContent.innerHTML = content;
-
     dialogButtons.innerHTML = "";
-
     buttons.forEach(btn=>{
-
         const button=document.createElement("button");
-
         button.textContent=btn.text;
-
         if(btn.className)
             button.className=btn.className;
-
         button.onclick=()=>{
-
             if(btn.onclick)
                 btn.onclick();
-
             closeDialog();
-
         };
 
         dialogButtons.appendChild(button);
