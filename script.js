@@ -130,6 +130,52 @@ function refreshMatch(){
 }
 
 // ==============================
+// 共通ダイアログ
+// ==============================
+function openDialog({
+    title,
+    content,
+    buttons
+}){
+
+    dialogTitle.innerHTML = title;
+
+    dialogContent.innerHTML = content;
+
+    dialogButtons.innerHTML = "";
+
+    buttons.forEach(btn=>{
+
+        const button=document.createElement("button");
+
+        button.textContent=btn.text;
+
+        if(btn.className)
+            button.className=btn.className;
+
+        button.onclick=()=>{
+
+            if(btn.onclick)
+                btn.onclick();
+
+            closeDialog();
+
+        };
+
+        dialogButtons.appendChild(button);
+
+    });
+
+    commonDialog.classList.add("show");
+
+}
+
+function closeDialog(){
+
+    commonDialog.classList.remove("show");
+
+}
+// ==============================
 // 画面切替
 // ==============================
 
@@ -1507,9 +1553,36 @@ document
     .getElementById("newTeamName")
     .value="";
 
-    document
-    .getElementById("teamDialog")
-    .classList.add("show");
+    openDialog({
+
+    title:"チーム作成",
+
+    content:`
+
+<input id="newTeamName"
+placeholder="チーム名">
+
+`,
+
+    buttons:[
+
+        {
+
+            text:"作成",
+
+            onclick:createTeam
+
+        },
+
+        {
+
+            text:"キャンセル"
+
+        }
+
+    ]
+
+});
 
 });
 document
@@ -1565,20 +1638,86 @@ document
     .textContent=
     generateTournamentId();
 
-    document
-    .getElementById("tournamentDialog")
-    .classList
-    .add("show");
+    openDialog({
+
+    title:"大会作成",
+
+    content:`
+
+<input id="tournamentName">
+
+<input id="tournamentDate" type="date">
+
+<input id="tournamentPlace">
+
+<div>
+
+大会ID
+
+<span id="generatedTournamentId"></span>
+
+</div>
+
+`,
+
+    buttons:[
+
+        {
+
+            text:"作成",
+
+            onclick:createTournament
+
+        },
+
+        {
+
+            text:"キャンセル"
+
+        }
+
+    ]
+
+});
 
 });
 document
 .getElementById("cancelTournamentButton")
 ?.addEventListener("click",()=>{
 
-    document
-    .getElementById("tournamentDialog")
-    .classList
-    .remove("show");
+    openDialog({
+
+    title:"試合ノート削除",
+
+    content:`
+
+<p>${name}</p>
+
+<p>削除しますか？</p>
+
+`,
+
+    buttons:[
+
+        {
+
+            text:"キャンセル"
+
+        },
+
+        {
+
+            text:"削除",
+
+            className:"deleteButton",
+
+            onclick:()=>deleteHistory(id)
+
+        }
+
+    ]
+
+});
 
     showPage("homePage");
 
