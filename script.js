@@ -446,8 +446,9 @@ async function loadTournament(id){
         refreshMatch();
 
         // チーム名を画面へ反映
-        document.getElementById("homeTeam").value =
-            matchState.homeTeam || "";
+  
+        document.getElementById("homeTeamSelect").value =
+            currentMatchTeamId;
 
         document.getElementById("awayTeam").value =
             matchState.awayTeam || "";
@@ -1409,22 +1410,24 @@ function undo(){
 // ==============================
 
 function updateScore(){
+
     const matchState =
-    tournament.matches[
-        tournament.currentMatch
-    ];
-    const home =
-        document.getElementById("homeScore");
-    const away =
-        document.getElementById("awayScore");
-    if(home){
-        home.textContent =
-            matchState.homeScore;
-    }
-    if(away){
-        away.textContent =
-            matchState.awayScore;
-    }
+        tournament.matches[
+            tournament.currentMatch
+        ];
+
+    document.getElementById("homeScore").textContent =
+        matchState.homeScore;
+
+    document.getElementById("awayScore").textContent =
+        matchState.awayScore;
+
+    document.getElementById("homeTeamName").textContent =
+        matchState.homeTeam || "";
+
+    document.getElementById("awayTeamName").textContent =
+        matchState.awayTeam || "";
+
 }
 // ==============================
 // ボタンイベント
@@ -1693,18 +1696,42 @@ document.getElementById("matchTeamSelect")
 
 });
 
-document
-.getElementById("homeTeamSelect")
-.addEventListener(
-    "change",
-    e=>{
+document.getElementById("homeTeamSelect")
+.addEventListener("change", async function () {
 
-        loadPlayers(
-            e.target.value
-        );
+    const id = this.value;
 
+    currentMatchTeamId = id;
+
+    if (!id) {
+        players = [];
+        createLineup();
+        createSubstitutionArea();
+        return;
     }
-);
+
+    const snapshot = await getDoc(
+        doc(db, "teams", id)
+    );
+
+    const team = snapshot.data();
+
+    players = [...team.players];
+
+    const matchState =
+        tournament.matches[
+            tournament.currentMatch
+        ];
+
+    matchState.homeTeam = team.teamName;
+
+    updateScore();
+
+    createLineup();
+
+    createSubstitutionArea();
+
+});
 
 document
 .getElementById("teamSelect")
