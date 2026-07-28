@@ -1397,8 +1397,6 @@ function createGoalButtons(){
 
     });
 
-    createSpecialGoalButtons();
-
 }
 
 // ==============================
