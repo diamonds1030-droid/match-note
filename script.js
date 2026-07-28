@@ -28,7 +28,6 @@ let players = [];
 // 選手登録用
 let currentPlayerTeamId = "";
 // 試合ノート用
-let currentMatchTeamId = "";
 let teams = [];
 let currentTournamentId="";
 let deleteTournamentId = "";
@@ -271,10 +270,14 @@ async function saveTournament(){
         tournament.currentMatch
     ];
 
+matchState.homeTeamId =
+    document.getElementById("homeTeamSelect").value;
+
+const team =
+    teams.find(t=>t.id===matchState.homeTeamId);
+
 matchState.homeTeam =
-    document
-    .getElementById("homeTeam")
-    .value;
+    team ? team.teamName : "";
 
 matchState.awayTeam =
     document
@@ -533,7 +536,6 @@ async function loadTeams(){
     });
     createTeamList();
     createPlayerTeamSelect();
-    createMatchTeamSelect();
     createHomeTeamSelect();
 
 }
@@ -1506,26 +1508,7 @@ document
 
 });
 
-const homeInput = document.getElementById("homeTeam");
 const awayInput = document.getElementById("awayTeam");
-
-// ホームチーム
-homeInput?.addEventListener("input", () => {
-
-    const matchState =
-        tournament.matches[
-            tournament.currentMatch
-        ];
-
-    matchState.homeTeam = homeInput.value;
-
-    document.getElementById("homeTeamName").textContent =
-        homeInput.value || "ホーム";
-
-    createMatchTabs();
-
-});
-
 // アウェイチーム
 awayInput?.addEventListener("input", () => {
 
@@ -1627,50 +1610,6 @@ document
     "click",
     saveTournament
 );
-
-
-document.getElementById("matchTeamSelect")
-.addEventListener("change", async function(){
-
-    const id = this.value;
-    currentMatchTeamId = id;
-
-    if(id===""){
-        return;
-    }
-
-    const snapshot = await getDoc(
-        doc(db,"teams",id)
-    );
-
-    const team = snapshot.data();
-
-    // ホームチームへ反映
-    document.getElementById("homeTeam").value =
-        team.teamName;
-
-    // 得点表示のホームチーム名へ反映
-    document.getElementById("homeTeamName").textContent =
-        team.teamName;
-
-    // 試合データへ保存
-    const matchState =
-        tournament.matches[
-            tournament.currentMatch
-        ];
-
-    matchState.homeTeam =
-        team.teamName;
-
-    // 出場選手プルダウン更新
-    players = [...team.players];
-    createLineup();
-    createSubstitutionArea();
-
-    // 試合タブ更新
-    createMatchTabs();
-
-});
 
 document.getElementById("homeTeamSelect")
 .addEventListener("change", async function () {
