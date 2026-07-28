@@ -170,6 +170,9 @@ function openDialog({
 
 function closeDialog(){
 
+    const commonDialog =
+        document.getElementById("commonDialog");
+
     commonDialog.classList.remove("show");
 
 }
@@ -347,11 +350,11 @@ async function createTournament(){
         name;
 
     tournament.date =
-        "";
+        document.getElementById("tournamentDate").value;
 
     tournament.place =
-        "";
-
+        document.getElementById("tournamentPlace").value;
+    
     tournament.currentMatch =
         0;
 
@@ -1671,52 +1674,33 @@ document
 .getElementById("createTournamentButton")
 .addEventListener("click",()=>{
 
-    document
-    .getElementById("generatedTournamentId")
-    .textContent=
-    generateTournamentId();
-
     openDialog({
-
-    title:"大会作成",
-
+        title:"大会作成",
     content:`
+    <input id="tournamentName">
+    <input id="tournamentDate" type="date">
+    <input id="tournamentPlace">
 
-<input id="tournamentName">
-
-<input id="tournamentDate" type="date">
-
-<input id="tournamentPlace">
-
-<div>
-
-大会ID
-
-<span id="generatedTournamentId"></span>
-
-</div>
-
-`,
+    <div>
+        大会ID
+        <span id="generatedTournamentId"></span>
+    </div>
+    `,
 
     buttons:[
-
         {
-
             text:"作成",
-
             onclick:createTournament
-
         },
-
         {
-
             text:"キャンセル"
-
         }
-
     ]
-
-});
+    });
+    document
+        .getElementById("generatedTournamentId")
+        .textContent=
+            generateTournamentId();
 
 });
 
