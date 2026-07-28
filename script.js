@@ -1616,8 +1616,6 @@ document.getElementById("homeTeamSelect")
 
     const id = this.value;
 
-    currentMatchTeamId = id;
-
     if (!id) {
         players = [];
         createLineup();
