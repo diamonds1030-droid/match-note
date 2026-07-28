@@ -790,33 +790,20 @@ button:active{
 
 .homeButton{
 
-    position:absolute;
-
-    left:10px;
-
+    position:static;
     width:40px;
-
     height:40px;
-
     margin:0;
-
     padding:0;
-
     background:none;
-
     color:#333;
-
     font-size:32px;
-
     font-weight:bold;
-
     border:none;
-
     display:flex;
-
-    justify-content:center;
-
     align-items:center;
+    justify-self:start;
+    margin-left:10px;
 
 }
 
@@ -826,7 +813,6 @@ button:active{
 .subHeader h2{
 
     margin:0;
-
     text-align:center;
 
 }
@@ -837,51 +823,40 @@ button:active{
 
 .homeButton,
 .iconButton{
-
     width:40px;
     height:40px;
-
     margin:0;
     padding:0;
-
     background:none;
     border:none;
-
     color:#333;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     font-size:24px;
-
     cursor:pointer;
-
     box-shadow:none;
-
 }
 
 .homeButton:hover,
 .iconButton:hover{
-
     background:none;
-
 }
 
 .homeButton:active,
 .iconButton:active{
-
     opacity:.5;
-
     transform:none;
-
 }
 
 .homeButton i,
 .iconButton i{
-
     font-size:24px;
+}
 
+#addTeamButton{
+    justify-self:end;
+    margin-right:10px;
 }
 /*==============================
   スマホ
