@@ -1,11 +1,8 @@
 // =================================
-
 // Firebase
-
 // =================================
 
 import {
-
     db,
     doc,
     setDoc,
@@ -13,7 +10,6 @@ import {
     collection,
     getDocs,
     deleteDoc
-
 }
 
 from "./firebase.js";
@@ -1737,6 +1733,7 @@ document.getElementById("homeTeamSelect")
         ];
 
     matchState.homeTeam = team.teamName;
+    matchState.homeTeamId = id;
 
     updateScore();
 
