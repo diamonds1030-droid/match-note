@@ -450,8 +450,10 @@ async function loadTournament(id){
 
         // チーム名を画面へ反映
         const team = teams.find(
-    t => t.teamName === matchState.homeTeam
-);
+            t => t.id === matchState.homeTeamId
+        );
+        document.getElementById("awayTeam").value =
+            matchState.awayTeam || "";
 
 if (team) {
 
@@ -1405,12 +1407,13 @@ function updateScore(){
 
     document.getElementById("awayScore").textContent =
         matchState.awayScore;
-
-    document.getElementById("homeTeamSelect“).textContent =
-        matchState.homeTeam || "";
+    
+    document.getElementById("homeTeamName").textContent =
+        matchState.homeTeam || "ホーム";
 
     document.getElementById("awayTeamName").textContent =
-        matchState.awayTeam || "";
+        matchState.awayTeam || "アウェイ";
+
 
 }
 // ==============================
