@@ -296,8 +296,30 @@ function initializeHeaderButtons(){
     };
 
     document.getElementById("addTeamButton")?.onclick=()=>{
-        openCreateTeamDialog();
-    };
+
+    openDialog({
+
+        title:"チーム作成",
+
+        content:`
+            <input id="newTeamName"
+            class="teamNameInput"
+            placeholder="チーム名">
+        `,
+
+        buttons:[
+            {
+                text:"作成",
+                onclick:createTeam
+            },
+            {
+                text:"キャンセル"
+            }
+        ]
+
+    });
+
+};
 
     document.getElementById("savePlayersButton")?.onclick=()=>{
         savePlayers();
@@ -523,16 +545,51 @@ content.onclick=()=>{
         //削除ボタン
         const deleteButton = card.querySelector(".historyDelete");
 
-        deleteButton.onclick = (e) => {
-            e.stopPropagation();
-            deleteTournamentId = data.id;
-            document.getElementById(
-                "deleteTournamentName"
-            ).textContent = data.name;
-            document.getElementById(
-                "deleteDialog"
-            ).classList.add("show");
-        };
+        deleteButton.onclick=(e)=>{
+
+    e.stopPropagation();
+
+    deleteTournamentId=data.id;
+
+    openDialog({
+
+        title:"試合ノート削除",
+
+        content:
+        `
+        <p>${data.name}</p>
+        <p>削除しますか？</p>
+        `,
+
+        buttons:[
+
+            {
+                text:"キャンセル"
+            },
+
+            {
+                text:"削除",
+                className:"deleteButton",
+                onclick:async()=>{
+
+                    await deleteDoc(
+                        doc(
+                            db,
+                            "tournaments",
+                            deleteTournamentId
+                        )
+                    );
+
+                    await loadTournamentList();
+
+                }
+            }
+
+        ]
+
+    });
+
+};
 
 
 
@@ -1637,20 +1694,11 @@ document
 
 });
 
-document.getElementById("undoButton")
-.addEventListener("click", undo);
 
 //===============================
 // チーム作成
 //===============================
 
-document
-.getElementById("savePlayersButton")
-?.addEventListener("click",()=>{
-
-    savePlayers();
-
-});
 
 // アウェイチーム
 const awayInput =
@@ -1723,12 +1771,6 @@ document
 
 });
 
-document
-.getElementById("saveMatchButton")
-.addEventListener(
-    "click",
-    saveTournament
-);
 
 document.getElementById("homeTeamSelect")
 .addEventListener("change", async function () {
