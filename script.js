@@ -472,9 +472,6 @@ if (team) {
 
         // 得点表示用チーム名も更新
 
-        document.getElementById("awayTeamName").textContent =
-            matchState.awayTeam || "アウェイ";
-
         // 試合ノート画面へ移動
         showPage("matchPage");
 
@@ -1411,14 +1408,14 @@ function updateScore(){
 
     document.getElementById("awayScore").textContent =
         matchState.awayScore;
-    
-    document.getElementById("homeTeamName").textContent =
-        matchState.homeTeam || "ホーム";
 
-    document.getElementById("awayTeamName").textContent =
-        matchState.awayTeam || "アウェイ";
+    const awayInput =
+        document.getElementById("awayTeam");
 
-
+    if (awayInput) {
+        awayInput.value =
+            matchState.awayTeam || "";
+    }
 }
 // ==============================
 // ボタンイベント
@@ -1629,7 +1626,6 @@ document.getElementById("homeTeamSelect")
 .addEventListener("change", async function () {
 
     const id = this.value;
-}
     if (!id) {
         players = [];
         const matchState =
