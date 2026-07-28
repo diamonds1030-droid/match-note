@@ -132,32 +132,6 @@ function refreshMatch(){
 // ==============================
 // 共通ダイアログ
 // ==============================
-document.getElementById("addTeamButton")?.onclick=()=>{
-
-    openDialog({
-
-        title:"チーム作成",
-
-        content:`
-            <input id="newTeamName"
-            class="teamNameInput"
-            placeholder="チーム名">
-        `,
-
-        buttons:[
-            {
-                text:"作成",
-                onclick:createTeam
-            },
-            {
-                text:"キャンセル"
-            }
-        ]
-
-    });
-
-};
-
 function openDialog({
     title,
     content,
@@ -981,19 +955,6 @@ function addInputEvents(){
 
 }
 
-// ==============================
-// 保存ボタン
-// ==============================
-
-document.addEventListener("click",function(e){
-
-    if(e.target.id==="savePlayersButton"){
-
-        savePlayers();
-
-    }
-
-});
 
 // ==============================
 // 保存
