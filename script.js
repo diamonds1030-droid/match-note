@@ -449,16 +449,22 @@ async function loadTournament(id){
         refreshMatch();
 
         // チーム名を画面へ反映
-  
-        document.getElementById("homeTeamSelect").value =
-            currentMatchTeamId;
+        const team = teams.find(
+    t => t.teamName === matchState.homeTeam
+);
 
-        document.getElementById("awayTeam").value =
-            matchState.awayTeam || "";
+if (team) {
+
+    document.getElementById("homeTeamSelect").value = team.id;
+
+    players = [...team.players];
+
+    createLineup();
+    createSubstitutionArea();
+
+}
 
         // 得点表示用チーム名も更新
-        document.getElementById("homeTeamName").textContent =
-            matchState.homeTeam || "ホーム";
 
         document.getElementById("awayTeamName").textContent =
             matchState.awayTeam || "アウェイ";
