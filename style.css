@@ -255,14 +255,6 @@ function initializeHeaderButtons(){
     flex:1;
 }
 
-/* 選手登録 保存ボタン */
-#savePlayersButton{
-    position:absolute;
-    right:10px;
-    top:50%;
-    transform:translateY(-50%);
-}
-
 /* ==========================================
    Step3 試合ノート
 ========================================== */
@@ -958,15 +950,7 @@ function initializeHeaderButtons(){
     font-size:24px;
 }
 
-#addTeamButton{
 
-    position:absolute;
-    right:10px;
-
-    width:40px;
-    height:40px;
-
-}
 /*==============================
   スマホ
 ==============================*/
