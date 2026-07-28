@@ -199,70 +199,77 @@ function showPage(pageId) {
     updateHeader(pageId);
 }
 
+// ==============================
+// 共通ヘッダー化
+// ==============================
+const HEADER_CONFIG = {
+
+    teamPage:{
+        title:"チーム管理",
+        buttons:`
+            <button id="addTeamButton" class="iconButton">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+        `
+    },
+
+    playerPage:{
+        title:"選手登録",
+        buttons:`
+            <button id="savePlayersButton" class="iconButton">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+            </button>
+        `
+    },
+
+    matchPage:{
+        title:"試合ノート",
+        buttons:`
+            <button id="undoButton" class="iconButton">
+                <i class="fa-solid fa-rotate-left"></i>
+            </button>
+
+            <button id="saveMatchButton" class="iconButton">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+            </button>
+        `
+    },
+
+    historyPage:{
+        title:"試合履歴",
+        buttons:""
+    }
+
+};
 function updateHeader(pageId){
 
-    const header=document.getElementById("commonHeader");
-    const title=document.getElementById("headerTitle");
-    const right=document.getElementById("headerRight");
+    const header = document.getElementById("commonHeader");
+    const title = document.getElementById("headerTitle");
+    const right = document.getElementById("headerRight");
 
-    right.innerHTML="";
-
-    if(pageId==="homePage"){
-        header.style.display="none";
+    if(pageId === "homePage"){
+        header.style.display = "none";
         return;
     }
 
-    header.style.display="flex";
+    header.style.display = "flex";
 
-    switch(pageId){
+    const config = HEADER_CONFIG[pageId];
 
-        case "teamPage":
-
-            title.textContent="チーム管理";
-
-            right.innerHTML=`
-                <button id="addTeamButton" class="iconButton">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-            `;
-            break;
-
-        case "playerPage":
-
-            title.textContent="選手登録";
-
-            right.innerHTML=`
-                <button id="savePlayersButton" class="iconButton">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                </button>
-            `;
-            break;
-
-        case "matchPage":
-
-            title.textContent="試合ノート";
-
-            right.innerHTML=`
-                <button id="undoButton" class="iconButton">
-                    <i class="fa-solid fa-rotate-left"></i>
-                </button>
-
-                <button id="saveMatchButton" class="iconButton">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                </button>
-            `;
-            break;
-
-        case "historyPage":
-
-            title.textContent="試合履歴";
-            break;
-
+    if(config){
+        title.textContent = config.title;
+        right.innerHTML = config.buttons;
+    }else{
+        title.textContent = "";
+        right.innerHTML = "";
     }
 
     initializeHeaderButtons();
 
 }
+
+
+
 
 function initializeHeaderButtons(){
 
