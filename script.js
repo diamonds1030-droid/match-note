@@ -124,7 +124,7 @@ function refreshMatch(){
     }
     if(matchPlace){
         matchPlace.value =
-            tournament.name || "";
+            tournament.place || "";
     }
 
 }
@@ -273,9 +273,13 @@ async function saveTournament(){
 matchState.homeTeamId =
     document.getElementById("homeTeamSelect").value;
 
+//ホームチームの新旧データ読み込み
 const team =
-    teams.find(t=>t.id===matchState.homeTeamId);
-
+    teams.find(
+        t =>
+            t.id===matchState.homeTeamId ||
+            t.teamName===matchState.homeTeam
+    );
 matchState.homeTeam =
     team ? team.teamName : "";
 
@@ -1625,13 +1629,24 @@ document.getElementById("homeTeamSelect")
 .addEventListener("change", async function () {
 
     const id = this.value;
-
+}
     if (!id) {
         players = [];
-        createLineup();
-        createSubstitutionArea();
-        return;
-    }
+        const matchState =
+            tournament.matches[
+                tournament.currentMatch
+            ];
+
+    matchState.homeTeam = "";
+    matchState.homeTeamId = "";
+
+    updateScore();
+
+    createLineup();
+    createSubstitutionArea();
+
+    return;
+}
 
     const snapshot = await getDoc(
         doc(db, "teams", id)
