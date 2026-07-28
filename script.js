@@ -281,7 +281,7 @@ matchState.homeTeam =
 
 matchState.awayTeam =
     document
-    .getElementById("awayTeamName")
+    .getElementById("awayTeam")
     .value;
     try{
         await setDoc(
@@ -1515,6 +1515,8 @@ document
 });
 
 // アウェイチーム
+const awayInput =
+    document.getElementById("awayTeam");
 awayInput?.addEventListener("input", () => {
 
     const matchState =
