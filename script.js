@@ -132,6 +132,32 @@ function refreshMatch(){
 // ==============================
 // 共通ダイアログ
 // ==============================
+document.getElementById("addTeamButton")?.onclick=()=>{
+
+    openDialog({
+
+        title:"チーム作成",
+
+        content:`
+            <input id="newTeamName"
+            class="teamNameInput"
+            placeholder="チーム名">
+        `,
+
+        buttons:[
+            {
+                text:"作成",
+                onclick:createTeam
+            },
+            {
+                text:"キャンセル"
+            }
+        ]
+
+    });
+
+};
+
 function openDialog({
     title,
     content,
@@ -321,7 +347,7 @@ async function createTournament(){
 
 
     tournament.id =
-        createTournamentId();
+        generateTournamentId();
 
     tournament.name =
         name;
@@ -645,10 +671,6 @@ async function createTeam(){
             players:Array(30).fill("")
         }
     );
-
-    document
-    .getElementById("teamDialog")
-    .classList.remove("show");
 
     await loadTeams();
 
@@ -1621,63 +1643,6 @@ document.getElementById("undoButton")
 //===============================
 // チーム作成
 //===============================
-document
-.getElementById("addTeamButton")
-.addEventListener("click",()=>{
-
-    document
-    .getElementById("newTeamName")
-    .value="";
-
-    openDialog({
-
-    title:"チーム作成",
-
-    content:`
-
-<input id="newTeamName"
-placeholder="チーム名">
-
-`,
-
-    buttons:[
-
-        {
-
-            text:"作成",
-
-            onclick:createTeam
-
-        },
-
-        {
-
-            text:"キャンセル"
-
-        }
-
-    ]
-
-});
-
-});
-document
-.getElementById("cancelTeamButton")
-.addEventListener("click",()=>{
-
-    document
-    .getElementById("teamDialog")
-    .classList.remove("show");
-
-});
-
-document
-.getElementById("createTeamOk")
-?.addEventListener("click",()=>{
-
-    createTeam();
-
-});
 
 document
 .getElementById("savePlayersButton")
@@ -1757,99 +1722,7 @@ document
 });
 
 });
-document
-.getElementById("cancelTournamentButton")
-?.addEventListener("click",()=>{
 
-    openDialog({
-
-    title:"試合ノート削除",
-
-    content:`
-
-<p>${name}</p>
-
-<p>削除しますか？</p>
-
-`,
-
-    buttons:[
-
-        {
-
-            text:"キャンセル"
-
-        },
-
-        {
-
-            text:"削除",
-
-            className:"deleteButton",
-
-            onclick:()=>deleteHistory(id)
-
-        }
-
-    ]
-
-});
-
-    showPage("homePage");
-
-});
-document
-.getElementById("createTournamentOk")
-.addEventListener("click",async()=>{
-
-    currentTournamentId =
-        document
-        .getElementById(
-            "generatedTournamentId"
-        ).textContent;
-    tournament.id =
-        currentTournamentId;
-    tournament.name =
-        document
-        .getElementById(
-            "tournamentName"
-        ).value;
-    tournament.date =
-        document
-        .getElementById(
-            "tournamentDate"
-        ).value;
-    tournament.place =
-        document
-        .getElementById(
-            "tournamentPlace"
-        ).value;
-    // ★追加
-    tournament.currentMatch = 0;
-
-    tournament.matches = [
-        createEmptyMatch()
-    ];
-    // ★追加
-    await setDoc(
-        doc(
-            db,
-            "tournaments",
-            tournament.id
-        ),
-        tournament
-    );
-    await loadTournamentList();
-    document
-    .getElementById("tournamentDialog")
-    .classList
-    .remove("show");
-    alert(
-        "大会ID：" +
-        currentTournamentId
-    );
-
-});
 document
 .getElementById("saveMatchButton")
 .addEventListener(
@@ -1928,49 +1801,8 @@ async function(){
     createPlayerList();
 });
 
-//試合ノート削除ダイアログ
 
-document
-.getElementById(
-    "cancelDeleteButton"
-)
-.addEventListener(
-    "click",
-    ()=>{
 
-        document
-        .getElementById(
-            "deleteDialog"
-        )
-        .classList
-        .remove("show");
-
-    }
-);
-
-document
-.getElementById(
-    "confirmDeleteButton"
-)
-.addEventListener(
-    "click",
-    async()=>{
-        await deleteDoc(
-            doc(
-                db,
-                "tournaments",
-                deleteTournamentId
-            )
-
-        );
-        document
-        .getElementById(
-            "deleteDialog"
-        )
-        .classList.remove("show");
-        await loadTournamentList();
-    }
-);
 
 }
 
