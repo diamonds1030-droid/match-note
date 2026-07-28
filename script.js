@@ -349,7 +349,6 @@ async function createTournament(){
 
     }
 
-
     tournament.id =
         generateTournamentId();
 
@@ -387,7 +386,6 @@ async function createTournament(){
             ),
             tournament
         );
-
 
         console.log(
             "Firestore保存完了"
@@ -572,8 +570,6 @@ content.onclick=()=>{
     });
 
 };
-
-
 
         let startX=0;
 
@@ -878,11 +874,6 @@ function createHomeTeamSelect(){
     });
 
 }
-
-
-
-
-
 
 // ==============================
 // 選手一覧生成
@@ -1310,10 +1301,8 @@ function getLineupPlayers() {
         tournament.matches[
             tournament.currentMatch
         ];
-
     return Object.values(matchState.lineup)
         .filter(name => name !== "");
-
 }
 
 // ==============================
