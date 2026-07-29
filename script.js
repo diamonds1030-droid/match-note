@@ -276,7 +276,7 @@ function initializeHeaderButtons(){
         showPage("homePage");
     };
 
-    document.getElementById("addTeamButton")?.onclick=()=>{
+    document.getElementById("addTeamButton")?.addEventListener("click", () => {
 
     openDialog({
 
@@ -302,13 +302,15 @@ function initializeHeaderButtons(){
 
 };
 
-    document.getElementById("savePlayersButton")?.onclick=()=>{
+    document.getElementById("savePlayersButton").onclick=()=>{
+    document.getElementById("savePlayersButton")?.addEventListener("click", () => {
         savePlayers();
     };
+    
+    document.getElementById("undoButton")?.addEventListener("click", undo);
+    document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
 
-    document.getElementById("undoButton")?.onclick=undo;
 
-    document.getElementById("saveMatchButton")?.onclick=saveTournament;
 
 }
 
@@ -1627,7 +1629,7 @@ document.getElementById("opponentGoalButton")?.addEventListener("click", () => {
 
 document
 .getElementById("addMatchButton")
-.addEventListener("click",()=>{
+?.addEventListener("click",()=>{
 
     tournament.matches.push(
         createEmptyMatch()
@@ -1693,7 +1695,7 @@ document
 });
 
 document.getElementById("homeTeamSelect")
-.addEventListener("change", async function () {
+?.addEventListener("change", async function () {
 
     const id = this.value;
     if (!id) {
