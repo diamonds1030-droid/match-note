@@ -11,7 +11,6 @@ import {
     deleteDoc
 }
 from "./firebase.js";
-alert("import完了");
 
 // ==============================
 // 設定
@@ -82,24 +81,16 @@ const tournament={
 
 window.onload = async function(){
 
-    alert("① onload開始");
-
     try{
         await loadTeams();
-        alert("② loadTeams完了");
     }
     catch(e){
         alert("loadTeamsエラー");
     }
-    alert("③ createPlayerList");
     createPlayerList();
-    alert("④ initializeButtons");
     initializeButtons();
-    alert("⑤ refreshMatch");
     refreshMatch();
-    alert("⑥ loadTournamentList");
     loadTournamentList();
-    alert("⑦ 完了");
 }
 
 function refreshMatch(){
