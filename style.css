@@ -167,15 +167,38 @@ button:active{
     color:#d32f2f;
     font-size:20px;
 }
+/* =================================
+   チーム管理・選手登録画面のスクロール許可
+================================= */
+
+/* 1. ページ本体の高さを100%にして縦に並べる */
+#teamPage,
+#playerPage {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* ページ全体がガタつかないように固定 */
+}
+
+/* 2. main（ヘッダー下の領域）をスクロール可能にする */
+#teamPage > main,
+#playerPage > main {
+    flex: 1;
+    overflow-y: auto; /* 縦スクロールを許可 */
+    -webkit-overflow-scrolling: touch; /* スマホで滑らかにスクロール */
+    padding-bottom: 40px; /* 一番下が隠れないように余白を作る */
+}
+
+/* 3. リストコンテナ自体もはみ出しを許可 */
+#teamList,
+#playerList {
+    height: auto;
+    max-height: none;
+}
 
 /* ==========================
    選手登録画面
 ========================== */
-
-/* 選手一覧全体 */
-#playerList{
-    margin:20px 0;
-}
 
 /* 1行分 */
 .playerRow{
