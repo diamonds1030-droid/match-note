@@ -159,13 +159,17 @@ function openDialog({
 }
 
 function closeDialog(){
-
-    const commonDialog =
-        document.getElementById("commonDialog");
-
+    const commonDialog = document.getElementById("commonDialog");
     if(commonDialog) commonDialog.classList.remove("show");
-
+    
+    // ダイアログを閉じた後、中身をクリアして古いIDを残さないようにする
+    setTimeout(() => {
+        const dialogContent = document.getElementById("dialogContent");
+        if(dialogContent) dialogContent.innerHTML = "";
+    }, 200);
 }
+
+
 // ==============================
 // 画面切替
 // ==============================
@@ -262,35 +266,36 @@ function updateHeader(pageId){
 
 }
 
-function initializeHeaderButtons() {
+function initializeHeaderButtons(){
 
-    document.getElementById("headerHomeButton")?.addEventListener("click", () => {
+    document.getElementById("headerHomeButton")?.addEventListener("click", ()=>{
         showPage("homePage");
     });
 
-    document.getElementById("addTeamButton")?.addEventListener("click", () => {
+    document.getElementById("addTeamButton")?.addEventListener("click", ()=>{
         openDialog({
-            title: "チーム作成",
-            content: `
-                <input id="newTeamName" class="teamNameInput" placeholder="チーム名">
+            title:"チーム作成",
+            content:`
+                <input id="newTeamName" class="teamNameInput" placeholder="チーム名" autocomplete="off">
             `,
-            buttons: [
+            buttons:[
                 {
-                    text: "作成",
+                    text:"作成",
                     onclick: () => {
-                        // ボタンが押されたその瞬間に入力値を取得して渡す
-                        const input = document.getElementById("newTeamName");
-                        const name = input ? input.value : "";
-                        createTeam(name);
+                        // ダイアログ(#dialogContent)の内部にある #newTeamName を正確に取得する
+                        const input = document.querySelector("#dialogContent #newTeamName");
+                        const val = input ? input.value : "";
+                        createTeam(val);
                     }
                 },
                 {
-                    text: "キャンセル"
+                    text:"キャンセル"
                 }
             ]
         });
     });
-    document.getElementById("savePlayersButton")?.addEventListener("click", () => {
+
+    document.getElementById("savePlayersButton")?.addEventListener("click", ()=>{
         savePlayers();
     });
     document.getElementById("undoButton")?.addEventListener("click", undo);
@@ -670,27 +675,37 @@ if (team) {
 // チーム作成
 //===============================
 // 引数 name を受け取るように変更
-async function createTeam(name) {
-    if (!name || name.trim() === "") {
+async function createTeam(name){
+
+    // 受け取った文字列の空白を除去
+    const teamName = (name || "").trim();
+
+    if(teamName === ""){
         alert("チーム名を入力してください");
         return;
     }
 
-    const teamName = name.trim();
     const id = "TEAM_" + Date.now();
 
-    await setDoc(
-        doc(db, "teams", id),
-        {
-            id: id,
-            teamName: teamName,
-            players: Array(30).fill("")
-        }
-    );
+    try {
+        await setDoc(
+            doc(db, "teams", id),
+            {
+                id: id,
+                teamName: teamName,
+                players: Array(30).fill("")
+            }
+        );
 
-    await loadTeams();
-    alert("チームを作成しました");
+        alert("チーム「" + teamName + "」を作成しました");
+        await loadTeams();
+    } catch(e) {
+        console.error(e);
+        alert("チームの作成に失敗しました");
+    }
+
 }
+
 
 //===============================
 // チーム一覧取得
