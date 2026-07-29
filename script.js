@@ -1,7 +1,6 @@
 // =================================
 // Firebase
 // =================================
-alert("script.js 読み込み開始");
 import {
     db,
     doc,
@@ -1661,7 +1660,7 @@ awayInput?.addEventListener("input", () => {
 });
 document
 .getElementById("createTournamentButton")
-.addEventListener("click",()=>{
+？.addEventListener("click",()=>{
 
     openDialog({
         title:"大会作成",
