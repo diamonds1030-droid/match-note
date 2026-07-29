@@ -1661,7 +1661,7 @@ awayInput?.addEventListener("input", () => {
 });
 document
 .getElementById("createTournamentButton")
-？.addEventListener("click",()=>{
+?.addEventListener("click",()=>{
 
     openDialog({
         title:"大会作成",
