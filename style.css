@@ -85,24 +85,6 @@ button:active{
     border-bottom:1px solid rgba(0,0,0,.08);
 }
 
-/* ホームボタン */
-
-.homeButton{
-    position:absolute;
-    left:10px;
-    width:40px;
-    height:40px;
-    margin:0;
-    padding:0;
-    background:none;
-    color:#333;
-    font-size:32px;
-    font-weight:bold;
-    border:none;
-    display:flex;
-    align-items:center;
-    justify-self:start;
-}
 
 /* タイトル */
 
@@ -147,12 +129,6 @@ button:active{
 
 .teamSelectName:active{
     opacity:0.5;
-}
-
-.teamItem span{
-    flex:1;
-    text-align:left;
-    font-size:16px;
 }
 
 .teamItem button{
