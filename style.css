@@ -53,6 +53,20 @@ button{
 button:active{
     transform:scale(.98);
 }
+/*==============================
+  ホーム画面専用設定（スクロール禁止）
+==============================*/
+#homePage {
+    overflow: hidden;
+    height: 100vh;
+}
+
+#homePage > main {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* ボタン類を中央寄せ */
+}
 
 /*==============================
  ヘッダー
