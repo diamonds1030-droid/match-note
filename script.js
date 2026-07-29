@@ -10,8 +10,8 @@ import {
     getDocs,
     deleteDoc
 }
-
 from "./firebase.js";
+alert("import完了");
 
 // ==============================
 // 設定
