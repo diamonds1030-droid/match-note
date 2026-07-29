@@ -125,7 +125,6 @@ function refreshMatch(){
         matchPlace.value =
             tournament.place || "";
     }
-
 }
 
 // ==============================
@@ -1029,7 +1028,7 @@ function saveUndo(){
 function createMatchTabs(){
 
     const area=document.getElementById("matchTabArea");
-
+    if(!area) return; // 存在チェックを追加
     area.innerHTML="";
 
     tournament.matches.forEach((m,index)=>{
