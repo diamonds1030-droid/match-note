@@ -276,16 +276,29 @@ function initializeHeaderButtons(){
         openDialog({
             title:"チーム作成",
             content:`
-                <input id="newTeamName" class="teamNameInput" placeholder="チーム名" autocomplete="off">
+                <input id="newTeamName" class="teamNameInput" placeholder="チーム名" type="text">
             `,
             buttons:[
                 {
                     text:"作成",
                     onclick: () => {
-                        // ダイアログ(#dialogContent)の内部にある #newTeamName を正確に取得する
-                        const input = document.querySelector("#dialogContent #newTeamName");
-                        const val = input ? input.value : "";
-                        createTeam(val);
+                        // ① 画面上の input 要素を全部探す
+                        const inputs = document.querySelectorAll("input");
+                        let foundValue = "";
+
+                        // ② その中から newTeamName を持っているものを探して値を取り出す
+                        inputs.forEach(input => {
+                            if (input.id === "newTeamName" || input.classList.contains("teamNameInput")) {
+                                if (input.value.trim() !== "") {
+                                    foundValue = input.value.trim();
+                                }
+                            }
+                        });
+
+                        // デバッグ用：実際に何が取得できたか画面に表示
+                        // alert("取得した値: [" + foundValue + "]");
+
+                        createTeam(foundValue);
                     }
                 },
                 {
@@ -298,9 +311,15 @@ function initializeHeaderButtons(){
     document.getElementById("savePlayersButton")?.addEventListener("click", ()=>{
         savePlayers();
     });
+
     document.getElementById("undoButton")?.addEventListener("click", undo);
+
     document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
+
 }
+
+
+
 
 
 // ==============================
@@ -677,14 +696,12 @@ if (team) {
 // 引数 name を受け取るように変更
 async function createTeam(name){
 
-    // 受け取った文字列の空白を除去
-    const teamName = (name || "").trim();
-
-    if(teamName === ""){
+    if(!name || name.trim() === ""){
         alert("チーム名を入力してください");
         return;
     }
 
+    const teamName = name.trim();
     const id = "TEAM_" + Date.now();
 
     try {
@@ -705,6 +722,7 @@ async function createTeam(name){
     }
 
 }
+
 
 
 //===============================
