@@ -125,6 +125,7 @@ function refreshMatch(){
         matchPlace.value =
             tournament.place || "";
     }
+
 }
 
 // ==============================
@@ -144,9 +145,9 @@ function openDialog({
         document.getElementById("dialogButtons");
     const commonDialog =
         document.getElementById("commonDialog");
-    dialogTitle.innerHTML = title;
-    dialogContent.innerHTML = content;
-    dialogButtons.innerHTML = "";
+    if(dialogTitle) dialogTitle.innerHTML = title;
+    if(dialogContent) dialogContent.innerHTML = content;
+    if(dialogButtons) dialogButtons.innerHTML = "";
     buttons.forEach(btn=>{
         const button=document.createElement("button");
         button.textContent=btn.text;
@@ -158,11 +159,11 @@ function openDialog({
             closeDialog();
         };
 
-        dialogButtons.appendChild(button);
+        if(dialogButtons) dialogButtons.appendChild(button);
 
     });
 
-    commonDialog.classList.add("show");
+    if(commonDialog) commonDialog.classList.add("show");
 
 }
 
@@ -171,7 +172,7 @@ function closeDialog(){
     const commonDialog =
         document.getElementById("commonDialog");
 
-    commonDialog.classList.remove("show");
+    if(commonDialog) commonDialog.classList.remove("show");
 
 }
 // ==============================
@@ -187,13 +188,15 @@ function showPage(pageId) {
 
     const page = document.getElementById(pageId);
 
-    if (pageId === "matchPage") {
-        page.style.display = "flex";
-    } else {
-        page.style.display = "block";
-    }
+    if (page) {
+        if (pageId === "matchPage") {
+            page.style.display = "flex";
+        } else {
+            page.style.display = "block";
+        }
 
-    page.classList.add("active");
+        page.classList.add("active");
+    }
     updateHeader(pageId);
 }
 
@@ -245,6 +248,8 @@ function updateHeader(pageId){
     const title = document.getElementById("headerTitle");
     const right = document.getElementById("headerRight");
 
+    if(!header) return;
+
     if(pageId === "homePage"){
         header.style.display = "none";
         return;
@@ -255,61 +260,50 @@ function updateHeader(pageId){
     const config = HEADER_CONFIG[pageId];
 
     if(config){
-        title.textContent = config.title;
-        right.innerHTML = config.buttons;
+        if(title) title.textContent = config.title;
+        if(right) right.innerHTML = config.buttons;
     }else{
-        title.textContent = "";
-        right.innerHTML = "";
+        if(title) title.textContent = "";
+        if(right) right.innerHTML = "";
     }
 
     initializeHeaderButtons();
 
 }
 
-
-
-
 function initializeHeaderButtons(){
 
-    document.getElementById("headerHomeButton").onclick=()=>{
+    document.getElementById("headerHomeButton")?.addEventListener("click", ()=>{
         showPage("homePage");
-    };
-
-    document.getElementById("addTeamButton")?.addEventListener("click", () => {
-
-    openDialog({
-
-        title:"チーム作成",
-
-        content:`
-            <input id="newTeamName"
-            class="teamNameInput"
-            placeholder="チーム名">
-        `,
-
-        buttons:[
-            {
-                text:"作成",
-                onclick:createTeam
-            },
-            {
-                text:"キャンセル"
-            }
-        ]
-
     });
 
-};
+    document.getElementById("addTeamButton")?.addEventListener("click", ()=>{
+        openDialog({
+            title:"チーム作成",
+            content:`
+                <input id="newTeamName"
+                class="teamNameInput"
+                placeholder="チーム名">
+            `,
+            buttons:[
+                {
+                    text:"作成",
+                    onclick:createTeam
+                },
+                {
+                    text:"キャンセル"
+                }
+            ]
+        });
+    });
 
-    document.getElementById("savePlayersButton").onclick=()=>{
-    document.getElementById("savePlayersButton")?.addEventListener("click", () => {
+    document.getElementById("savePlayersButton")?.addEventListener("click", ()=>{
         savePlayers();
-    };
-    
+    });
+
     document.getElementById("undoButton")?.addEventListener("click", undo);
+
     document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
-
-
 
 }
 
@@ -473,6 +467,7 @@ async function loadTournamentList(){
         
     const area =
         document.getElementById("historyList");
+    if(!area) return;
     area.innerHTML="";
     const snapshot =
         await getDocs(
@@ -649,12 +644,13 @@ async function loadTournament(id){
         const team = teams.find(
             t => t.id === matchState.homeTeamId
         );
-        document.getElementById("awayTeam").value =
-            matchState.awayTeam || "";
+        const awayInput = document.getElementById("awayTeam");
+        if(awayInput) awayInput.value = matchState.awayTeam || "";
 
 if (team) {
 
-    document.getElementById("homeTeamSelect").value = team.id;
+    const homeSelect = document.getElementById("homeTeamSelect");
+    if(homeSelect) homeSelect.value = team.id;
 
     players = [...team.players];
 
@@ -769,8 +765,7 @@ function createTeamList(){
                 document.getElementById(
                     "teamSelect"
                 );
-                select.value =
-                    team.id;
+                if(select) select.value = team.id;
         // 選手取得
             const snapshot =
                 await getDoc(
@@ -917,7 +912,7 @@ function createPlayerList(){
                 class="playerName"
                 type="text"
                 maxlength="20"
-                value="${players[i]}"
+                value="${players[i] || ''}"
                 data-index="${i}"
 
             >
@@ -986,11 +981,6 @@ async function savePlayers(){
 }
 
 // ==============================
-// 読込
-// ==============================
-
-
-// ==============================
 // 操作の戻り
 // ==============================
 function saveUndo(){
@@ -1028,7 +1018,9 @@ function saveUndo(){
 function createMatchTabs(){
 
     const area=document.getElementById("matchTabArea");
-    if(!area) return; // 存在チェックを追加
+
+    if(!area) return;
+
     area.innerHTML="";
 
     tournament.matches.forEach((m,index)=>{
@@ -1058,8 +1050,6 @@ function createMatchTabs(){
     });
 
 }
-
-
 
 // ==============================
 // 出場選手一覧生成
@@ -1430,7 +1420,7 @@ function goalButtonClick(name) {
             name + " ⚽";
     }
     item.appendChild(text);
-    history.appendChild(item);
+    if(history) history.appendChild(item);
     updateScore();
     matchState.goals.push({
         scorer:name,
@@ -1558,11 +1548,11 @@ function updateScore(){
             tournament.currentMatch
         ];
 
-    document.getElementById("homeScore").textContent =
-        matchState.homeScore;
+    const homeScoreEl = document.getElementById("homeScore");
+    const awayScoreEl = document.getElementById("awayScore");
 
-    document.getElementById("awayScore").textContent =
-        matchState.awayScore;
+    if (homeScoreEl) homeScoreEl.textContent = matchState.homeScore;
+    if (awayScoreEl) awayScoreEl.textContent = matchState.awayScore;
 
     const awayInput =
         document.getElementById("awayTeam");
@@ -1581,181 +1571,172 @@ function initializeButtons() {
     // 選手一覧
     document
     .getElementById("playerButton")
-    .addEventListener("click", async()=>{
+    ?.addEventListener("click", async()=>{
 
-    await loadTeams();
-    createPlayerList();
-    showPage("playerPage");
+        await loadTeams();
+        createPlayerList();
+        showPage("playerPage");
 
     });
 
     // 試合一覧
-    document.getElementById("matchButton").addEventListener("click", async () => {
+    document.getElementById("matchButton")?.addEventListener("click", async () => {
 
-    await loadTeams();
-    createLineup();
-    createSubstitutionArea();
-    showPage("matchPage");
+        await loadTeams();
+        createLineup();
+        createSubstitutionArea();
+        showPage("matchPage");
 
-});
-// チーム管理画面
+    });
 
-document.getElementById("teamButton")?.addEventListener("click",()=>{
-    showPage("teamPage");
-});
-    //document.getElementById("historyButton").addEventListener("click", () => {
-        //showPage("historyPage");
-  //  });
-// 試合履歴
+    // チーム管理画面
+    document.getElementById("teamButton")?.addEventListener("click",()=>{
+        showPage("teamPage");
+    });
+
+    // 試合履歴
     document
-.getElementById("historyButton")
-.addEventListener("click", async()=>{
+    .getElementById("historyButton")
+    ?.addEventListener("click", async()=>{
 
-    await loadTournamentList();
-    showPage("historyPage");
+        await loadTournamentList();
+        showPage("historyPage");
 
-});
+    });
 
     // オウンゴール
-document.getElementById("ownGoalButton")?.addEventListener("click", () => {
-    goalButtonClick("オウンゴール");
-});
-
-// 相手得点
-document.getElementById("opponentGoalButton")?.addEventListener("click", () => {
-    goalButtonClick("相手得点");
-});
-
-document
-.getElementById("addMatchButton")
-?.addEventListener("click",()=>{
-
-    tournament.matches.push(
-        createEmptyMatch()
-    );
-
-    tournament.currentMatch=
-        tournament.matches.length-1;
-
-    refreshMatch();
-
-});
-
-//===============================
-// チーム作成
-//===============================
-
-// アウェイチーム
-const awayInput =
-    document.getElementById("awayTeam");
-awayInput?.addEventListener("input", () => {
-
-    const matchState =
-        tournament.matches[
-            tournament.currentMatch
-        ];
-
-    matchState.awayTeam = awayInput.value;
-
-    createMatchTabs();
-
-});
-document
-.getElementById("createTournamentButton")
-?.addEventListener("click",()=>{
-
-    openDialog({
-        title:"大会作成",
-    content:`
-    <input id="tournamentName">
-    <input id="tournamentDate" type="date">
-    <input id="tournamentPlace">
-
-    <div>
-        大会ID
-        <span id="generatedTournamentId"></span>
-    </div>
-    `,
-
-    buttons:[
-        {
-            text:"作成",
-            onclick:createTournament
-        },
-        {
-            text:"キャンセル"
-        }
-    ]
+    document.getElementById("ownGoalButton")?.addEventListener("click", () => {
+        goalButtonClick("オウンゴール");
     });
+
+    // 相手得点
+    document.getElementById("opponentGoalButton")?.addEventListener("click", () => {
+        goalButtonClick("相手得点");
+    });
+
     document
-        .getElementById("generatedTournamentId")
-        .textContent=
-            generateTournamentId();
-});
+    .getElementById("addMatchButton")
+    ?.addEventListener("click",()=>{
 
-document.getElementById("homeTeamSelect")
-?.addEventListener("change", async function () {
+        tournament.matches.push(
+            createEmptyMatch()
+        );
 
-    const id = this.value;
-    if (!id) {
-        players = [];
+        tournament.currentMatch=
+            tournament.matches.length-1;
+
+        refreshMatch();
+
+    });
+
+    // アウェイチーム
+    const awayInput =
+        document.getElementById("awayTeam");
+    awayInput?.addEventListener("input", () => {
+
         const matchState =
             tournament.matches[
                 tournament.currentMatch
             ];
 
-    matchState.homeTeam = "";
-    matchState.homeTeamId = "";
-    updateScore();
-    createLineup();
-    createSubstitutionArea();
+        matchState.awayTeam = awayInput.value;
 
-    return;
+        createMatchTabs();
+
+    });
+
+    document
+    .getElementById("createTournamentButton")
+    ?.addEventListener("click",()=>{
+
+        openDialog({
+            title:"大会作成",
+            content:`
+            <input id="tournamentName">
+            <input id="tournamentDate" type="date">
+            <input id="tournamentPlace">
+
+            <div>
+                大会ID
+                <span id="generatedTournamentId"></span>
+            </div>
+            `,
+
+            buttons:[
+                {
+                    text:"作成",
+                    onclick:createTournament
+                },
+                {
+                    text:"キャンセル"
+                }
+            ]
+        });
+
+        const genId = document.getElementById("generatedTournamentId");
+        if(genId) genId.textContent = generateTournamentId();
+    });
+
+    document.getElementById("homeTeamSelect")
+    ?.addEventListener("change", async function () {
+
+        const id = this.value;
+        if (!id) {
+            players = [];
+            const matchState =
+                tournament.matches[
+                    tournament.currentMatch
+                ];
+
+            matchState.homeTeam = "";
+            matchState.homeTeamId = "";
+            updateScore();
+            createLineup();
+            createSubstitutionArea();
+
+            return;
+        }
+        const snapshot = await getDoc(
+            doc(db, "teams", id)
+        );
+        const team = snapshot.data();
+        players = [...team.players];
+
+        const matchState =
+            tournament.matches[
+                tournament.currentMatch
+            ];
+
+        matchState.homeTeam = team.teamName;
+        matchState.homeTeamId = id;
+
+        updateScore();
+
+        createLineup();
+
+        createSubstitutionArea();
+
+    });
+
+    document
+    .getElementById("teamSelect")
+    ?.addEventListener("change", async function(){
+
+        const id=this.value;
+        if(id===""){
+            return;
+        }
+        currentPlayerTeamId = id;
+        const snapshot =
+        await getDoc(
+            doc(
+                db,
+                "teams",
+                id
+            )
+        );
+        const data = snapshot.data();
+        players = [...data.players];
+        createPlayerList();
+    });
 }
-    const snapshot = await getDoc(
-        doc(db, "teams", id)
-    );
-    const team = snapshot.data();
-    players = [...team.players];
-
-    const matchState =
-        tournament.matches[
-            tournament.currentMatch
-        ];
-
-    matchState.homeTeam = team.teamName;
-    matchState.homeTeamId = id;
-
-    updateScore();
-
-    createLineup();
-
-    createSubstitutionArea();
-
-});
-
-document
-.getElementById("teamSelect")
-?.addEventListener(
-"change",
-async function(){
-
-    const id=this.value;
-    if(id===""){
-        return;
-    }
-    currentPlayerTeamId = id;
-    const snapshot =
-    await getDoc(
-        doc(
-            db,
-            "teams",
-            id
-        )
-    );
-    const data = snapshot.data();
-    players = [...data.players];
-    createPlayerList();
-});
-}
-
