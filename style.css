@@ -123,14 +123,13 @@ button:active{
 /*==============================
   チーム管理画面
 ==============================*/
-/* チーム名入力 */
-#teamName {
-    width: 90%;
-    max-width: 400px;
-    height: 50px;
-    font-size: 22px;
-    padding: 8px 12px;
-    box-sizing: border-box;
+/* チーム名入力 */}
+#newTeamName{
+    width:90%;
+    max-width:400px;
+    height:50px;
+    font-size:22px;
+    padding:8px 12px;
 }
 /* チーム名一覧 */
 .teamItem{
