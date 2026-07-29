@@ -65,7 +65,6 @@ button:active{
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* ボタン類を中央寄せ */
 }
 
 /*==============================
