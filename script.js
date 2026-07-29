@@ -1572,22 +1572,23 @@ function updateScore(){
     }
 }
 // ==============================
-// ボタンイベント
+// ホーム画面などのボタンイベント
 // ==============================
 
 function initializeButtons() {
 
-    // ホーム画面
-document
-.getElementById("playerButton")
-.addEventListener("click", async()=>{
+    // 選手一覧
+    document
+    .getElementById("playerButton")
+    .addEventListener("click", async()=>{
 
     await loadTeams();
     createPlayerList();
     showPage("playerPage");
 
-});
+    });
 
+    // 試合一覧
     document.getElementById("matchButton").addEventListener("click", async () => {
 
     await loadTeams();
@@ -1604,12 +1605,12 @@ document.getElementById("teamButton")?.addEventListener("click",()=>{
     //document.getElementById("historyButton").addEventListener("click", () => {
         //showPage("historyPage");
   //  });
+// 試合履歴
     document
 .getElementById("historyButton")
 .addEventListener("click", async()=>{
 
     await loadTournamentList();
-
     showPage("historyPage");
 
 });
