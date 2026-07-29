@@ -276,29 +276,16 @@ function initializeHeaderButtons(){
         openDialog({
             title:"チーム作成",
             content:`
-                <input id="newTeamName" class="teamNameInput" placeholder="チーム名" type="text">
+                <input id="newTeamNameInput" class="teamNameInput" placeholder="チーム名">
             `,
             buttons:[
                 {
                     text:"作成",
                     onclick: () => {
-                        // ① 画面上の input 要素を全部探す
-                        const inputs = document.querySelectorAll("input");
-                        let foundValue = "";
-
-                        // ② その中から newTeamName を持っているものを探して値を取り出す
-                        inputs.forEach(input => {
-                            if (input.id === "newTeamName" || input.classList.contains("teamNameInput")) {
-                                if (input.value.trim() !== "") {
-                                    foundValue = input.value.trim();
-                                }
-                            }
-                        });
-
-                        // デバッグ用：実際に何が取得できたか画面に表示
-                        // alert("取得した値: [" + foundValue + "]");
-
-                        createTeam(foundValue);
+                        // 重複しない新しいID、または共通ダイアログ内から値を取得する
+                        const input = document.getElementById("newTeamNameInput");
+                        const val = input ? input.value : "";
+                        createTeam(val);
                     }
                 },
                 {
@@ -317,7 +304,6 @@ function initializeHeaderButtons(){
     document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
 
 }
-
 
 
 
@@ -694,14 +680,18 @@ if (team) {
 // チーム作成
 //===============================
 // 引数 name を受け取るように変更
+
 async function createTeam(name){
 
-    if(!name || name.trim() === ""){
+    // 受け取った文字列、または要素から取得
+    const inputName = typeof name === "string" ? name : document.getElementById("newTeamNameInput")?.value;
+    const teamName = (inputName || "").trim();
+
+    if(teamName === ""){
         alert("チーム名を入力してください");
         return;
     }
 
-    const teamName = name.trim();
     const id = "TEAM_" + Date.now();
 
     try {
@@ -722,7 +712,6 @@ async function createTeam(name){
     }
 
 }
-
 
 
 //===============================
