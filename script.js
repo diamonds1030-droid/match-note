@@ -262,41 +262,41 @@ function updateHeader(pageId){
 
 }
 
-function initializeHeaderButtons(){
+function initializeHeaderButtons() {
 
-    document.getElementById("headerHomeButton")?.addEventListener("click", ()=>{
+    document.getElementById("headerHomeButton")?.addEventListener("click", () => {
         showPage("homePage");
     });
 
-    document.getElementById("addTeamButton")?.addEventListener("click", ()=>{
+    document.getElementById("addTeamButton")?.addEventListener("click", () => {
         openDialog({
-            title:"チーム作成",
-            content:`
-                <input id="newTeamName"
-                class="teamNameInput"
-                placeholder="チーム名">
+            title: "チーム作成",
+            content: `
+                <input id="newTeamName" class="teamNameInput" placeholder="チーム名">
             `,
-            buttons:[
+            buttons: [
                 {
-                    text:"作成",
-                    onclick:createTeam
+                    text: "作成",
+                    onclick: () => {
+                        // ボタンが押されたその瞬間に入力値を取得して渡す
+                        const input = document.getElementById("newTeamName");
+                        const name = input ? input.value : "";
+                        createTeam(name);
+                    }
                 },
                 {
-                    text:"キャンセル"
+                    text: "キャンセル"
                 }
             ]
         });
     });
-
-    document.getElementById("savePlayersButton")?.addEventListener("click", ()=>{
+    document.getElementById("savePlayersButton")?.addEventListener("click", () => {
         savePlayers();
     });
-
     document.getElementById("undoButton")?.addEventListener("click", undo);
-
     document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
-
 }
+
 
 // ==============================
 // 大会ID生成
@@ -669,34 +669,29 @@ if (team) {
 //===============================
 // チーム作成
 //===============================
-async function createTeam(){
-
-    const name =
-        document
-        .getElementById("newTeamName")
-        .value
-        .trim();
-
-    if(name===""){
+// 引数 name を受け取るように変更
+async function createTeam(name) {
+    if (!name || name.trim() === "") {
         alert("チーム名を入力してください");
         return;
     }
 
-    const id =
-        "TEAM_" + Date.now();
+    const teamName = name.trim();
+    const id = "TEAM_" + Date.now();
 
     await setDoc(
-        doc(db,"teams",id),
+        doc(db, "teams", id),
         {
-            id:id,
-            teamName:name,
-            players:Array(30).fill("")
+            id: id,
+            teamName: teamName,
+            players: Array(30).fill("")
         }
     );
 
     await loadTeams();
-
+    alert("チームを作成しました");
 }
+
 //===============================
 // チーム一覧取得
 //===============================
