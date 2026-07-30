@@ -174,26 +174,36 @@ function closeDialog(){
 // 画面切替
 // ==============================
 
+//===============================
+// 画面切り替え処理
+//===============================
 function showPage(pageId) {
-
+    // 1. 全てのページを非表示にする
     document.querySelectorAll(".page").forEach(page => {
         page.classList.remove("active");
-        page.style.display = "none";
     });
 
-    const page = document.getElementById(pageId);
-
-    if (page) {
-        if (pageId === "matchPage") {
-            page.style.display = "flex";
-        } else {
-            page.style.display = "block";
-        }
-
-        page.classList.add("active");
+    // 2. 指定されたページを表示する
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add("active");
     }
-    updateHeader(pageId);
+
+    // 3. 画面ごとのデータ読み込み・表示制御
+    if (pageId === "homePage") {
+        // ホーム画面に戻った時は何もしない（またはホーム用の初期表示）
+    } else if (pageId === "teamPage") {
+        // チーム管理画面が開いた時だけチーム一覧を描画して読み込む
+        createTeamList();
+    } else if (pageId === "playerPage") {
+        // 選手登録画面が開いた時だけ選手一覧を描画する
+        createPlayerList();
+    } else if (pageId === "historyPage") {
+        // 試合履歴画面
+        loadHistoryList();
+    }
 }
+
 
 // ==============================
 // 共通ヘッダー化
