@@ -601,9 +601,15 @@ button:active {
 /*==============================
   Font Awesome アイコンボタン
 ==============================*/
+/*==============================
+  Font Awesome アイコンボタン / ヘッダーボタン
+==============================*/
 .homeButton {
     position: absolute;
     left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
 }
 
 .homeButton,
