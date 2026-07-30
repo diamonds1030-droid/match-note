@@ -42,31 +42,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <section id="homePage" class="page active">
 
-<header>
-
-<h1>⚽ 少年サッカー試合ノート</h1>
-
+<header class="subHeader">
+    <h2>⚽ 少年サッカー試合ノート</h2>
 </header>
 
 <main>
-<button id="teamButton">
-👥 チーム管理
-</button>
-<button id="playerButton">
-👤 選手登録
-</button>
-<button id="createTournamentButton">
-    🏆 新しい大会
-</button>
-<button id="matchButton">
-📝 試合ノート
-</button>
-<button id="historyButton">
-📖 試合ノート履歴
-</button>
-
-
-
+    <button id="teamButton">👥 チーム管理</button>
+    <button id="playerButton">👤 選手登録</button>
+    <button id="createTournamentButton">🏆 新しい大会</button>
+    <button id="matchButton">📝 試合ノート</button>
+    <button id="historyButton">📖 試合ノート履歴</button>
 </main>
 
 </section>
@@ -76,6 +61,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <!-- ===================================== -->
 <section id="teamPage" class="page">
 <main>
+    <!-- チーム登録フォームを追加 -->
+    <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+        <input type="text" id="newTeamName" placeholder="新しいチーム名">
+        <button id="addTeamButton" style="width: 80px; height: 50px; margin: 0; font-size: 16px;">追加</button>
+    </div>
+
+    <!-- チーム管理のタイトル行 -->
+    <div class="playerHeader">
+        <span class="playerHeaderName" style="padding-left: 10px;">登録済みチーム一覧</span>
+    </div>
+
     <div id="teamList"></div>
 </main>
 </section>
@@ -88,15 +84,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <main>
 
 <h3>チーム選択</h3>
-<select id="teamSelect">
-<option>
-チームを選択してください
-</option>
+<select id="teamSelect" style="width: 100%; height: 40px; margin-bottom: 15px; font-size: 16px;">
+    <option value="">チームを選択してください</option>
 </select>
 <div id="teamManageList"></div>
 
 <h3>選手登録</h3>
+<!-- 選手登録の固定タイトル行を追加 -->
+<div class="playerHeader">
+    <span class="playerHeaderNo">No.</span>
+    <span class="playerHeaderName">選手名</span>
+</div>
+
 <div id="playerList"></div>
+
+<button id="savePlayersButton" style="margin-top: 20px;">保存</button>
+
 </main>
 
 </section>
@@ -120,42 +123,41 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
         </div>
         
-<div class="matchTabs">
+        <div class="matchTabs">
+            <div class="matchTabHeader">
+                <div id="matchTabArea"></div>
+                <button id="addMatchButton" class="iconButton">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </div>
 
-    <div class="matchTabHeader">
-    <div id="matchTabArea"></div>
-    <button id="addMatchButton" class="iconButton">
-        <i class="fa-solid fa-plus"></i>
-    </button>
+        <!-- スコア -->
+        <div class="card">
 
-</div>
+            <h3>得点</h3>
 
-</div>
-<!-- スコア -->
-<div class="card">
+            <!-- チーム名 -->
+            <div class="scoreTeamRow">
 
-    <h3>得点</h3>
+                <select id="homeTeamSelect" class="scoreTeamSelect">
+                </select>
 
-    <!-- チーム名 -->
-    <div class="scoreTeamRow">
+                <span class="scoreVs">VS</span>
 
-        <select id="homeTeamSelect" class="scoreTeamSelect">
-        </select>
-
-        <span class="scoreVs">VS</span>
-
-        <input
-            id="awayTeam"
-            class="scoreTeamInput"
-            placeholder="アウェイチーム">
-    </div>
+                <input
+                    id="awayTeam"
+                    class="scoreTeamInput"
+                    placeholder="アウェイチーム">
+            </div>
 
             <div class="scoreBoard">
                 <span id="homeScore" class="score">0</span>
                 <span class="scoreSeparator">－</span>
                 <span id="awayScore" class="score">0</span>
             </div>
-      <!-- 得点履歴 -->
+            
+            <!-- 得点履歴 -->
             <div id="goalHistory">
             </div>
 
@@ -211,7 +213,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </div>
 
 
-
 <!-- ===================================== -->
 <!-- 大会作成ダイアログ -->
 <!-- ===================================== -->
@@ -235,9 +236,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             placeholder="開催場所">
 
         <div>
-
             大会ID
-
             <span id="generatedTournamentId">
                 ------
             </span>
@@ -288,9 +287,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </div>
 
-<!-- Firebase
-<script type="module" src="firebase.js"></script>
--->
 <!-- アプリ -->
 <script type="module" src="script.js"></script>
 
