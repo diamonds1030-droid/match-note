@@ -262,11 +262,22 @@ button:active {
 }
 
 /* 5. 選手一覧内の「No. / 選手名」見出し（一覧スクロール時も上に固定したい場合） */
+/*
 .playerHeader {
     position: sticky;
     top: 0;
-    background-color: #fff; /* スクロール時に下の要素が透けないよう白背景を設定 */
+    background-color: #fff; 
     z-index: 10;
+}
+*/
+.playerHeader {
+    position: sticky;
+    top: 0;
+    display: flex;
+    margin-bottom: 10px;
+    font-weight: bold;
+    border-bottom: 2px solid #2e7d32;
+    padding-bottom: 8px;
 }
 
 
