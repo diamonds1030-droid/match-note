@@ -899,7 +899,7 @@ function createPlayerList(){
     list.innerHTML="";
 
     // タイトル
-    //const header=document.createElement("div");
+    const header=document.createElement("div");
 
     header.className="playerHeader";
 
