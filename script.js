@@ -903,11 +903,6 @@ function createPlayerList(){
 
     header.className="playerHeader";
 
-    header.innerHTML=`
-        <div class="playerHeaderNo">No</div>
-        <div class="playerHeaderName">選手名</div>
-    `;
-
     list.appendChild(header);
 
     for(let i=0;i<MAX_PLAYERS;i++){
