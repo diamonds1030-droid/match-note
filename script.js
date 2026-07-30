@@ -901,7 +901,7 @@ function createPlayerList(){
     // タイトル
     const header=document.createElement("div");
 
-    header.className="playerHeader";
+    //header.className="playerHeader";
 
     list.appendChild(header);
 
