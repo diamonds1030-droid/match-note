@@ -174,7 +174,7 @@ button:active {
 /* ==========================
    選手登録画面
 ========================== */
-
+/*
 #playerList {
     margin: 20px 0;
 }
@@ -217,6 +217,58 @@ button:active {
 .playerHeaderName {
     flex: 1;
 }
+*/
+/* =====================================
+   選手登録画面の固定＆スクロール設定
+===================================== */
+
+/* 1. ページ全体を画面高さにフィットさせ、はみ出しを防ぐ */
+#playerPage {
+    height: calc(100vh - 60px); /* 共通ヘッダー等の高さを除いた画面高さ */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* ページ全体のスクロールを無効化 */
+}
+
+/* 2. mainタグをFlexboxにして高さを一杯に広げる */
+#playerPage main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* 3. チーム選択ヘッダー周り（スクロールせず上部に固定される） */
+#playerPage h3 {
+    flex-shrink: 0; /* 潰れないように固定 */
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+#teamSelect {
+    flex-shrink: 0; /* 潰れないように固定 */
+    margin-bottom: 15px;
+}
+
+/* 4. 選手一覧エリア（ここだけをスクロール可能にする） */
+#playerList {
+    flex: 1; /* 残りの縦スペースをすべて占有 */
+    overflow-y: auto; /* 内容がはみ出したら縦スクロール */
+    padding-right: 5px; /* スクロールバーと被らないよう少し隙間を空ける */
+    
+    /* スマホでのスクロールを滑らかにする設定 */
+    -webkit-overflow-scrolling: touch; 
+}
+
+/* 5. 選手一覧内の「No. / 選手名」見出し（一覧スクロール時も上に固定したい場合） */
+.playerHeader {
+    position: sticky;
+    top: 0;
+    background-color: #fff; /* スクロール時に下の要素が透けないよう白背景を設定 */
+    z-index: 10;
+}
+
 
 /* ==========================================
    試合ノート画面
