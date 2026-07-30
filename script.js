@@ -1,3 +1,5 @@
+2
+
 // =================================
 // Firebase
 // =================================
@@ -11,6 +13,7 @@ import {
     deleteDoc
 }
 from "./firebase.js";
+alert("import完了");
 
 // ==============================
 // 設定
@@ -81,16 +84,24 @@ const tournament={
 
 window.onload = async function(){
 
+    alert("① onload開始");
+
     try{
         await loadTeams();
+        alert("② loadTeams完了");
     }
     catch(e){
         alert("loadTeamsエラー");
     }
+    alert("③ createPlayerList");
     createPlayerList();
+    alert("④ initializeButtons");
     initializeButtons();
+    alert("⑤ refreshMatch");
     refreshMatch();
+    alert("⑥ loadTournamentList");
     loadTournamentList();
+    alert("⑦ 完了");
 }
 
 function refreshMatch(){
@@ -159,17 +170,13 @@ function openDialog({
 }
 
 function closeDialog(){
-    const commonDialog = document.getElementById("commonDialog");
+
+    const commonDialog =
+        document.getElementById("commonDialog");
+
     if(commonDialog) commonDialog.classList.remove("show");
-    
-    // ダイアログを閉じた後、中身をクリアして古いIDを残さないようにする
-    setTimeout(() => {
-        const dialogContent = document.getElementById("dialogContent");
-        if(dialogContent) dialogContent.innerHTML = "";
-    }, 200);
+
 }
-
-
 // ==============================
 // 画面切替
 // ==============================
@@ -194,7 +201,6 @@ function showPage(pageId) {
     }
     updateHeader(pageId);
 }
-
 
 // ==============================
 // 共通ヘッダー化
@@ -277,17 +283,14 @@ function initializeHeaderButtons(){
         openDialog({
             title:"チーム作成",
             content:`
-                <input id="newTeamNameInput" class="teamNameInput" placeholder="チーム名">
+                <input id="newTeamName"
+                class="teamNameInput"
+                placeholder="チーム名">
             `,
             buttons:[
                 {
                     text:"作成",
-                    onclick: () => {
-                        // 重複しない新しいID、または共通ダイアログ内から値を取得する
-                        const input = document.getElementById("newTeamNameInput");
-                        const val = input ? input.value : "";
-                        createTeam(val);
-                    }
+                    onclick:createTeam
                 },
                 {
                     text:"キャンセル"
@@ -305,9 +308,6 @@ function initializeHeaderButtons(){
     document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
 
 }
-
-
-
 
 // ==============================
 // 大会ID生成
@@ -680,41 +680,34 @@ if (team) {
 //===============================
 // チーム作成
 //===============================
-// 引数 name を受け取るように変更
+async function createTeam(){
 
-async function createTeam(name){
+    const name =
+        document
+        .getElementById("newTeamName")
+        .value
+        .trim();
 
-    // 受け取った文字列、または要素から取得
-    const inputName = typeof name === "string" ? name : document.getElementById("newTeamNameInput")?.value;
-    const teamName = (inputName || "").trim();
-
-    if(teamName === ""){
+    if(name===""){
         alert("チーム名を入力してください");
         return;
     }
 
-    const id = "TEAM_" + Date.now();
+    const id =
+        "TEAM_" + Date.now();
 
-    try {
-        await setDoc(
-            doc(db, "teams", id),
-            {
-                id: id,
-                teamName: teamName,
-                players: Array(30).fill("")
-            }
-        );
+    await setDoc(
+        doc(db,"teams",id),
+        {
+            id:id,
+            teamName:name,
+            players:Array(30).fill("")
+        }
+    );
 
-        alert("チーム「" + teamName + "」を作成しました");
-        await loadTeams();
-    } catch(e) {
-        console.error(e);
-        alert("チームの作成に失敗しました");
-    }
+    await loadTeams();
 
 }
-
-
 //===============================
 // チーム一覧取得
 //===============================
@@ -741,95 +734,88 @@ async function loadTeams(){
 
 }
 
-//===============================
-// チーム一覧生成（試合履歴風スワイプ対応）
-//===============================
 function createTeamList(){
 
-    const area = document.getElementById("teamList");
+    const area =
+        document.getElementById(
+            "teamList"
+        );
+
     if(!area) return;
-    area.innerHTML = "";
-
-    teams.forEach(team => {
-        const card = document.createElement("div");
-        card.className = "historySwipe"; // 試合履歴と同じCSSを流用
-
-        card.innerHTML = `
-            <div class="historyDelete">削除</div>
-            <div class="historyContent">
-                <div class="historyTitle">${team.teamName}</div>
-                <div class="historyInfo">
-                    <span>登録選手: ${team.players.filter(p => p !== "").length}名</span>
-                </div>
-            </div>
-        `;
-
-        const content = card.querySelector(".historyContent");
-
-        // カードタップで選手登録画面へ移動
-        content.onclick = async () => {
-            if(content.classList.contains("open")){
-                content.classList.remove("open");
-                return;
-            }
-
-            currentPlayerTeamId = team.id;
+    area.innerHTML="";
+    teams.forEach(team=>{
+        const div =
+            document.createElement("div");
+        div.className =
+            "teamItem";
+        // チーム名表示
+        const name =
+            document.createElement("span");
+        name.textContent =
+            team.teamName;
+        name.className =
+            "teamSelectName";
+        // チーム名タップ
+        name.onclick = async()=>{
+        // 選択チーム保存
+            currentPlayerTeamId =
+                team.id;
+        // 選手登録画面へ移動
             showPage("playerPage");
-
-            const select = document.getElementById("teamSelect");
-            if(select) select.value = team.id;
-
-            const snapshot = await getDoc(doc(db, "teams", team.id));
-            const data = snapshot.data();
-            players = [...data.players];
+        // プルダウン選択
+            const select =
+                document.getElementById(
+                    "teamSelect"
+                );
+                if(select) select.value = team.id;
+        // 選手取得
+            const snapshot =
+                await getDoc(
+                    doc(
+                        db,
+                        "teams",
+                        team.id
+                    )
+                );
+            const data =
+                snapshot.data();
+            players =
+                [...data.players];
+        // 選手一覧表示
             createPlayerList();
         };
-
-        // 削除ボタンタップ
-        const deleteButton = card.querySelector(".historyDelete");
-        deleteButton.onclick = (e) => {
-            e.stopPropagation();
-
-            openDialog({
-                title: "チーム削除",
-                content: `
-                    <p><strong>${team.teamName}</strong></p>
-                    <p>このチームを削除しますか？</p>
-                `,
-                buttons: [
-                    {
-                        text: "キャンセル"
-                    },
-                    {
-                        text: "削除",
-                        className: "deleteButton",
-                        onclick: async () => {
-                            await deleteDoc(doc(db, "teams", team.id));
-                            await loadTeams();
-                        }
-                    }
-                ]
-            });
+        // 削除ボタン
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "iconButton deleteIconButton";
+        deleteButton.innerHTML =
+            '<i class="fa-solid fa-trash"></i>';
+        deleteButton.onclick =
+            async()=>{
+            const result =
+                confirm(
+                    team.teamName +
+                    "を削除しますか？"
+                );
+            if(!result){
+                return;
+            }
+            await deleteDoc(
+                doc(
+                    db,
+                    "teams",
+                    team.id
+                )
+            );
+            alert(
+                "削除しました"
+            );
+            loadTeams();
         };
-
-        // スワイプ処理（左スワイプで削除出現、右で戻る）
-        let startX = 0;
-        content.addEventListener("touchstart", e => {
-            startX = e.touches[0].clientX;
-        });
-
-        content.addEventListener("touchend", e => {
-            const diff = startX - e.changedTouches[0].clientX;
-            if (diff > 50) {
-                content.classList.add("open");
-            }
-            if (diff < -50) {
-                content.classList.remove("open");
-            }
-        });
-
-        area.appendChild(card);
+        div.appendChild(name);
+        div.appendChild(deleteButton);
+        area.appendChild(div);
     });
+
 }
 
 // ==============================
@@ -902,6 +888,11 @@ function createPlayerList(){
     const header=document.createElement("div");
 
     header.className="playerHeader";
+
+    header.innerHTML=`
+        <div class="playerHeaderNo">No</div>
+        <div class="playerHeaderName">選手名</div>
+    `;
 
     list.appendChild(header);
 
