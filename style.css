@@ -68,15 +68,25 @@ button:active{
     display:flex;
     align-items:center;
     justify-content:center;
-    background:rgba(255,255,255,.75);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
+    background:#ffffff; /* 背景を白で固定して視認性を確保 */
     z-index:100;
     border-bottom:1px solid rgba(0,0,0,.08);
+    padding: 0 50px; /* 左のホームボタンと被らないように左右に余白 */
+}
+
+/* タイトルテキストの文字色と見た目を確定 */
+.subHeader h2{
+    margin:0;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+    color:#333333 !important; /* 確実に文字を表示 */
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 /* ホームボタン */
-
 .homeButton{
     position:absolute;
     left:10px;
@@ -85,20 +95,11 @@ button:active{
     margin:0;
     padding:0;
     background:none;
-    color:#333;
-    font-size:32px;
-    font-weight:bold;
+    color:#333333;
     border:none;
     display:flex;
     align-items:center;
-    justify-content:flex-start;
-}
-
-/* タイトル */
-
-.subHeader h2{
-    margin:0;
-    text-align:center;
+    justify-content:center;
 }
 
 #headerRight{
