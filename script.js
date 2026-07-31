@@ -977,9 +977,8 @@ async function savePlayers(){
             merge:true
         }
     );
-    alert(
-        "選手を保存しました"
-    );
+    await loadTeams();
+    alert("選手を保存しました");
 }
 
 // ==============================
