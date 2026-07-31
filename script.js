@@ -887,7 +887,7 @@ function createPlayerList(){
     // タイトル
     const header=document.createElement("div");
 
-  //  header.className="playerHeader";
+    header.className="playerHeader";
 
     header.innerHTML=`
         <div class="playerHeaderNo">No</div>
