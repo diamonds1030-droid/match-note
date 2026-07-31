@@ -829,7 +829,7 @@ function createPlayerTeamSelect(){
     if(!select) return;
 
     select.innerHTML =
-        '<option value="">チーム選択</option>';
+        '<option value="">チーム選択Java</option>';
 
     teams.forEach(team=>{
 
@@ -856,7 +856,7 @@ function createHomeTeamSelect(){
     if(!select) return;
 
     select.innerHTML =
-        '<option value="">チーム選択</option>';
+        '<option value="">チーム選択Java script</option>';
 
     teams.forEach(team=>{
 
