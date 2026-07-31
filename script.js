@@ -729,16 +729,32 @@ async function loadTeams(){
 // チーム一覧生成（試合履歴と完全に同一のスワイプ構造）
 // ===============================
 function createTeamList() {
-    const area = document.getElementById("teamList");
-    if (!area) return;
-    area.innerHTML = "";
+    const list = document.getElementById("teamList");
+    if (!list) return;
+
+    // 1. サブタイトル（固定）の共通設定
+    let header = document.getElementById("teamListHeader");
+    if (!header) {
+        header = document.createElement("div");
+        header.id = "teamListHeader";
+        header.className = "playerHeader";
+        header.innerHTML = `<div class="playerHeaderName">登録済みチーム一覧</div>`;
+        list.parentNode.insertBefore(header, list); // list の外側（手前）に固定配置
+    }
+
+    // 2. リスト内のみ初期化（固定サブタイトルは消えない）
+    list.innerHTML = "";
+    
+    //const area = document.getElementById("teamList");
+    //if (!area) return;
+    //area.innerHTML = "";
     // --- JavaScriptでタイトル（ヘッダー）を動的に生成 ---
-    const header = document.createElement("div");
-    header.className = "playerHeader"; // 選手一覧と同じスタイルクラス（固定表示用）
-    header.innerHTML = `
-        <div class="playerHeaderName">登録済みチーム一覧</div>
-    `;
-    area.appendChild(header);
+    //const header = document.createElement("div");
+    //header.className = "playerHeader"; // 選手一覧と同じスタイルクラス（固定表示用）
+    //header.innerHTML = `
+  //      <div class="playerHeaderName">登録済みチーム一覧</div>
+    //`;
+    //area.appendChild(header);
     // ---------------------------------------------------
 
     teams.forEach(team => {
@@ -860,23 +876,36 @@ function createPlayerTeamSelect(){
 
 function createPlayerList(){
 
-    const list=document.getElementById("playerList");
+    const list = document.getElementById("playerList");
+    if (!list) return;
 
-    if(!list) return;
+    // 1. サブタイトル（固定）の共通設定
+    let header = document.getElementById("playerListHeader");
+    if (!header) {
+        header = document.createElement("div");
+        header.id = "playerListHeader";
+        header.className = "playerHeader";
+        header.innerHTML = `
+            <div class="playerHeaderNo">No</div>
+            <div class="playerHeaderName">選手名</div>
+        `;
+        list.parentNode.insertBefore(header, list); // list の外側（手前）に固定配置
+    }
 
-    list.innerHTML="";
-
+    // 2. リスト内のみ初期化
+    list.innerHTML = "";
+    //const list=document.getElementById("playerList");
+    //if(!list) return;
+    //list.innerHTML="";
     // タイトル
-    const header=document.createElement("div");
+    //const header=document.createElement("div");
+    //header.className="playerHeader";
+    //header.innerHTML=`
+   //     <div class="playerHeaderNo">No</div>
+   //     <div class="playerHeaderName">選手名</div>
+//    `;
 
-    header.className="playerHeader";
-
-    header.innerHTML=`
-        <div class="playerHeaderNo">No</div>
-        <div class="playerHeaderName">選手名</div>
-    `;
-
-    list.appendChild(header);
+    //list.appendChild(header);
 
     for(let i=0;i<MAX_PLAYERS;i++){
 
