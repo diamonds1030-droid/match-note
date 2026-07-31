@@ -267,20 +267,25 @@ button:active {
     margin-top: 0;
     margin-bottom: 8px;
 }
-
+/*
 #teamSelect {
-    flex-shrink: 0; /* 潰れないように固定 */
+    flex-shrink: 0;
     margin-bottom: 15px;
 }
 
-/* 4. 選手一覧エリア（ここだけをスクロール可能にする） */
 #playerList {
-    flex: 1; /* 残りの縦スペースをすべて占有 */
-    overflow-y: auto; /* 内容がはみ出したら縦スクロール */
-    padding-right: 5px; /* スクロールバーと被らないよう少し隙間を空ける */
-    
-    /* スマホでのスクロールを滑らかにする設定 */
+    flex: 1; 
+    overflow-y: auto; 
+    padding-right: 5px; 
     -webkit-overflow-scrolling: touch; 
+}*/
+#teamList,
+#playerList {
+    flex: 1;                    /* 残りの縦スペースをすべて占有 */
+    min-height: 0;              /* Flexboxの崩れ防止 */
+    overflow-y: auto !important;/* この領域内のみ縦スクロール */
+    -webkit-overflow-scrolling: touch; /* スマホ用なめらかスクロール */
+    padding-right: 2px; /* スクロールバーと被らないよう少し隙間を空ける */
 }
 
 /* 5. 選手一覧内の「No. / 選手名」見出し（一覧スクロール時も上に固定したい場合） */
@@ -293,6 +298,7 @@ button:active {
 }
 */
 .playerHeader {
+    flex-shrink: 0;             /* 絶対に潰さない（固定） */
     position: sticky;
     top: 0;
     display: flex;
