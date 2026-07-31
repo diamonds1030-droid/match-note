@@ -296,7 +296,9 @@ button:active {
     position: sticky;
     top: 0;
     display: flex;
+    margin-top: 0 !important;   /* ヘッダーとの間のマージンを削除 */
     margin-bottom: 10px;
+    padding: 12px 0;            /* 余白は内側のpaddingで確保 */
     font-weight: bold;
     border-bottom: 2px solid #2e7d32;
     padding-bottom: 8px;
