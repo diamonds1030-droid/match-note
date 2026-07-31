@@ -222,6 +222,28 @@ button:active {
    選手登録画面の固定＆スクロール設定
 ===================================== */
 
+.playerRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.playerNo {
+    width: 50px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.playerName {
+    flex: 1;
+    height: 42px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
 /* 1. ページ全体を画面高さにフィットさせ、はみ出しを防ぐ */
 #playerPage {
     height: calc(100vh - 60px); /* 共通ヘッダー等の高さを除いた画面高さ */
