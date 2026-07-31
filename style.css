@@ -279,7 +279,34 @@ button:active {
     border-bottom: 2px solid #2e7d32;
     padding-bottom: 8px;
     z-index: 10;
+    /* 半透明の背景色（白の85%不透明度） */
+    background: rgba(245, 245, 245, 0.85); 
+
+    /* 背景をぼかす「すりガラス効果」（対応ブラウザ用） */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
+
+/* 3. 見出しエリア（すりガラス効果で少し透けるように設定） */
+/*
+#teamPage .playerHeader {
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+
+
+    background: rgba(245, 245, 245, 0.85); 
+
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    z-index: 10; 
+    padding: 15px 0 8px 0;
+    margin-bottom: 10px;
+}
+*/
+
 
 
 /* ==========================================
