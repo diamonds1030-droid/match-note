@@ -837,7 +837,7 @@ function createTeamList() {
             }
         });
 
-        area.appendChild(card);
+        list.appendChild(card);
     });
 }
 
