@@ -732,6 +732,14 @@ function createTeamList() {
     const area = document.getElementById("teamList");
     if (!area) return;
     area.innerHTML = "";
+    // --- JavaScriptでタイトル（ヘッダー）を動的に生成 ---
+    const header = document.createElement("div");
+    header.className = "playerHeader"; // 選手一覧と同じスタイルクラス（固定表示用）
+    header.innerHTML = `
+        <div class="playerHeaderName">登録済みチーム一覧</div>
+    `;
+    area.appendChild(header);
+    // ---------------------------------------------------
 
     teams.forEach(team => {
         const card = document.createElement("div");
@@ -844,36 +852,10 @@ function createPlayerTeamSelect(){
     });
 
 }
-// ==============================
-// チーム選択　試合ノート画面
-// ==============================
 
-function createHomeTeamSelect(){
-
-    const select =
-        document.getElementById("homeTeamSelect");
-
-    if(!select) return;
-
-    select.innerHTML =
-        '<option value="">チーム選択Java script</option>';
-
-    teams.forEach(team=>{
-
-        const option =
-            document.createElement("option");
-
-        option.value = team.id;
-        option.textContent = team.teamName;
-
-        select.appendChild(option);
-
-    });
-
-}
 
 // ==============================
-// 選手一覧生成
+// 選手登録画面　選手一覧生成
 // ==============================
 
 function createPlayerList(){
@@ -926,6 +908,34 @@ function createPlayerList(){
     }
 
     addInputEvents();
+
+}
+
+// ==============================
+// チーム選択　試合ノート画面
+// ==============================
+
+function createHomeTeamSelect(){
+
+    const select =
+        document.getElementById("homeTeamSelect");
+
+    if(!select) return;
+
+    select.innerHTML =
+        '<option value="">チーム選択Java script</option>';
+
+    teams.forEach(team=>{
+
+        const option =
+            document.createElement("option");
+
+        option.value = team.id;
+        option.textContent = team.teamName;
+
+        select.appendChild(option);
+
+    });
 
 }
 
