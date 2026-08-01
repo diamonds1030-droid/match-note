@@ -300,8 +300,7 @@ button:active {
 /* 1. mainエリア上部の余白(padding-top)を完全にゼロにする */
 
 #teamPage main,
-#playerPage main,
-.page > main {
+#playerPage main, {
     padding-top: 0 !important;
 }
 
