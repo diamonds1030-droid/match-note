@@ -152,6 +152,11 @@ button:active {
 /*==============================
   チーム管理画面
 ==============================*/
+/* 親要素の padding-top を 0 にする */
+#teamPage main,
+ {
+    padding-top: 0 !important;
+}
 
 #teamList {
     display: flex;
