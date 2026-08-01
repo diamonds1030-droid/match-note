@@ -298,12 +298,13 @@ button:active {
 }
 */
 /* 1. mainエリア上部の余白(padding-top)を完全にゼロにする */
+/*
 #teamPage main,
 #playerPage main,
 .page > main {
     padding-top: 0 !important;
 }
-
+*/
 .playerHeader {
     flex-shrink: 0;             /* 絶対に潰さない（固定） */
     position: sticky;
