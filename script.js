@@ -740,6 +740,28 @@ function createTeamList() {
         header.innerHTML = `<div class="playerHeaderName">登録済みチーム一覧</div>`;
         list.parentNode.insertBefore(header, list); // list の外側（手前）に固定配置
     }
+/* =========================================================
+   チーム管理画面（#teamPage）専用の設定
+========================================================= */
+
+/* 1. チーム管理画面の main の上部余白（padding-top）をゼロにする */
+#teamPage main {
+    padding-top: 0 !important;
+}
+
+/* 2. チーム管理画面のサブタイトル（#teamListHeader）のみ上部へ密着させる */
+#teamListHeader {
+    margin-top: 0 !important;
+    
+    /* 内側の余白でヘッダー（タイトル）との間隔を調整 */
+    /* 上部の余白(16px)を増やしても背景色(#f5f5f5)で塗られるためチラ見えしません */
+    padding-top: 16px !important; 
+    padding-bottom: 8px !important;
+    
+    background: #f5f5f5 !important; /* 背景色でスクロール要素を完全に隠す */
+    width: 100%;
+}
+
 
     // 2. リスト内のみ初期化（固定サブタイトルは消えない）
     list.innerHTML = "";
