@@ -299,11 +299,6 @@ button:active {
 */
 /* 1. mainエリア上部の余白(padding-top)を完全にゼロにする */
 
-#teamPage main,
-#playerPage main, {
-    padding-top: 0 !important;
-}
-
 .playerHeader {
     flex-shrink: 0;             /* 絶対に潰さない（固定） */
     position: sticky;
@@ -314,7 +309,7 @@ button:active {
     /*padding: 15px 0;            /* 余白は内側のpaddingで確保 */
     font-weight: bold;
     border-bottom: 2px solid #2e7d32;
-    padding-top: 120px;
+    padding-top: 16px;
     padding-bottom: 8px;
     z-index: 10;
     background: #f5f5f5 !important; 
@@ -322,7 +317,7 @@ button:active {
     -webkit-backdrop-filter: none !important;
     /*確認用*/
     align-items: center;
-    padding: 12px 0 8px 0;         /* 内側のpaddingで高さを調整 */
+    /*padding: 12px 0 8px 0;         /* 内側のpaddingで高さを調整 */
     width: 100%;
 }
 .playerHeaderNo {
