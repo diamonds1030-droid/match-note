@@ -84,7 +84,6 @@ const tournament={
 window.onload = async function(){
     try{
         await loadTeams();
-        alert("② loadTeams完了");
     }
     catch(e){
         alert("loadTeamsエラー");
