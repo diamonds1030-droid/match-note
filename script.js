@@ -189,8 +189,28 @@ function showPage(pageId) {
 
         page.classList.add("active");
     }
+    if (pageId !== 'playerPage') {
+        resetPlayerPage();
+    }
     updateHeader(pageId);
 }
+
+// 選手登録画面を初期（デフォルト）状態に戻す関数
+function resetPlayerPage() {
+    currentPlayerTeamId = ""; // 選択中チームIDをクリア
+    
+    const select = document.getElementById("teamSelect");
+    if (select) {
+        select.value = ""; // ドロップダウンを「チームを選択してください」に戻す
+    }
+    
+    // 選手一覧の表示（入力欄）をクリア
+    const playerList = document.getElementById("playerList");
+    if (playerList) {
+        playerList.innerHTML = "";
+    }
+}
+
 
 // ==============================
 // 共通ヘッダー化
