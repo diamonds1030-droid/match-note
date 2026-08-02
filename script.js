@@ -1279,6 +1279,24 @@ function createDrawerGoalButtons(container) {
     };
     container.appendChild(opponentGoalBtn);
 }
+// 交代処理を実行した時のJavaScript処理例
+function recordSubstitution(time, playerOut, playerIn) {
+    // 1. 交代履歴エリアに表示を追加
+    const subHistoryContainer = document.getElementById('subHistory');
+    
+    const item = document.createElement('div');
+    item.className = 'subHistoryItem';
+    item.innerHTML = `
+        <span class="subHistoryTime">${time}</span>
+        <span class="subHistoryDetail">
+            OUT: <span class="subOut">${playerOut}</span> ➔ IN: <span class="subIn">${playerIn}</span>
+        </span>
+    `;
+    
+    subHistoryContainer.appendChild(item);
+
+    // ※フッターやドロワー側で参照している「スタメンリスト」のDOM/配列は更新せずそのまま保持します
+}
 
 // ==============================
 // 交代欄生成
