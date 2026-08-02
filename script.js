@@ -1123,39 +1123,26 @@ function createMatchTabs(){
 // 出場選手一覧生成
 // ==============================
 
+// ==============================
+// 出場選手（スタメン）一覧生成
+// ==============================
 function createLineup() {
-
-    const matchState =
-    tournament.matches[
-        tournament.currentMatch
-    ];
+    const matchState = tournament.matches[tournament.currentMatch];
     const area = document.getElementById("lineupArea");
 
     if (!area) return;
 
     area.innerHTML = "";
 
-    const positions = [
-        "GK",
-        "FP1",
-        "FP2",
-        "FP3",
-        "FP4",
-        "FP5",
-        "FP6",
-        "FP7"
-    ];
+    const positions = ["GK", "FP1", "FP2", "FP3", "FP4", "FP5", "FP6", "FP7"];
 
     positions.forEach(position => {
-
         const row = document.createElement("div");
         row.className = "lineupRow";
 
-        // 他のポジションで選択済みの選手は候補から除外
         let options = '<option value="">選択してください</option>';
 
         players.forEach(player => {
-
             if (player === "") return;
 
             const used = Object.entries(matchState.lineup).some(([pos, name]) => {
@@ -1163,65 +1150,50 @@ function createLineup() {
             });
 
             if (!used || matchState.lineup[position] === player) {
-
-                options += `
-                    <option value="${player}">
-                        ${player}
-                    </option>
-                `;
-
+                options += `<option value="${player}">${player}</option>`;
             }
-
         });
 
+        // 得点ボタンを削除し、純粋なスタメン設定用プルダウンのみに
         row.innerHTML = `
             <label>${position}</label>
-
-            <select class="lineupSelect">
-                ${options}
-            </select>
-
-            <button class="goalButton">
-                得点
-            </button>
+            <select class="lineupSelect">${options}</select>
         `;
 
         const select = row.querySelector(".lineupSelect");
-        const button = row.querySelector(".goalButton");
+        select.value = matchState.lineup[position] || "";
 
-        // 現在の選択を復元
-        select.value = matchState.lineup[position];
-
-        // 選手変更
         select.addEventListener("change", () => {
-
             matchState.lineup[position] = select.value;
-
-            // プルダウン・交代欄を更新
-            createLineup();
-            createSubstitutionArea();
-
-        });
-
-        // 得点
-        button.addEventListener("click", () => {
-
-            if (select.value === "") {
-
-                alert("選手を選択してください");
-                return;
-
-            }
-
-            goalButtonClick(select.value);
-
+            createSubstitutionArea(); // 交代枠の選択肢を更新
         });
 
         area.appendChild(row);
+    });
+}
 
+
+/**
+ * 現在ピッチ上に出場している選手の一覧を取得（スタメン + 交代反映）
+ */
+function getCurrentPitchPlayers() {
+    const matchState = tournament.matches[tournament.currentMatch];
+    if (!matchState) return [];
+
+    let currentPlayers = Object.values(matchState.lineup).filter(name => name !== "");
+
+    matchState.substitutions.forEach(sub => {
+        if (sub.done) {
+            currentPlayers = currentPlayers.filter(p => p !== sub.out);
+            if (sub.in && !currentPlayers.includes(sub.in)) {
+                currentPlayers.push(sub.in);
+            }
+        }
     });
 
+    return currentPlayers;
 }
+
 
 
 /**
@@ -1677,7 +1649,6 @@ function updateScore(){
 // 試合ノート ポップアップ（ドロワー）制御
 // =================================
 
-// ドロワーに入れる前の親要素を一時保持する変数
 let drawerOriginalParent = null;
 let drawerMovedElement = null;
 
@@ -1693,46 +1664,80 @@ window.openMatchDrawer = function(type) {
 
     if (!drawer || !overlay || !contentEl) return;
 
-    // 前回の要素を復元
+    // 前回の移動要素があれば元の場所に戻す
     if (drawerMovedElement && drawerOriginalParent) {
         drawerOriginalParent.appendChild(drawerMovedElement);
+        drawerMovedElement = null;
+        drawerOriginalParent = null;
     }
 
     contentEl.innerHTML = "";
 
-    let targetEl = null;
-
     if (type === 'lineup') {
         titleEl.textContent = "スタメン設定";
-        targetEl = document.getElementById("lineupArea");
-        // ※ createLineup() では matchState.lineup のみを参照するため、
-        // 交代（substitutions）を行ってもスタメン表示は変更されません。
+        const lineupTarget = document.getElementById("lineupArea");
+        if (lineupTarget) {
+            drawerOriginalParent = lineupTarget.parentElement;
+            drawerMovedElement = lineupTarget;
+            contentEl.appendChild(lineupTarget);
+        }
 
     } else if (type === 'goals') {
         titleEl.textContent = "得点記録";
         
-        // 得点ボタン用のコンテナを作成
+        // 得点入力用ボタンエリアを動的に生成
         const goalBox = document.createElement("div");
         goalBox.className = "drawerGoalContainer";
-        createDrawerGoalButtons(goalBox);
-        
+
+        const pitchPlayers = getCurrentPitchPlayers();
+
+        // 1. ピッチ上の選手ボタン
+        pitchPlayers.forEach(player => {
+            const btn = document.createElement("button");
+            btn.className = "goalScorerBtn";
+            btn.textContent = player + " ⚽";
+            btn.onclick = () => {
+                goalButtonClick(player);
+                closeMatchDrawer();
+            };
+            goalBox.appendChild(btn);
+        });
+
+        // 2. オウンゴール
+        const ownBtn = document.createElement("button");
+        ownBtn.className = "goalScorerBtn ownGoal";
+        ownBtn.textContent = "オウンゴール";
+        ownBtn.onclick = () => {
+            goalButtonClick("オウンゴール");
+            closeMatchDrawer();
+        };
+        goalBox.appendChild(ownBtn);
+
+        // 3. 相手得点
+        const oppBtn = document.createElement("button");
+        oppBtn.className = "goalScorerBtn opponentGoal";
+        oppBtn.textContent = "相手得点";
+        oppBtn.onclick = () => {
+            goalButtonClick("相手得点");
+            closeMatchDrawer();
+        };
+        goalBox.appendChild(oppBtn);
+
         contentEl.appendChild(goalBox);
 
     } else if (type === 'subs') {
         titleEl.textContent = "選手交代";
-        targetEl = document.getElementById("substitutionArea");
-    }
-
-    if (targetEl) {
-        drawerOriginalParent = targetEl.parentElement;
-        drawerMovedElement = targetEl;
-        contentEl.appendChild(targetEl);
+        const subTarget = document.getElementById("substitutionArea");
+        if (subTarget) {
+            drawerOriginalParent = subTarget.parentElement;
+            drawerMovedElement = subTarget;
+            contentEl.appendChild(subTarget);
+        }
     }
 
     overlay.classList.add("show");
     drawer.classList.add("show");
 };
-
 
 /**
  * 隠しメニュー（ポップアップ）を閉じる
@@ -1744,7 +1749,7 @@ window.closeMatchDrawer = function() {
     if (drawer) drawer.classList.remove("show");
     if (overlay) overlay.classList.remove("show");
 
-    // ポップアップ内に移動させた要素を元の親要素へ戻す
+    // モード切り替え時に要素を元の場所に復元
     if (drawerMovedElement && drawerOriginalParent) {
         drawerOriginalParent.appendChild(drawerMovedElement);
         drawerMovedElement = null;
