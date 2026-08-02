@@ -1010,18 +1010,26 @@ function addInputEvents(){
 }
 
 
+
 // ==============================
 // 保存
 // ==============================
 async function savePlayers(){
 
-    if(currentPlayerTeamId===""){
+    // ドロップダウンから現在の選択値を取得（念のため同期）
+    const select = document.getElementById("teamSelect");
+    if (select && select.value) {
+        currentPlayerTeamId = select.value;
+    }
 
-        alert(
-            "チームを選択してください"
-        );
+    if(currentPlayerTeamId===""){
+        alert("チームを選択してください");
         return;
     }
+
+    // ★ 選択中のチームIDを変数に保持しておく
+    const savedTeamId = currentPlayerTeamId;
+
     await setDoc(
         doc(
             db,
@@ -1035,9 +1043,19 @@ async function savePlayers(){
             merge:true
         }
     );
+
+    // チーム一覧を再読み込み（ここでドロップダウンが初期化される）
     await loadTeams();
+
+    // ★ 修正箇所：保持しておいたチームIDを再セットして表示を復元！
+    if (select) {
+        select.value = savedTeamId;
+    }
+    currentPlayerTeamId = savedTeamId;
+
     alert("選手を保存しました");
 }
+
 
 // ==============================
 // 操作の戻り
