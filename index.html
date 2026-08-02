@@ -116,36 +116,31 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     <main class="matchMain">
 
         <!-- 1. 大会情報 -->
-<div class="card">
-    <div class="inputRow">
-        <!-- 1行目: 日付 & 会場 -->
-        <div class="row-top">
-            <div class="form-group">
-                <label for="matchDate">日付</label>
-                <input type="date" id="matchDate">
-            </div>
+        <div class="card">
+            <div class="inputRow">
+                <!-- 1行目: 日付 & 会場 -->
+                <div class="row-top">
+                    <div class="form-group">
+                        <label for="matchDate">日付</label>
+                        <input type="date" id="matchDate">
+                    </div>
 
-            <div class="form-group">
-                <label for="matchPlace">会場</label>
-                <input type="text" id="matchPlace" placeholder="例: 岩戸小">
+                    <div class="form-group">
+                        <label for="matchPlace">会場</label>
+                        <input type="text" id="matchPlace" placeholder="例: 岩戸小">
+                    </div>
+                </div>
+
+                <!-- 2行目: 大会名 -->
+                <div class="row-bottom">
+                    <div class="form-group">
+                        <label for="matchName">大会名</label>
+                        <input type="text" id="matchName" placeholder="例: チャンピオン">
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 2行目: 大会名 -->
-        <div class="row-bottom">
-            <div class="form-group">
-                <label for="matchName">大会名</label>
-                <input type="text" id="matchName" placeholder="例: チャンピオン">
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-        
         <div class="matchTabs">
             <div class="matchTabHeader">
                 <div id="matchTabArea"></div>
@@ -155,6 +150,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             </div>
         </div>
 
+        <!-- 2. 試合結果 & 得点履歴 -->
         <div class="card">
             <h3>試合結果</h3>
 
@@ -170,16 +166,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                 <span id="awayScore" class="score">0</span>
             </div>
             
-            <div id="goalHistory"></div>
+            <div id="goalHistory" class="goalHistory"></div>
         </div>
 
+        <!-- 3. 交代履歴（出場選手カードから変更） -->
         <div class="card">
-            <h3>出場選手（スタメン）</h3>
-            <div id="lineupArea"></div>
+            <h3>交代履歴</h3>
+            <div id="subHistory" class="subHistory"></div>
         </div>
 
-        </main>
+    </main>
 
+    <!-- フッターナビゲーション -->
     <nav class="match-footer">
         <button type="button" class="footer-btn" onclick="openMatchDrawer('lineup')">
             <i class="fa-solid fa-users"></i>
@@ -195,6 +193,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         </button>
     </nav>
 
+    <!-- ドロワー（ポップアップ） -->
     <div id="drawerOverlay" class="drawer-overlay" onclick="closeMatchDrawer()"></div>
     <div id="matchDrawer" class="match-drawer">
         <div class="drawer-header">
@@ -207,11 +206,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             <div id="drawerContent"></div>
         </div>
     </div>
-
-    <div style="display: none;">
-        <div id="substitutionArea"></div>
-    </div>
 </section>
+
 
 
 <!-- ===================================== -->
