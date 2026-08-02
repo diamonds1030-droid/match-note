@@ -115,7 +115,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <section id="matchPage" class="page">
     <main class="matchMain">
 
-        <!-- 試合情報 -->
         <div class="card">
             <div class="inputRow">
                 <label>日付</label>
@@ -135,21 +134,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             </div>
         </div>
 
-        <!-- スコア -->
         <div class="card">
-            <h3>得点</h3>
+            <h3>試合結果</h3>
 
-            <!-- チーム名 -->
             <div class="scoreTeamRow">
-                <select id="homeTeamSelect" class="scoreTeamSelect">
-                </select>
-
+                <select id="homeTeamSelect" class="scoreTeamSelect"></select>
                 <span class="scoreVs">VS</span>
-
-                <input
-                    id="awayTeam"
-                    class="scoreTeamInput"
-                    placeholder="アウェイチーム">
+                <input id="awayTeam" class="scoreTeamInput" placeholder="アウェイチーム">
             </div>
 
             <div class="scoreBoard">
@@ -158,45 +149,24 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                 <span id="awayScore" class="score">0</span>
             </div>
             
-            <!-- 得点履歴 -->
-            <div id="goalHistory">
-            </div>
+            <div id="goalHistory"></div>
         </div>
 
-        <!-- 出場選手 -->
         <div class="card">
-            <h3>出場選手</h3>
-
+            <h3>出場選手（スタメン）</h3>
             <div id="lineupArea"></div>
-
-            <div class="specialGoalButtons">
-                <button id="ownGoalButton" class="goalButton own">
-                    オウンゴール
-                </button>
-
-                <button id="opponentGoalButton" class="goalButton opponent">
-                    相手得点
-                </button>
-            </div>
         </div>
 
-        <!-- 交代 -->
-        <div class="card">
-            <h3>交代</h3>
-            <div id="substitutionArea"></div>
-        </div>
+        </main>
 
-    </main>
-
-    <!-- ★ 固定フッター（#matchPage の内部に配置） -->
     <nav class="match-footer">
         <button type="button" class="footer-btn" onclick="openMatchDrawer('lineup')">
             <i class="fa-solid fa-users"></i>
-            <span>出場選手</span>
+            <span>スタメン</span>
         </button>
         <button type="button" class="footer-btn" onclick="openMatchDrawer('goals')">
             <i class="fa-solid fa-futbol"></i>
-            <span>得点</span>
+            <span>得点操作</span>
         </button>
         <button type="button" class="footer-btn" onclick="openMatchDrawer('subs')">
             <i class="fa-solid fa-arrow-right-arrow-left"></i>
@@ -204,7 +174,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         </button>
     </nav>
 
-    <!-- ★ 飛び出すポップアップ（#matchPage の内部に配置） -->
     <div id="drawerOverlay" class="drawer-overlay" onclick="closeMatchDrawer()"></div>
     <div id="matchDrawer" class="match-drawer">
         <div class="drawer-header">
@@ -216,17 +185,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         <div class="drawer-body">
             <div id="drawerContent"></div>
         </div>
-        <!-- 例: ポップアップ内の得点設定エリア -->
-        <div id="drawerGoalArea" style="display: none;">
-            <div id="activeScorerButtons" class="scorer-buttons-grid">
-                <!-- JSでピッチ上の選手＋オウンゴール＋相手得点ボタンを生成 -->
-            </div>
-        </div>
-
     </div>
 
+    <div style="display: none;">
+        <div id="substitutionArea"></div>
+    </div>
 </section>
-
 
 
 <!-- ===================================== -->
