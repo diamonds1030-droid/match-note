@@ -30,6 +30,7 @@ function createEmptyMatch(){
 
     return {
 
+        homeTeamId:"",
         homeTeam:"",
         awayTeam:"",
         
@@ -93,30 +94,41 @@ window.onload = async function(){
 }
 
 function refreshMatch(){
-
     createMatchTabs();
     updateScore();
     createLineup();
     createSubstitutionArea();
     drawGoalHistory();
-    // ==========================
-    // 大会情報を試合ノートへ反映
-    // ==========================
 
-    const matchDate =
-        document.getElementById("matchDate");
-    const matchPlace =
-        document.getElementById("matchPlace");
+    // 大会情報を試合ノートへ反映
+    const matchDate = document.getElementById("matchDate");
+    const matchPlace = document.getElementById("matchPlace");
     if(matchDate){
-        matchDate.value =
-            tournament.date || "";
+        matchDate.value = tournament.date || "";
     }
     if(matchPlace){
-        matchPlace.value =
-            tournament.place || "";
+        matchPlace.value = tournament.place || "";
     }
 
+    // ★ 現在の試合のホームチーム（チーム選択）を反映
+    const matchState = tournament.matches[tournament.currentMatch];
+    const homeSelect = document.getElementById("homeTeamSelect");
+    if(homeSelect && matchState) {
+        homeSelect.value = matchState.homeTeamId || "";
+        
+        // チームが選択されている場合は、そのチームの選手データを読み込む
+        const team = teams.find(t => t.id === matchState.homeTeamId);
+        if(team) {
+            players = [...(team.players || [])];
+        } else {
+            players = [];
+        }
+        // 出場選手・交代の再描画
+        createLineup();
+        createSubstitutionArea();
+    }
 }
+
 
 // ==============================
 // 共通ダイアログ
@@ -1885,7 +1897,7 @@ function initializeButtons() {
         });
     });
 
-
+/*
     document.getElementById("homeTeamSelect")
     ?.addEventListener("change", async function () {
 
@@ -1926,6 +1938,32 @@ function initializeButtons() {
         createSubstitutionArea();
 
     });
+    */
+        // ホームチーム選択変更（試合ごとに個別保存）
+    document.getElementById("homeTeamSelect")?.addEventListener("change", async function () {
+        const id = this.value;
+        const matchState = tournament.matches[tournament.currentMatch];
+
+        if (!id) {
+            players = [];
+            matchState.homeTeam = "";
+            matchState.homeTeamId = "";
+        } else {
+            const snapshot = await getDoc(doc(db, "teams", id));
+            if (snapshot.exists()) {
+                const team = snapshot.data();
+                players = [...(team.players || [])];
+                matchState.homeTeam = team.teamName;
+                matchState.homeTeamId = id;
+            }
+        }
+
+        // チーム変更に伴い、スコア表記やメンバー一覧を更新
+        updateScore();
+        createLineup();
+        createSubstitutionArea();
+    });
+
 
     document
     .getElementById("teamSelect")
