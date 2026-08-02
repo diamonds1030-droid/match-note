@@ -100,6 +100,36 @@ function refreshMatch(){
     createSubstitutionArea();
     drawGoalHistory();
 
+    // ★ 大会情報（日付・大会名・会場）を試合ノートへ反映
+    const matchDate = document.getElementById("matchDate");
+    const matchName = document.getElementById("matchName");
+    const matchPlace = document.getElementById("matchPlace");
+
+    if(matchDate)  matchDate.value  = tournament.date  || "";
+    if(matchName)  matchName.value  = tournament.name  || "";
+    if(matchPlace) matchPlace.value = tournament.place || "";
+
+    // ホームチーム（試合ごとの選択）の反映
+    const matchState = tournament.matches[tournament.currentMatch];
+    const homeSelect = document.getElementById("homeTeamSelect");
+    if(homeSelect && matchState) {
+        homeSelect.value = matchState.homeTeamId || "";
+        
+        const team = teams.find(t => t.id === matchState.homeTeamId);
+        players = team ? [...(team.players || [])] : [];
+        
+        createLineup();
+        createSubstitutionArea();
+    }
+}
+/*
+function refreshMatch(){
+    createMatchTabs();
+    updateScore();
+    createLineup();
+    createSubstitutionArea();
+    drawGoalHistory();
+
     // 大会情報を試合ノートへ反映
     const matchDate = document.getElementById("matchDate");
     const matchPlace = document.getElementById("matchPlace");
@@ -128,7 +158,7 @@ function refreshMatch(){
         createSubstitutionArea();
     }
 }
-
+*/
 
 // ==============================
 // 共通ダイアログ
