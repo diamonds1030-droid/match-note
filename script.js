@@ -1223,6 +1223,48 @@ function createLineup() {
 
 }
 
+
+/**
+ * 得点入力用の選手ボタン（＋オウンゴール／相手得点）を生成
+ */
+function createDrawerGoalButtons(container) {
+    container.innerHTML = "";
+
+    const pitchPlayers = getCurrentPitchPlayers();
+
+    // 1. ピッチ上の選手ボタン
+    pitchPlayers.forEach(player => {
+        const btn = document.createElement("button");
+        btn.className = "goalScorerBtn";
+        btn.textContent = player + " ⚽";
+        btn.onclick = () => {
+            goalButtonClick(player);
+            alert(`${player} の得点を記録しました！`);
+        };
+        container.appendChild(btn);
+    });
+
+    // 2. オウンゴールボタン
+    const ownGoalBtn = document.createElement("button");
+    ownGoalBtn.className = "goalScorerBtn ownGoal";
+    ownGoalBtn.textContent = "オウンゴール";
+    ownGoalBtn.onclick = () => {
+        goalButtonClick("オウンゴール");
+        alert("オウンゴールを記録しました");
+    };
+    container.appendChild(ownGoalBtn);
+
+    // 3. 相手得点ボタン
+    const opponentGoalBtn = document.createElement("button");
+    opponentGoalBtn.className = "goalScorerBtn opponentGoal";
+    opponentGoalBtn.textContent = "相手得点";
+    opponentGoalBtn.onclick = () => {
+        goalButtonClick("相手得点");
+        alert("相手得点を記録しました");
+    };
+    container.appendChild(opponentGoalBtn);
+}
+
 // ==============================
 // 交代欄生成
 // ==============================
@@ -1651,38 +1693,46 @@ window.openMatchDrawer = function(type) {
 
     if (!drawer || !overlay || !contentEl) return;
 
-    // もしすでに何か移動中なら元に戻しておく
+    // 前回の要素を復元
     if (drawerMovedElement && drawerOriginalParent) {
         drawerOriginalParent.appendChild(drawerMovedElement);
     }
 
-    contentEl.innerHTML = ""; // クリア
+    contentEl.innerHTML = "";
 
     let targetEl = null;
 
     if (type === 'lineup') {
-        titleEl.textContent = "出場選手設定";
+        titleEl.textContent = "スタメン設定";
         targetEl = document.getElementById("lineupArea");
+        // ※ createLineup() では matchState.lineup のみを参照するため、
+        // 交代（substitutions）を行ってもスタメン表示は変更されません。
+
     } else if (type === 'goals') {
-        titleEl.textContent = "得点記録・履歴";
-        targetEl = document.getElementById("goalHistory");
+        titleEl.textContent = "得点記録";
+        
+        // 得点ボタン用のコンテナを作成
+        const goalBox = document.createElement("div");
+        goalBox.className = "drawerGoalContainer";
+        createDrawerGoalButtons(goalBox);
+        
+        contentEl.appendChild(goalBox);
+
     } else if (type === 'subs') {
         titleEl.textContent = "選手交代";
         targetEl = document.getElementById("substitutionArea");
     }
 
     if (targetEl) {
-        // 元の親要素を覚えておく
         drawerOriginalParent = targetEl.parentElement;
         drawerMovedElement = targetEl;
-        
-        // ポップアップ内に移動
         contentEl.appendChild(targetEl);
     }
 
     overlay.classList.add("show");
     drawer.classList.add("show");
 };
+
 
 /**
  * 隠しメニュー（ポップアップ）を閉じる
