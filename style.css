@@ -783,41 +783,44 @@ button:active {
   flex: 1;
 }
 
-/* 得点ボタン群のレイアウト */
+
+/* 得点ボタン群のポップアップ用グリッドスタイル */
 .drawerGoalContainer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 10px 0;
 }
 
 .goalScorerBtn {
-    padding: 12px 8px;
-    font-size: 15px;
-    font-weight: bold;
-    background-color: #f0f4f8;
-    border: 1px solid #4caf50;
-    color: #2e7d32;
-    border-radius: 8px;
-    cursor: pointer;
+  padding: 14px 8px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #f0f4f8;
+  border: 1px solid #4caf50;
+  color: #2e7d32;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .goalScorerBtn:active {
-    background-color: #c8e6c9;
+  background-color: #c8e6c9;
 }
 
-/* オウンゴール・相手得点ボタンの装飾 */
 .goalScorerBtn.ownGoal {
-    border-color: #ff9800;
-    color: #e65100;
-    background-color: #fff3e0;
+  border-color: #ff9800;
+  color: #e65100;
+  background-color: #fff3e0;
 }
 
 .goalScorerBtn.opponentGoal {
-    border-color: #f44336;
-    color: #c62828;
-    background-color: #ffebee;
+  border-color: #f44336;
+  color: #c62828;
+  background-color: #ffebee;
 }
+
+
+
 
 
 /*==============================
