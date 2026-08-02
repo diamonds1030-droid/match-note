@@ -583,6 +583,47 @@ button:active {
     display: flex;
     gap: 8px;
 }
+/* ==========================================
+   交代履歴スタイル
+========================================== */
+.subHistory {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subHistoryItem {
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    border-left: 4px solid #1976d2; /* 青系のアクセントカラー */
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+.subHistoryTime {
+    font-weight: bold;
+    color: #666;
+    margin-right: 12px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.subHistoryDetail {
+    flex: 1;
+}
+
+.subOut {
+    color: #d32f2f; /* OUT選手は赤系 */
+    font-weight: bold;
+}
+
+.subIn {
+    color: #2e7d32; /* IN選手は緑系 */
+    font-weight: bold;
+}
 
 /* =================================
    試合ノート フッター & ポップアップ (ドロワー)
