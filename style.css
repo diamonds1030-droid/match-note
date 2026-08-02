@@ -41,8 +41,8 @@ input, select, textarea {
 /* 全画面共通：mainエリア（ヘッダー以外の領域）の縦スクロール指定 */
 .page > main {
     flex: 1;
-    min-height: 0 !important; /* Flexbox内の高さ突き破り防止（スクロール必須指定） */
-    overflow-y: auto !important;
+    min-height: 0 !important; /* Flexbox内の高さ突き破り防止 */
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 20px;
 }
@@ -133,11 +133,6 @@ button:active {
     align-items: center;
 }
 
-.homeButton:hover,
-.iconButton:hover {
-    background: none;
-}
-
 .homeButton:active,
 .iconButton:active {
     opacity: .5;
@@ -152,9 +147,8 @@ button:active {
 /*==============================
   チーム管理画面
 ==============================*/
-/* 親要素の padding-top を 0 にする */
-#teamPage main
- {
+
+#teamPage main {
     padding-top: 0 !important;
 }
 
@@ -162,8 +156,6 @@ button:active {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    height: auto;
-    max-height: none;
     margin-top: 10px;
 }
 
@@ -176,53 +168,6 @@ button:active {
     margin-bottom: 16px;
 }
 
-/* ==========================
-   選手登録画面
-========================== */
-/*
-#playerList {
-    margin: 20px 0;
-}
-
-.playerRow {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.playerNo {
-    width: 50px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.playerName {
-    flex: 1;
-    height: 42px;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-}
-
-.playerHeader {
-    display: flex;
-    margin-bottom: 10px;
-    font-weight: bold;
-    border-bottom: 2px solid #2e7d32;
-    padding-bottom: 8px;
-}
-
-.playerHeaderNo {
-    width: 50px;
-    text-align: center;
-}
-
-.playerHeaderName {
-    flex: 1;
-}
-*/
 /* =====================================
    選手登録画面の固定＆スクロール設定
 ===================================== */
@@ -249,82 +194,45 @@ button:active {
     font-size: 16px;
 }
 
-/* 1. ページ全体を画面高さにフィットさせ、はみ出しを防ぐ */
-#playerPage {
-    height: calc(100vh - 60px); /* 共通ヘッダー等の高さを除いた画面高さ */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* ページ全体のスクロールを無効化 */
-}
-
-/* 2. mainタグをFlexboxにして高さを一杯に広げる */
 #playerPage main {
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: 15px;
-    box-sizing: border-box;
 }
 
-/* 3. チーム選択ヘッダー周り（スクロールせず上部に固定される） */
 #playerPage h3 {
-    flex-shrink: 0; /* 潰れないように固定 */
+    flex-shrink: 0;
     margin-top: 0;
     margin-bottom: 8px;
 }
-/*
-#teamSelect {
-    flex-shrink: 0;
-    margin-bottom: 15px;
-}
 
-#playerList {
-    flex: 1; 
-    overflow-y: auto; 
-    padding-right: 5px; 
-    -webkit-overflow-scrolling: touch; 
-}*/
 #teamList,
 #playerList {
-    flex: 1;                    /* 残りの縦スペースをすべて占有 */
-    min-height: 0;              /* Flexboxの崩れ防止 */
-    overflow-y: auto !important;/* この領域内のみ縦スクロール */
-    -webkit-overflow-scrolling: touch; /* スマホ用なめらかスクロール */
-    padding-right: 2px; /* スクロールバーと被らないよう少し隙間を空ける */
+    flex: 1;                    
+    min-height: 0;              
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch; 
+    padding-right: 2px; 
 }
 
-/* 5. 選手一覧内の「No. / 選手名」見出し（一覧スクロール時も上に固定したい場合） */
-/*
 .playerHeader {
-    position: sticky;
-    top: 0;
-    background-color: #fff; 
-    z-index: 10;
-}
-*/
-/* 1. mainエリア上部の余白(padding-top)を完全にゼロにする */
-
-.playerHeader {
-    flex-shrink: 0;             /* 絶対に潰さない（固定） */
+    flex-shrink: 0;             
     position: sticky;
     top: 0;
     display: flex;
-    margin-top: 0 !important;   /* ヘッダーとの間のマージンを削除 */
+    align-items: center;
+    margin-top: 0 !important;   
     margin-bottom: 12px;
-    /*padding: 15px 0;            /* 余白は内側のpaddingで確保 */
     font-weight: bold;
     border-bottom: 2px solid #2e7d32;
     padding-top: 16px;
     padding-bottom: 8px;
     z-index: 10;
     background: #f5f5f5 !important; 
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    /*確認用*/
-    align-items: center;
-    /*padding: 12px 0 8px 0;         /* 内側のpaddingで高さを調整 */
     width: 100%;
 }
+
 .playerHeaderNo {
     width: 50px;
     text-align: center;
@@ -333,27 +241,46 @@ button:active {
 .playerHeaderName {
     flex: 1;
 }
-/* 3. 見出しエリア（すりガラス効果で少し透けるように設定） */
-/*
-#teamPage .playerHeader {
-    flex-shrink: 0;
-    position: sticky;
-    top: 0;
 
+/* ==========================================
+   大会情報 (日付・会場・大会名レイアウト)
+========================================== */
 
-    background: rgba(245, 245, 245, 0.85); 
-
-
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
-    z-index: 10; 
-    padding: 15px 0 8px 0;
-    margin-bottom: 10px;
+.inputRow {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
-*/
 
+.row-top {
+    display: flex;
+    gap: 12px;
+}
 
+.row-top .form-group {
+    flex: 1;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-group label {
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
 
 /* ==========================================
    試合ノート画面
@@ -475,7 +402,6 @@ button:active {
 .matchScrollArea {
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
     padding: 15px;
 }
 
@@ -573,17 +499,11 @@ button:active {
     justify-content: flex-start;
 }
 
-.goalHome span {
-    background: none;
-    color: #000;
-    padding: 0;
-    border-radius: 0;
-}
-
 .goalAway {
     justify-content: flex-end;
 }
 
+.goalHome span,
 .goalAway span {
     background: none;
     color: #000;
@@ -668,13 +588,11 @@ button:active {
    試合ノート フッター & ポップアップ (ドロワー)
    ================================= */
 
-/* 試合ページ全体を下部フッター分確保 */
 #matchPage {
   padding-bottom: 70px;
   position: relative;
 }
 
-/* 固定フッター */
 .match-footer {
   position: fixed;
   bottom: 0;
@@ -733,7 +651,7 @@ button:active {
   visibility: visible;
 }
 
-/* スライドアップするポップアップ */
+/* スライドアップポップアップ */
 .match-drawer {
   position: fixed;
   bottom: -100%;
@@ -783,8 +701,7 @@ button:active {
   flex: 1;
 }
 
-
-/* 得点ボタン群のポップアップ用グリッドスタイル */
+/* 得点ボタン群のポップアップ用スタイル */
 .drawerGoalContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -818,10 +735,6 @@ button:active {
   color: #c62828;
   background-color: #ffebee;
 }
-
-
-
-
 
 /*==============================
   ダイアログ
