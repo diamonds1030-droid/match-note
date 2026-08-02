@@ -1714,6 +1714,10 @@ function renderLineupDrawer(container) {
     const matchState = tournament.matches[tournament.currentMatch];
     if (!matchState) return;
 
+    // ★ ホームチームの選手一覧を取得（現在選択中のチームの選手）
+    // （※ globalの players 配列が選択チームのリストになっている前提）
+    const teamPlayers = Array.isArray(players) ? players : [];
+
     // スタメン設定用のコンテナ
     const lineupBox = document.createElement("div");
     lineupBox.className = "drawerLineupContainer";
@@ -1725,22 +1729,19 @@ function renderLineupDrawer(container) {
         const row = document.createElement("div");
         row.className = "lineupRow";
 
-        // ポジションラベル (GK, FP1〜7)
         const label = document.createElement("label");
         label.textContent = position;
 
-        // 選手選択用プルダウン
         const select = document.createElement("select");
         select.className = "lineupSelect";
 
-        // 初期選択肢
-        let optionsHtml = '<option value="">選択してください</option>';
+        let optionsHtml = '<option value="">未選択</option>';
 
-        // 登録選手一覧から選択肢を生成（他の枠で選択済みの選手は除外）
-        players.forEach(player => {
+        // ★ ホームチームの選手一覧から選択肢を生成
+        teamPlayers.forEach(player => {
             if (!player) return;
 
-            // 他のポジションで選択中かどうかを判定
+            // 他のポジションで重複選択されていないか判定
             const isUsedElsewhere = Object.entries(matchState.lineup).some(
                 ([pos, name]) => pos !== position && name === player
             );
@@ -1753,16 +1754,16 @@ function renderLineupDrawer(container) {
         select.innerHTML = optionsHtml;
         select.value = matchState.lineup[position] || "";
 
-        // 選手が変更されたら matchState.lineup (スタメンデータ) のみを更新
+        // 選手が変更されたら matchState.lineup を更新
         select.addEventListener("change", (e) => {
             matchState.lineup[position] = e.target.value;
             
-            // 交代枠の選択肢側にも反映させる場合はここで呼び出し
+            // 交代枠のドロップダウン等も再構築が必要なら実行
             if (typeof createSubstitutionArea === "function") {
                 createSubstitutionArea();
             }
             
-            // 再描画して重複選択肢を制御
+            // 再描画（他の枠で選択した選手を重複選択不可にするため）
             renderLineupDrawer(container);
         });
 
@@ -1774,6 +1775,7 @@ function renderLineupDrawer(container) {
     container.innerHTML = "";
     container.appendChild(lineupBox);
 }
+
 
 // =================================
 // 試合ノート ポップアップ（ドロワー）制御
