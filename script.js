@@ -348,41 +348,24 @@ function generateTournamentId(){
 // 新しい大会作成
 //===============================
 async function createTournament(){
+    const nameEl = document.getElementById("tournamentName");
+    const dateEl = document.getElementById("tournamentDate");
+    const placeEl = document.getElementById("tournamentPlace");
+    const genIdEl = document.getElementById("generatedTournamentId");
 
-    const name =
-        document
-        .getElementById("tournamentName")
-        .value
-        .trim();
+    const name = nameEl ? nameEl.value.trim() : "";
 
-
-    if(name===""){
-
+    if(name === ""){
         alert("大会名を入力してください");
         return;
-
     }
 
-    tournament.id =
-        generateTournamentId();
-
-    tournament.name =
-        name;
-
-    tournament.date =
-        document.getElementById("tournamentDate").value;
-
-    tournament.place =
-        document.getElementById("tournamentPlace").value;
-    
-    tournament.currentMatch =
-        0;
-
-    tournament.matches =
-    [
-        createEmptyMatch()
-    ];
-
+    tournament.id = genIdEl ? genIdEl.textContent : generateTournamentId();
+    tournament.name = name;
+    tournament.date = dateEl ? dateEl.value : "";
+    tournament.place = placeEl ? placeEl.value : "";
+    tournament.currentMatch = 0;
+    tournament.matches = [createEmptyMatch()];
 
     try{
 
@@ -979,7 +962,7 @@ function createHomeTeamSelect(){
     if(!select) return;
 
     select.innerHTML =
-        '<option value="">チーム選択Java script</option>';
+        '<option value="">チームを選択してください</option>';
 
     teams.forEach(team=>{
 
@@ -1730,37 +1713,48 @@ function initializeButtons() {
 
     });
 
-    document
-    .getElementById("createTournamentButton")
-    ?.addEventListener("click",()=>{
+
+    
+        // ★ 大会作成ダイアログの表示設定
+    document.getElementById("createTournamentButton")?.addEventListener("click", () => {
+        const generatedId = generateTournamentId();
 
         openDialog({
-            title:"大会作成",
-            content:`
-            <input id="tournamentName">
-            <input id="tournamentDate" type="date">
-            <input id="tournamentPlace">
+            title: "新しい大会を作成",
+            content: `
+                <div class="dialogFormGroup">
+                    <label for="tournamentName">大会名 <span class="required">*</span></label>
+                    <input id="tournamentName" class="dialogInput" placeholder="例: 第10回 市民サッカー大会 (U-10)">
+                </div>
 
-            <div>
-                大会ID
-                <span id="generatedTournamentId"></span>
-            </div>
+                <div class="dialogFormGroup">
+                    <label for="tournamentDate">開催日</label>
+                    <input id="tournamentDate" type="date" class="dialogInput">
+                </div>
+
+                <div class="dialogFormGroup">
+                    <label for="tournamentPlace">会場・グラウンド名</label>
+                    <input id="tournamentPlace" class="dialogInput" placeholder="例: ○○スポーツ広場 Aコート">
+                </div>
+
+                <div class="dialogIdInfo">
+                    <span>自動発行ID:</span>
+                    <strong id="generatedTournamentId">${generatedId}</strong>
+                </div>
             `,
-
-            buttons:[
+            buttons: [
                 {
-                    text:"作成",
-                    onclick:createTournament
+                    text: "作成",
+                    className: "primaryButton",
+                    onclick: createTournament
                 },
                 {
-                    text:"キャンセル"
+                    text: "キャンセル"
                 }
             ]
         });
-
-        const genId = document.getElementById("generatedTournamentId");
-        if(genId) genId.textContent = generateTournamentId();
     });
+
 
     document.getElementById("homeTeamSelect")
     ?.addEventListener("change", async function () {
