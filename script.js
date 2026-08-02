@@ -1630,6 +1630,64 @@ function updateScore(){
             matchState.awayTeam || "";
     }
 }
+
+// =================================
+// 試合ノート ポップアップ（ドロワー）制御
+// =================================
+
+/**
+ * 隠しメニュー（ポップアップ）を開く
+ * @param {'lineup' | 'goals' | 'subs'} type 
+ */
+function openMatchDrawer(type) {
+    const drawer = document.getElementById("matchDrawer");
+    const overlay = document.getElementById("drawerOverlay");
+    const titleEl = document.getElementById("drawerTitle");
+    const contentEl = document.getElementById("drawerContent");
+
+    if (!drawer || !overlay || !contentEl) return;
+
+    contentEl.innerHTML = ""; // 前回の内容をクリア
+
+    if (type === 'lineup') {
+        titleEl.textContent = "出場選手設定";
+        // 既存の出場選手エリア（#lineupArea）要素を取得またはクローンして移動
+        const lineupTarget = document.getElementById("lineupArea");
+        if (lineupTarget) {
+            contentEl.appendChild(lineupTarget);
+        }
+    } else if (type === 'goals') {
+        titleEl.textContent = "得点記録・履歴";
+        // 得点ボタンエリアと得点履歴をポップアップ内にまとめる
+        const goalControls = document.getElementById("goalButtonArea") || document.getElementById("goalHistory");
+        if (goalControls) {
+            contentEl.appendChild(goalControls);
+        }
+    } else if (type === 'subs') {
+        titleEl.textContent = "選手交代";
+        // 既存の交代エリア（#substitutionArea）要素を移動
+        const subTarget = document.getElementById("substitutionArea");
+        if (subTarget) {
+            contentEl.appendChild(subTarget);
+        }
+    }
+
+    overlay.classList.add("show");
+    drawer.classList.add("show");
+}
+
+/**
+ * 隠しメニュー（ポップアップ）を閉じる
+ */
+function closeMatchDrawer() {
+    const drawer = document.getElementById("matchDrawer");
+    const overlay = document.getElementById("drawerOverlay");
+
+    if (drawer) drawer.classList.remove("show");
+    if (overlay) overlay.classList.remove("show");
+}
+
+
 // ==============================
 // ホーム画面などのボタンイベント
 // ==============================
