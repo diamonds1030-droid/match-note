@@ -193,21 +193,24 @@ function showPage(pageId) {
     updateHeader(pageId);
 }
 
-// 選手登録画面を初期（デフォルト）状態に戻す関数
 function resetPlayerPage() {
     currentPlayerTeamId = ""; // 選択中チームIDをクリア
     
-    // ★ 追加：メモリ上の選手データ配列もクリアする
+    // メモリ上の選手データ配列をクリア
     players = []; 
     
     const select = document.getElementById("teamSelect");
     if (select) {
-        select.value = ""; // ドロップダウンを「チームを選択してください」に戻す
+        select.value = ""; // ドロップダウンを初期化
     }
     
-    // 選手一覧の入力欄を初期状態（空欄）で再生成する
-    createPlayerList();
+    // HTMLの描画エリアのみ直接クリアする（createPlayerListは呼ばない）
+    const playerList = document.getElementById("playerList");
+    if (playerList) {
+        playerList.innerHTML = "";
+    }
 }
+
 
 
 
