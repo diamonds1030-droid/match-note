@@ -1706,6 +1706,75 @@ function updateScore(){
     }
 }
 
+/**
+ * スタメン設定画面（ドロワー内）を動的に生成して表示
+ * @param {HTMLElement} container - 描画先の要素（#drawerContent）
+ */
+function renderLineupDrawer(container) {
+    const matchState = tournament.matches[tournament.currentMatch];
+    if (!matchState) return;
+
+    // スタメン設定用のコンテナ
+    const lineupBox = document.createElement("div");
+    lineupBox.className = "drawerLineupContainer";
+
+    // 8名のポジション定義
+    const positions = ["GK", "FP1", "FP2", "FP3", "FP4", "FP5", "FP6", "FP7"];
+
+    positions.forEach(position => {
+        const row = document.createElement("div");
+        row.className = "lineupRow";
+
+        // ポジションラベル (GK, FP1〜7)
+        const label = document.createElement("label");
+        label.textContent = position;
+
+        // 選手選択用プルダウン
+        const select = document.createElement("select");
+        select.className = "lineupSelect";
+
+        // 初期選択肢
+        let optionsHtml = '<option value="">選択してください</option>';
+
+        // 登録選手一覧から選択肢を生成（他の枠で選択済みの選手は除外）
+        players.forEach(player => {
+            if (!player) return;
+
+            // 他のポジションで選択中かどうかを判定
+            const isUsedElsewhere = Object.entries(matchState.lineup).some(
+                ([pos, name]) => pos !== position && name === player
+            );
+
+            if (!isUsedElsewhere || matchState.lineup[position] === player) {
+                optionsHtml += `<option value="${player}">${player}</option>`;
+            }
+        });
+
+        select.innerHTML = optionsHtml;
+        select.value = matchState.lineup[position] || "";
+
+        // 選手が変更されたら matchState.lineup (スタメンデータ) のみを更新
+        select.addEventListener("change", (e) => {
+            matchState.lineup[position] = e.target.value;
+            
+            // 交代枠の選択肢側にも反映させる場合はここで呼び出し
+            if (typeof createSubstitutionArea === "function") {
+                createSubstitutionArea();
+            }
+            
+            // 再描画して重複選択肢を制御
+            renderLineupDrawer(container);
+        });
+
+        row.appendChild(label);
+        row.appendChild(select);
+        lineupBox.appendChild(row);
+    });
+
+    container.innerHTML = "";
+    container.appendChild(lineupBox);
+}
+
 // =================================
 // 試合ノート ポップアップ（ドロワー）制御
 // =================================
@@ -1732,15 +1801,15 @@ window.openMatchDrawer = function(type) {
         drawerOriginalParent = null;
     }
 
+    // ドロワーの中身を一旦クリア
     contentEl.innerHTML = "";
 
     if (type === 'lineup') {
-        titleEl.textContent = "スタメン設定";
-        const lineupTarget = document.getElementById("lineupArea");
-        if (lineupTarget) {
-            drawerOriginalParent = lineupTarget.parentElement;
-            drawerMovedElement = lineupTarget;
-            contentEl.appendChild(lineupTarget);
+        titleEl.textContent = "スタメン設定（8名）";
+        
+        // ★ スクロール画面からスタメンを消したため、動的生成関数を呼ぶ
+        if (typeof renderLineupDrawer === "function") {
+            renderLineupDrawer(contentEl);
         }
 
     } else if (type === 'goals') {
@@ -1788,6 +1857,8 @@ window.openMatchDrawer = function(type) {
 
     } else if (type === 'subs') {
         titleEl.textContent = "選手交代";
+        
+        // 交代エリア要素があれば移動して表示
         const subTarget = document.getElementById("substitutionArea");
         if (subTarget) {
             drawerOriginalParent = subTarget.parentElement;
@@ -1799,6 +1870,7 @@ window.openMatchDrawer = function(type) {
     overlay.classList.add("show");
     drawer.classList.add("show");
 };
+
 
 /**
  * 隠しメニュー（ポップアップ）を閉じる
