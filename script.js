@@ -310,7 +310,10 @@ function initializeHeaderButtons(){
             ]
         });
     });
-
+    // チーム管理画面へ移動するボタン
+    document.getElementById("backToTeamPageButton")?.addEventListener("click", ()=>{
+        showPage("teamPage");
+    });
     document.getElementById("savePlayersButton")?.addEventListener("click", ()=>{
         savePlayers();
     });
