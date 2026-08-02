@@ -200,6 +200,45 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </section>
 
+<!-- 試合ノート画面内（#matchPage の中）に追加 -->
+<div id="matchPage" class="page">
+  <!-- 既存のコンテンツエリア -->
+  <div class="match-content">
+    <!-- 既存のスコアやタブなどの要素 -->
+  </div>
+
+  <!-- ★ 追加：固定フッター -->
+  <nav class="match-footer">
+    <button type="button" class="footer-btn" onclick="openMatchDrawer('lineup')">
+      <i class="fa-solid fa-users"></i>
+      <span>出場選手</span>
+    </button>
+    <button type="button" class="footer-btn" onclick="openMatchDrawer('goals')">
+      <i class="fa-solid fa-futbol"></i>
+      <span>得点</span>
+    </button>
+    <button type="button" class="footer-btn" onclick="openMatchDrawer('subs')">
+      <i class="fa-solid fa-arrow-right-arrow-left"></i>
+      <span>交代</span>
+    </button>
+  </nav>
+
+  <!-- ★ 追加：飛び出すポップアップ（ドロワー） -->
+  <div id="drawerOverlay" class="drawer-overlay" onclick="closeMatchDrawer()"></div>
+  <div id="matchDrawer" class="match-drawer">
+    <div class="drawer-header">
+      <h3 id="drawerTitle">タイトル</h3>
+      <button type="button" class="drawer-close-btn" onclick="closeMatchDrawer()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <!-- ここにJSで「出場選手」「得点」「交代」の要素が動的に移動/表示されます -->
+      <div id="drawerContent"></div>
+    </div>
+  </div>
+</div>
+
 
 <!-- ===================================== -->
 <!-- 共通ダイアログ -->
