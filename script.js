@@ -100,14 +100,14 @@ function refreshMatch(){
     createSubstitutionArea();
     drawGoalHistory();
 
-    // ★ 大会情報（日付・大会名・会場）を試合ノートへ反映
+    // 大会情報（日付・会場・大会名）を試合ノートへ反映
     const matchDate = document.getElementById("matchDate");
-    const matchName = document.getElementById("matchName");
     const matchPlace = document.getElementById("matchPlace");
+    const matchName = document.getElementById("matchName");
 
     if(matchDate)  matchDate.value  = tournament.date  || "";
-    if(matchName)  matchName.value  = tournament.name  || "";
     if(matchPlace) matchPlace.value = tournament.place || "";
+    if(matchName)  matchName.value  = tournament.name  || "";
 
     // ホームチーム（試合ごとの選択）の反映
     const matchState = tournament.matches[tournament.currentMatch];
@@ -122,6 +122,7 @@ function refreshMatch(){
         createSubstitutionArea();
     }
 }
+
 /*
 function refreshMatch(){
     createMatchTabs();
