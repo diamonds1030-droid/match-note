@@ -1639,7 +1639,8 @@ function updateScore(){
  * 隠しメニュー（ポップアップ）を開く
  * @param {'lineup' | 'goals' | 'subs'} type 
  */
-function openMatchDrawer(type) {
+
+window.openMatchDrawer = function(type) {
     const drawer = document.getElementById("matchDrawer");
     const overlay = document.getElementById("drawerOverlay");
     const titleEl = document.getElementById("drawerTitle");
@@ -1651,21 +1652,18 @@ function openMatchDrawer(type) {
 
     if (type === 'lineup') {
         titleEl.textContent = "出場選手設定";
-        // 既存の出場選手エリア（#lineupArea）要素を取得またはクローンして移動
         const lineupTarget = document.getElementById("lineupArea");
         if (lineupTarget) {
             contentEl.appendChild(lineupTarget);
         }
     } else if (type === 'goals') {
         titleEl.textContent = "得点記録・履歴";
-        // 得点ボタンエリアと得点履歴をポップアップ内にまとめる
         const goalControls = document.getElementById("goalButtonArea") || document.getElementById("goalHistory");
         if (goalControls) {
             contentEl.appendChild(goalControls);
         }
     } else if (type === 'subs') {
         titleEl.textContent = "選手交代";
-        // 既存の交代エリア（#substitutionArea）要素を移動
         const subTarget = document.getElementById("substitutionArea");
         if (subTarget) {
             contentEl.appendChild(subTarget);
@@ -1674,18 +1672,31 @@ function openMatchDrawer(type) {
 
     overlay.classList.add("show");
     drawer.classList.add("show");
-}
+};
 
 /**
  * 隠しメニュー（ポップアップ）を閉じる
  */
-function closeMatchDrawer() {
+window.closeMatchDrawer = function() {
     const drawer = document.getElementById("matchDrawer");
     const overlay = document.getElementById("drawerOverlay");
 
     if (drawer) drawer.classList.remove("show");
     if (overlay) overlay.classList.remove("show");
-}
+
+    // ポップアップ内に移動させた要素を元のカードの位置に戻す
+    const contentEl = document.getElementById("drawerContent");
+    if (contentEl && contentEl.firstElementChild) {
+        const movedEl = contentEl.firstElementChild;
+        if (movedEl.id === "lineupArea") {
+            document.querySelector("#matchPage .card:nth-of-type(3)")?.insertBefore(movedEl, document.querySelector("#matchPage .specialGoalButtons"));
+        } else if (movedEl.id === "goalHistory" || movedEl.id === "goalButtonArea") {
+            document.querySelector("#matchPage .card:nth-of-type(2)")?.appendChild(movedEl);
+        } else if (movedEl.id === "substitutionArea") {
+            document.querySelector("#matchPage .card:nth-of-type(4)")?.appendChild(movedEl);
+        }
+    }
+};
 
 
 // ==============================
