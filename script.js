@@ -1635,11 +1635,14 @@ function updateScore(){
 // 試合ノート ポップアップ（ドロワー）制御
 // =================================
 
+// ドロワーに入れる前の親要素を一時保持する変数
+let drawerOriginalParent = null;
+let drawerMovedElement = null;
+
 /**
  * 隠しメニュー（ポップアップ）を開く
  * @param {'lineup' | 'goals' | 'subs'} type 
  */
-
 window.openMatchDrawer = function(type) {
     const drawer = document.getElementById("matchDrawer");
     const overlay = document.getElementById("drawerOverlay");
@@ -1648,26 +1651,33 @@ window.openMatchDrawer = function(type) {
 
     if (!drawer || !overlay || !contentEl) return;
 
-    contentEl.innerHTML = ""; // 前回の内容をクリア
+    // もしすでに何か移動中なら元に戻しておく
+    if (drawerMovedElement && drawerOriginalParent) {
+        drawerOriginalParent.appendChild(drawerMovedElement);
+    }
+
+    contentEl.innerHTML = ""; // クリア
+
+    let targetEl = null;
 
     if (type === 'lineup') {
         titleEl.textContent = "出場選手設定";
-        const lineupTarget = document.getElementById("lineupArea");
-        if (lineupTarget) {
-            contentEl.appendChild(lineupTarget);
-        }
+        targetEl = document.getElementById("lineupArea");
     } else if (type === 'goals') {
         titleEl.textContent = "得点記録・履歴";
-        const goalControls = document.getElementById("goalButtonArea") || document.getElementById("goalHistory");
-        if (goalControls) {
-            contentEl.appendChild(goalControls);
-        }
+        targetEl = document.getElementById("goalHistory");
     } else if (type === 'subs') {
         titleEl.textContent = "選手交代";
-        const subTarget = document.getElementById("substitutionArea");
-        if (subTarget) {
-            contentEl.appendChild(subTarget);
-        }
+        targetEl = document.getElementById("substitutionArea");
+    }
+
+    if (targetEl) {
+        // 元の親要素を覚えておく
+        drawerOriginalParent = targetEl.parentElement;
+        drawerMovedElement = targetEl;
+        
+        // ポップアップ内に移動
+        contentEl.appendChild(targetEl);
     }
 
     overlay.classList.add("show");
@@ -1684,19 +1694,15 @@ window.closeMatchDrawer = function() {
     if (drawer) drawer.classList.remove("show");
     if (overlay) overlay.classList.remove("show");
 
-    // ポップアップ内に移動させた要素を元のカードの位置に戻す
-    const contentEl = document.getElementById("drawerContent");
-    if (contentEl && contentEl.firstElementChild) {
-        const movedEl = contentEl.firstElementChild;
-        if (movedEl.id === "lineupArea") {
-            document.querySelector("#matchPage .card:nth-of-type(3)")?.insertBefore(movedEl, document.querySelector("#matchPage .specialGoalButtons"));
-        } else if (movedEl.id === "goalHistory" || movedEl.id === "goalButtonArea") {
-            document.querySelector("#matchPage .card:nth-of-type(2)")?.appendChild(movedEl);
-        } else if (movedEl.id === "substitutionArea") {
-            document.querySelector("#matchPage .card:nth-of-type(4)")?.appendChild(movedEl);
-        }
+    // ポップアップ内に移動させた要素を元の親要素へ戻す
+    if (drawerMovedElement && drawerOriginalParent) {
+        drawerOriginalParent.appendChild(drawerMovedElement);
+        drawerMovedElement = null;
+        drawerOriginalParent = null;
     }
 };
+
+
 
 
 // ==============================
