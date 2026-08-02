@@ -852,7 +852,7 @@ function createPlayerTeamSelect(){
     if(!select) return;
 
     select.innerHTML =
-        '<option value="">チーム選択Java</option>';
+        '<option value="">チームを選択して下さい</option>';
 
     teams.forEach(team=>{
 
