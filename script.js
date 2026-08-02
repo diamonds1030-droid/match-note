@@ -1,5 +1,3 @@
-2
-
 // =================================
 // Firebase
 // =================================
@@ -199,17 +197,18 @@ function showPage(pageId) {
 function resetPlayerPage() {
     currentPlayerTeamId = ""; // 選択中チームIDをクリア
     
+    // ★ 追加：メモリ上の選手データ配列もクリアする
+    players = []; 
+    
     const select = document.getElementById("teamSelect");
     if (select) {
         select.value = ""; // ドロップダウンを「チームを選択してください」に戻す
     }
     
-    // 選手一覧の表示（入力欄）をクリア
-    const playerList = document.getElementById("playerList");
-    if (playerList) {
-        playerList.innerHTML = "";
-    }
+    // 選手一覧の入力欄を初期状態（空欄）で再生成する
+    createPlayerList();
 }
+
 
 
 // ==============================
