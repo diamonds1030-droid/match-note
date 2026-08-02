@@ -584,36 +584,38 @@ button:active {
     gap: 8px;
 }
 
-/* ドロワー内のスタメン設定枠 */
+/* ドロワー内のスタメン設定枠（8枠をスクロールなしで収める設計） */
 .drawerLineupContainer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 10px 0;
+    gap: 6px;             /* 枠同士の隙間を詰める */
+    padding: 4px 0;
 }
 
 .lineupRow {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 .lineupRow label {
-    width: 45px;
+    width: 38px;          /* ラベル幅を最適化 */
     font-weight: bold;
-    font-size: 15px;
+    font-size: 13px;      /* 文字サイズを小さめに */
     color: #2e7d32;
+    text-align: center;
 }
 
 .lineupSelect {
     flex: 1;
-    height: 42px;
+    height: 34px;         /* セレクトボックスの高さを少し低く */
     border: 1px solid #ccc;
     border-radius: 6px;
-    padding: 0 10px;
-    font-size: 16px;
+    padding: 0 8px;
+    font-size: 14px;      /* フォントサイズを調整 */
     background-color: #fff;
 }
+
 
 /* ==========================================
    交代履歴スタイル
