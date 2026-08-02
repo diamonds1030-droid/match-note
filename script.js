@@ -2016,4 +2016,17 @@ function initializeButtons() {
         players = [...data.players];
         createPlayerList();
     });
+        // 大会情報の入力保持
+    document.getElementById("matchName")?.addEventListener("input", (e) => {
+        tournament.name = e.target.value;
+    });
+
+    document.getElementById("matchPlace")?.addEventListener("input", (e) => {
+        tournament.place = e.target.value;
+    });
+
+    document.getElementById("matchDate")?.addEventListener("change", (e) => {
+        tournament.date = e.target.value;
+    });
+
 }
