@@ -588,7 +588,7 @@ button:active {
 .drawerLineupContainer {
     display: flex;
     flex-direction: column;
-    gap: 6px;             /* 枠同士の隙間を詰める */
+    gap: 4px;             /* 枠同士の隙間を詰める */
     padding: 4px 0;
 }
 
