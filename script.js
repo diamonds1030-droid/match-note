@@ -1401,6 +1401,7 @@ function createSubstitutionArea(){
 // ==============================
 // 交代実行
 // ==============================
+/*
 function executeSubstitution(
     outPlayer,
     inPlayer,
@@ -1425,6 +1426,69 @@ function executeSubstitution(
     createLineup();
     createSubstitutionArea();
 }
+/**
+ * 交代を実行する処理
+ */
+
+function executeSubstitution(outPlayer, inPlayer) {
+    const currentMatchIdx = tournament.currentMatch;
+    const matchState = tournament.matches[currentMatchIdx];
+
+    if (!matchState) return;
+
+    // 該当試合に substitutions 配列がなければ初期化
+    if (!Array.isArray(matchState.substitutions)) {
+        matchState.substitutions = [];
+    }
+
+    // 交代データを試合ごとに追加
+    matchState.substitutions.push({
+        out: outPlayer,
+        in: inPlayer,
+        done: true,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    });
+
+    // 交代履歴画面を再描画
+    renderSubHistory();
+}
+
+/**
+ * 現在選択されている試合の交代履歴を描画
+ */
+function renderSubHistory() {
+    const subHistoryEl = document.getElementById("subHistory");
+    if (!subHistoryEl) return;
+
+    // 現在選択中の試合データを取得
+    const currentMatchIdx = tournament.currentMatch;
+    const matchState = tournament.matches[currentMatchIdx];
+
+    // 該当試合の交代データが存在しない、または空の場合
+    if (!matchState || !Array.isArray(matchState.substitutions) || matchState.substitutions.length === 0) {
+        subHistoryEl.innerHTML = '<p class="emptySubText">交代履歴はありません</p>';
+        return;
+    }
+
+    // 該当試合の交代履歴のみを出力
+    let html = '<ul class="subHistoryList">';
+    matchState.substitutions.forEach((sub, index) => {
+        if (sub.done) {
+            html += `
+                <li class="subHistoryItem">
+                    <span class="subIndex">${index + 1}</span>
+                    <span class="subOutName">${sub.out}</span>
+                    <span class="subArrow">➜</span>
+                    <span class="subInName">${sub.in}</span>
+                </li>
+            `;
+        }
+    });
+    html += '</ul>';
+
+    subHistoryEl.innerHTML = html;
+}
+
 // ==============================
 // スタメン取得
 // ==============================
