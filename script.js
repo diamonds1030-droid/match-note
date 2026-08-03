@@ -1859,6 +1859,12 @@ window.openMatchDrawer = function(type) {
 
     } else if (type === 'subs') {
         titleEl.textContent = "選手交代";
+        // ★ 動的に交代選択フォーム（OUT:ピッチ上 / IN:ピッチ外）を生成
+        renderSubstitutionDrawer(contentEl);
+    }
+/*
+    } else if (type === 'subs') {
+        titleEl.textContent = "選手交代";
         
         // 交代エリア要素があれば移動して表示
         const subTarget = document.getElementById("substitutionArea");
@@ -1868,7 +1874,7 @@ window.openMatchDrawer = function(type) {
             contentEl.appendChild(subTarget);
         }
     }
-
+*/
     overlay.classList.add("show");
     drawer.classList.add("show");
 };
@@ -1892,6 +1898,137 @@ window.closeMatchDrawer = function() {
     }
 };
 
+
+/**
+ * 現在のピッチ上の選手とベンチ（未出場）選手を取得するヘルパー関数
+ */
+function getPitchAndBenchPlayers() {
+    const matchState = tournament.matches[tournament.currentMatch];
+    if (!matchState) return { pitchPlayers: [], benchPlayers: [] };
+
+    // 1. スタメン選手（選択済みのもの）
+    let currentPitch = Object.values(matchState.lineup).filter(name => name !== "");
+
+    // 2. 過去の交代処理を順に適用して、現在のピッチ上選手を割り出す
+    if (Array.isArray(matchState.substitutions)) {
+        matchState.substitutions.forEach(sub => {
+            if (sub.done && sub.out && sub.in) {
+                currentPitch = currentPitch.filter(p => p !== sub.out);
+                if (!currentPitch.includes(sub.in)) {
+                    currentPitch.push(sub.in);
+                }
+            }
+        });
+    }
+
+    // 3. チーム登録選手（players）のうち、現在ピッチ上にいない選手が「ベンチ選手」
+    const teamPlayers = Array.isArray(players) ? players.filter(p => p !== "") : [];
+    const benchPlayers = teamPlayers.filter(p => !currentPitch.includes(p));
+
+    return { pitchPlayers: currentPitch, benchPlayers };
+}
+
+/**
+ * ドロワー内の交代操作画面を動的生成
+ */
+function renderSubstitutionDrawer(container) {
+    const matchState = tournament.matches[tournament.currentMatch];
+    if (!matchState) return;
+
+    const { pitchPlayers, benchPlayers } = getPitchAndBenchPlayers();
+
+    const box = document.createElement("div");
+    box.className = "drawerSubContainer";
+
+    // OUT選手選択プルダウン（ピッチ上の選手）
+    let outOptions = '<option value="">OUT選手を選択</option>';
+    pitchPlayers.forEach(p => {
+        outOptions += `<option value="${p}">${p}</option>`;
+    });
+
+    // IN選手選択プルダウン（ピッチ外の選手）
+    let inOptions = '<option value="">IN選手を選択</option>';
+    benchPlayers.forEach(p => {
+        inOptions += `<option value="${p}">${p}</option>`;
+    });
+
+    box.innerHTML = `
+        <div class="subSelectGroup">
+            <div class="subSelectRow">
+                <label class="labelOut">OUT</label>
+                <select id="subOutSelect" class="subSelect">${outOptions}</select>
+            </div>
+            <div class="subSelectRow">
+                <label class="labelIn">IN</label>
+                <select id="subInSelect" class="subSelect">${inOptions}</select>
+            </div>
+        </div>
+        <button type="button" id="execSubBtn" class="execSubBtn">交代を実行</button>
+    `;
+
+    container.innerHTML = "";
+    container.appendChild(box);
+
+    // 交代実行ボタンのイベント
+    document.getElementById("execSubBtn").addEventListener("click", () => {
+        const outVal = document.getElementById("subOutSelect").value;
+        const inVal = document.getElementById("subInSelect").value;
+
+        if (!outVal || !inVal) {
+            alert("OUT選手とIN選手の両方を選択してください。");
+            return;
+        }
+
+        if (!matchState.substitutions) {
+            matchState.substitutions = [];
+        }
+
+        // 交代履歴データへ追加
+        matchState.substitutions.push({
+            out: outVal,
+            in: inVal,
+            done: true,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+
+        // スクロール画面の交代履歴を更新
+        renderSubHistory();
+
+        // ドロワーを閉じる
+        closeMatchDrawer();
+    });
+}
+
+/**
+ * メイン画面（スクロール画面）の交代履歴を描画
+ */
+function renderSubHistory() {
+    const subHistoryEl = document.getElementById("subHistory");
+    if (!subHistoryEl) return;
+
+    const matchState = tournament.matches[tournament.currentMatch];
+    if (!matchState || !matchState.substitutions || matchState.substitutions.length === 0) {
+        subHistoryEl.innerHTML = '<p class="emptySubText">交代履歴はありません</p>';
+        return;
+    }
+
+    let html = '<ul class="subHistoryList">';
+    matchState.substitutions.forEach((sub, index) => {
+        if (sub.done) {
+            html += `
+                <li class="subHistoryItem">
+                    <span class="subIndex">${index + 1}</span>
+                    <span class="subOutName">${sub.out}</span>
+                    <span class="subArrow">➜</span>
+                    <span class="subInName">${sub.in}</span>
+                </li>
+            `;
+        }
+    });
+    html += '</ul>';
+
+    subHistoryEl.innerHTML = html;
+}
 
 
 
