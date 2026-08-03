@@ -26,41 +26,21 @@ let teams = [];
 let currentTournamentId="";
 let deleteTournamentId = "";
 
-function createEmptyMatch(){
-
+function createEmptyMatch() {
     return {
-
-        homeTeamId:"",
-        homeTeam:"",
-        awayTeam:"",
-        
-        homeScore:0,
-        awayScore:0,
-
-        lineup:{
-            GK:"",
-            FP1:"",
-            FP2:"",
-            FP3:"",
-            FP4:"",
-            FP5:"",
-            FP6:"",
-            FP7:""
+        homeTeamId: "",
+        homeTeam: "",
+        awayTeam: "",
+        homeScore: 0,
+        awayScore: 0,
+        lineup: {
+            GK: "", FP1: "", FP2: "", FP3: "", FP4: "", FP5: "", FP6: "", FP7: ""
         },
-
-        substitutions:Array.from(
-            {length:10},
-            ()=>({
-                out:"",
-                in:"",
-                done:false
-            })
-        ),
-
-        goals:[],
-        undoStack:[]
+        // ★各試合で独立した交代履歴配列
+        substitutions: [],
+        goals: [],
+        undoStack: []
     };
-
 }
 
 const tournament={
@@ -93,73 +73,38 @@ window.onload = async function(){
     loadTournamentList();
 }
 
-function refreshMatch(){
+function refreshMatch() {
     createMatchTabs();
     updateScore();
     createLineup();
-    createSubstitutionArea();
     drawGoalHistory();
+
+    // ★ 試合タブ切り替え時に「その試合の交代履歴」を再描画
+    renderSubHistory();
 
     // 大会情報（日付・会場・大会名）を試合ノートへ反映
     const matchDate = document.getElementById("matchDate");
     const matchPlace = document.getElementById("matchPlace");
     const matchName = document.getElementById("matchName");
 
-    if(matchDate)  matchDate.value  = tournament.date  || "";
-    if(matchPlace) matchPlace.value = tournament.place || "";
-    if(matchName)  matchName.value  = tournament.name  || "";
+    if (matchDate)  matchDate.value  = tournament.date  || "";
+    if (matchPlace) matchPlace.value = tournament.place || "";
+    if (matchName)  matchName.value  = tournament.name  || "";
 
     // ホームチーム（試合ごとの選択）の反映
     const matchState = tournament.matches[tournament.currentMatch];
     const homeSelect = document.getElementById("homeTeamSelect");
-    if(homeSelect && matchState) {
+    if (homeSelect && matchState) {
         homeSelect.value = matchState.homeTeamId || "";
         
         const team = teams.find(t => t.id === matchState.homeTeamId);
         players = team ? [...(team.players || [])] : [];
         
         createLineup();
-        createSubstitutionArea();
     }
 }
 
-/*
-function refreshMatch(){
-    createMatchTabs();
-    updateScore();
-    createLineup();
-    createSubstitutionArea();
-    drawGoalHistory();
 
-    // 大会情報を試合ノートへ反映
-    const matchDate = document.getElementById("matchDate");
-    const matchPlace = document.getElementById("matchPlace");
-    if(matchDate){
-        matchDate.value = tournament.date || "";
-    }
-    if(matchPlace){
-        matchPlace.value = tournament.place || "";
-    }
-
-    // ★ 現在の試合のホームチーム（チーム選択）を反映
-    const matchState = tournament.matches[tournament.currentMatch];
-    const homeSelect = document.getElementById("homeTeamSelect");
-    if(homeSelect && matchState) {
-        homeSelect.value = matchState.homeTeamId || "";
-        
-        // チームが選択されている場合は、そのチームの選手データを読み込む
-        const team = teams.find(t => t.id === matchState.homeTeamId);
-        if(team) {
-            players = [...(team.players || [])];
-        } else {
-            players = [];
-        }
-        // 出場選手・交代の再描画
-        createLineup();
-        createSubstitutionArea();
-    }
-}
-*/
 
 // ==============================
 // 共通ダイアログ
@@ -2057,13 +2002,11 @@ function renderSubstitutionDrawer(container) {
     const box = document.createElement("div");
     box.className = "drawerSubContainer";
 
-    // OUT選手選択プルダウン（ピッチ上の選手）
     let outOptions = '<option value="">OUT選手を選択</option>';
     pitchPlayers.forEach(p => {
         outOptions += `<option value="${p}">${p}</option>`;
     });
 
-    // IN選手選択プルダウン（ピッチ外の選手）
     let inOptions = '<option value="">IN選手を選択</option>';
     benchPlayers.forEach(p => {
         inOptions += `<option value="${p}">${p}</option>`;
@@ -2086,7 +2029,7 @@ function renderSubstitutionDrawer(container) {
     container.innerHTML = "";
     container.appendChild(box);
 
-    // 交代実行ボタンのイベント
+    // ★ 交代実行ボタンのイベント（修正）
     document.getElementById("execSubBtn").addEventListener("click", () => {
         const outVal = document.getElementById("subOutSelect").value;
         const inVal = document.getElementById("subInSelect").value;
@@ -2096,25 +2039,32 @@ function renderSubstitutionDrawer(container) {
             return;
         }
 
-        if (!matchState.substitutions) {
-            matchState.substitutions = [];
+        // 現在選択されている試合を安全に参照
+        const currentIdx = tournament.currentMatch;
+        const currentMatchState = tournament.matches[currentIdx];
+
+        if (!currentMatchState) return;
+
+        if (!Array.isArray(currentMatchState.substitutions)) {
+            currentMatchState.substitutions = [];
         }
 
-        // 交代履歴データへ追加
-        matchState.substitutions.push({
+        // 対象試合の配列にだけデータを追加
+        currentMatchState.substitutions.push({
             out: outVal,
             in: inVal,
             done: true,
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         });
 
-        // スクロール画面の交代履歴を更新
+        // 交代履歴を再描画
         renderSubHistory();
 
         // ドロワーを閉じる
         closeMatchDrawer();
     });
 }
+
 
 /**
  * メイン画面（スクロール画面）の交代履歴を描画
@@ -2149,17 +2099,20 @@ function renderSubHistory() {
 }
 */
 /**
- * 現在選択されている試合の交代履歴を描画
+ * メイン画面（スクロール画面）の交代履歴を描画
  */
 function renderSubHistory() {
     const subHistoryEl = document.getElementById("subHistory");
     if (!subHistoryEl) return;
 
     // 現在選択中の試合データを取得
-    const currentMatchIdx = tournament.currentMatch;
-    const matchState = tournament.matches[currentMatchIdx];
+    const currentIdx = tournament.currentMatch;
+    const matchState = tournament.matches[currentIdx];
 
-    // 該当試合の交代データが存在しない、または空の場合
+    // ★必ず最初に一度エリアをクリアする
+    subHistoryEl.innerHTML = "";
+
+    // データが存在しない、または空の場合は「履歴なし」を表示して終了
     if (!matchState || !Array.isArray(matchState.substitutions) || matchState.substitutions.length === 0) {
         subHistoryEl.innerHTML = '<p class="emptySubText">交代履歴はありません</p>';
         return;
@@ -2183,6 +2136,7 @@ function renderSubHistory() {
 
     subHistoryEl.innerHTML = html;
 }
+
 
 // ==============================
 // ホーム画面などのボタンイベント
