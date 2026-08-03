@@ -1844,7 +1844,7 @@ function renderLineupDrawer(container) {
                 createSubstitutionArea();
             }
             
-            // ★自分自身を再呼び出しせず、重複選択の無効化（disabled）のみを制御
+            // 重複選択の無効化処理を実行
             updateLineupSelectDisabledState(lineupBox);
         });
 
@@ -1864,30 +1864,35 @@ function renderLineupDrawer(container) {
  * 選択済みの選手が他のポジションで選べないよう `<option>` の disabled を切り替えるヘルパー関数
  */
 function updateLineupSelectDisabledState(container) {
-    const matchState = tournament.matches[tournament.currentMatch];
-    if (!matchState) return;
+    const selects = Array.from(container.querySelectorAll(".lineupSelect"));
 
-    // 現在選択されている全選手の値を取得
-    const selectedPlayers = Object.values(matchState.lineup).filter(name => name !== "");
-    const selects = container.querySelectorAll(".lineupSelect");
-
+    // 1. まず全ての `<option>` の disabled を解除（リセット）
     selects.forEach(select => {
-        const currentPos = select.dataset.position;
-        const currentVal = matchState.lineup[currentPos] || "";
+        Array.from(select.options).forEach(opt => {
+            opt.disabled = false;
+        });
+    });
 
-        Array.from(select.options).forEach(option => {
-            if (!option.value) return; // 「未選択」オプションはスキップ
+    // 2. 現在いずれかのセレクトボックスで「実際に選択されている選手」のリストを取得
+    const selectedValues = selects
+        .map(s => s.value)
+        .filter(val => val !== "");
 
-            // 他のポジションで選択されている選手は disabled にする
-            // （ただし、自分自身が今選択している値は disabled にしない）
-            if (selectedPlayers.includes(option.value) && option.value !== currentVal) {
-                option.disabled = true;
-            } else {
-                option.disabled = false;
+    // 3. 各セレクトボックスに対し、「他のセレクトで選ばれている選手」を disabled に設定
+    selects.forEach(currentSelect => {
+        const currentValue = currentSelect.value;
+
+        Array.from(currentSelect.options).forEach(opt => {
+            if (!opt.value) return; // 「未選択」はスキップ
+
+            // 「選択中の選手リスト」に含まれていて、かつ「自分自身が現在選択している値」ではない場合
+            if (selectedValues.includes(opt.value) && opt.value !== currentValue) {
+                opt.disabled = true;
             }
         });
     });
 }
+
 
 // =================================
 // 試合ノート ポップアップ（ドロワー）制御
