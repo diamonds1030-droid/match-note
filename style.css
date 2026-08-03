@@ -810,6 +810,117 @@ button:active {
   color: #c62828;
   background-color: #ffebee;
 }
+/* --- ドロワー内の交代設定 --- */
+.drawerSubContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 10px 0;
+}
+
+.subSelectGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.subSelectRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.subSelectRow label {
+    width: 45px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    padding: 4px 0;
+    border-radius: 4px;
+}
+
+.labelOut {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.labelIn {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.subSelect {
+    flex: 1;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 0 10px;
+    font-size: 15px;
+    background-color: #fff;
+}
+
+.execSubBtn {
+    width: 100%;
+    height: 44px;
+    background-color: #2196f3;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.execSubBtn:active {
+    background-color: #1976d2;
+}
+
+/* --- スクロール画面の交代履歴表示 --- */
+.emptySubText {
+    color: #888;
+    font-size: 13px;
+    text-align: center;
+    margin: 8px 0;
+}
+
+.subHistoryList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subHistoryItem {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.subIndex {
+    width: 20px;
+    color: #888;
+    font-size: 12px;
+}
+
+.subOutName {
+    color: #c62828;
+    font-weight: bold;
+}
+
+.subArrow {
+    margin: 0 10px;
+    color: #666;
+}
+
+.subInName {
+    color: #2e7d32;
+    font-weight: bold;
+}
 
 /*==============================
   ダイアログ
