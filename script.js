@@ -75,6 +75,7 @@ window.onload = async function(){
 
 function refreshMatch() {
     createMatchTabs();
+    setupScoreUndoButton();
     
     // 現在選択されている試合データを取得
     const matchState = tournament.matches[tournament.currentMatch];
@@ -903,6 +904,27 @@ function createPlayerList(){
 // ==============================
 // チーム選択　試合ノート画面
 // ==============================
+
+// 得点欄の元に戻すアイコンボタンを生成・配置する関数
+function setupScoreUndoButton() {
+    const area = document.getElementById("scoreUndoArea");
+    if (!area) return;
+
+    // 二重生成を防止するためクリア
+    area.innerHTML = "";
+
+    // ヘッダーと同じ構造でボタンを生成
+    const undoBtn = document.createElement("button");
+    undoBtn.id = "scoreUndoBtn";
+    undoBtn.className = "iconButton"; // ★ ヘッダー共通のアイコンボタンクラスを適用
+    undoBtn.title = "元に戻す";
+    undoBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
+
+    // クリック時に操作取り消し（undo）を実行
+    undoBtn.addEventListener("click", undo);
+
+    area.appendChild(undoBtn);
+}
 
 function createHomeTeamSelect(){
 
