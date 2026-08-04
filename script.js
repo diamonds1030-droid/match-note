@@ -315,7 +315,25 @@ function initializeHeaderButtons(){
         savePlayers();
     });
 
-    document.getElementById("undoButton")?.addEventListener("click", undo);
+    //document.getElementById("undoButton")?.addEventListener("click", undo);
+
+    // 【得点のみ戻す】
+    document.getElementById("undoButton")?.addEventListener("click", () => {
+        const currentMatch = getCurrentMatch(); // ※現在選択中の試合データを取得する関数
+        if (currentMatch && currentMatch.goals && currentMatch.goals.length > 0) {
+            currentMatch.goals.pop(); // 最新の得点履歴を1件削除
+            renderMatch();            // 試合表示を再更新
+        }
+    });
+
+    // 【交代履歴のみ戻す】
+    document.getElementById("undoSubButton")?.addEventListener("click", () => {
+        const currentMatch = getCurrentMatch();
+        if (currentMatch && currentMatch.substitutions && currentMatch.substitutions.length > 0) {
+            currentMatch.substitutions.pop(); // 最新の交代履歴を1件削除
+            renderMatch();                    // 試合表示を再更新
+        }
+    });
 
     document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
 
