@@ -329,29 +329,6 @@ button:active {
     margin: 0;
 }
 
-/* 右側のアイコンボタン */
-.score-undo-btn {
-    background: transparent;
-    border: none;
-    outline: none;
-    
-    font-size: 1.2rem;   /* ヘッダーのアイコンと同等の大きさ */
-    color: inherit;      /* 周りの文字色に合わせる */
-    
-    padding: 4px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    
-    -webkit-tap-highlight-color: transparent;
-    transition: opacity 0.2s ease;
-}
-
-.score-undo-btn:active {
-    opacity: 0.5;        /* タップ時の透明度変更 */
-}
-
 
 #matchPage {
     background: #f5f5f5;
