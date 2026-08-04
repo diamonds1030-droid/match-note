@@ -1030,6 +1030,34 @@ function saveUndo(){
     );
 
 }
+// 「戻る」ボタンのクリック処理
+document.getElementById('undoButton').addEventListener('click', () => {
+    restoreUndo();
+});
+
+// 元に戻す（Undo）実行関数
+function restoreUndo() {
+    const matchState = tournament.matches[tournament.currentMatch];
+
+    // 履歴が空の場合は何もしない
+    if (!matchState.undoStack || matchState.undoStack.length === 0) {
+        alert("これ以上戻せません");
+        return;
+    }
+
+    // 最後の状態を取り出して復元
+    const lastState = JSON.parse(matchState.undoStack.pop());
+
+    matchState.homeScore = lastState.homeScore;
+    matchState.awayScore = lastState.awayScore;
+    matchState.lineup = lastState.lineup;
+    matchState.substitutions = lastState.substitutions;
+    matchState.goals = lastState.goals;
+
+    // 画面の表示（スコアや履歴）を最新状態に更新する処理を呼ぶ
+    renderMatchPage(); // ※お使いの表示更新用関数名に合わせて変更してください
+}
+
 // ==============================
 // タブ生成
 // ==============================
