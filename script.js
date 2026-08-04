@@ -612,6 +612,11 @@ content.addEventListener(
 async function loadTournament(id){
 
     try{
+        // もし teams がまだ取得できていなければ取得する
+        if (!teams || teams.length === 0) {
+            await loadTeams();
+        }
+
         const snapshot = await getDoc(doc(db, "tournaments", id));
 
         if(!snapshot.exists()){
@@ -624,38 +629,9 @@ async function loadTournament(id){
 
         // ★ 1試合目（インデックス 0）を強制的にカレントにする
         tournament.currentMatch = 0;
-        const matchState = tournament.matches[0];
 
-        // ★ ホームチームの選手データ（players）を teams 配列から即座に復元
-        if (matchState && matchState.homeTeamId) {
-            const team = teams.find(t => t.id === matchState.homeTeamId);
-            if (team && Array.isArray(team.players)) {
-                players = [...team.players];
-            } else {
-                players = [];
-            }
-        } else {
-            players = [];
-        }
-
-        // ホームチーム選択のプルダウン値を同期
-        const homeSelect = document.getElementById("homeTeamSelect");
-        if (homeSelect && matchState) {
-            homeSelect.value = matchState.homeTeamId || "";
-        }
-
-        // アウェイチーム名を同期
-        const awayInput = document.getElementById("awayTeam");
-        if (awayInput && matchState) {
-            awayInput.value = matchState.awayTeam || "";
-        }
-
-        // 画面全体の描画更新
+        // ★ refreshMatch 内で players 配列の復元・画面同期を一括処理
         refreshMatch();
-        
-        // ★ 最後にスタメンと交代欄を明示的に再生成
-        createLineup();
-        renderSubHistory();
 
         // 試合ノート画面へ移動
         showPage("matchPage");
@@ -1664,6 +1640,7 @@ function updateScore(){
  * スタメン設定画面（ドロワー内）を動的に生成して表示
  * @param {HTMLElement} container - 描画先の要素（#drawerContent）
  */
+/*
 function renderLineupDrawer(container) {
     const matchState = tournament.matches[tournament.currentMatch];
     if (!matchState) return;
@@ -1720,6 +1697,84 @@ function renderLineupDrawer(container) {
     // 初回描画時にも重複制御を適用
     updateLineupSelectDisabledState(lineupBox);
 }
+*/
+
+/**
+ * スタメン設定画面（ドロワー内）を動的に生成して表示
+ * @param {HTMLElement} container - 描画先の要素（#drawerContent）
+ */
+function renderLineupDrawer(container) {
+    const matchState = tournament.matches[tournament.currentMatch];
+    if (!matchState) return;
+
+    // ★ 1. matchState.homeTeamId から該当チームの選手リストを直接復元（変数のズレ防止）
+    let teamPlayers = [];
+    if (matchState.homeTeamId) {
+        const team = teams.find(t => t.id === matchState.homeTeamId);
+        if (team && Array.isArray(team.players)) {
+            teamPlayers = team.players.filter(p => p !== "");
+        }
+    }
+    
+    // もし teams から取れなかった場合は現在の players 配列を参照
+    if (teamPlayers.length === 0 && Array.isArray(players)) {
+        teamPlayers = players.filter(p => p !== "");
+    }
+
+    // ★ 2. すでにスタメンに登録されている名前も確実に統合する
+    const currentLineupNames = Object.values(matchState.lineup).filter(name => name !== "");
+    const allSelectablePlayers = Array.from(new Set([...teamPlayers, ...currentLineupNames]));
+
+    const lineupBox = document.createElement("div");
+    lineupBox.className = "drawerLineupContainer";
+
+    const positions = ["GK", "FP1", "FP2", "FP3", "FP4", "FP5", "FP6", "FP7"];
+
+    // 各ポジションの行を生成
+    positions.forEach(position => {
+        const row = document.createElement("div");
+        row.className = "lineupRow";
+
+        const label = document.createElement("label");
+        label.textContent = position;
+
+        const select = document.createElement("select");
+        select.className = "lineupSelect";
+        select.dataset.position = position;
+
+        // 選手選択肢の生成
+        let optionsHtml = '<option value="">未選択</option>';
+        allSelectablePlayers.forEach(player => {
+            if (!player) return;
+            optionsHtml += `<option value="${player}">${player}</option>`;
+        });
+
+        select.innerHTML = optionsHtml;
+        select.value = matchState.lineup[position] || "";
+
+        // 値が変更された時のイベント処理
+        select.addEventListener("change", (e) => {
+            matchState.lineup[position] = e.target.value;
+            
+            if (typeof createSubstitutionArea === "function") {
+                createSubstitutionArea();
+            }
+            
+            updateLineupSelectDisabledState(lineupBox);
+        });
+
+        row.appendChild(label);
+        row.appendChild(select);
+        lineupBox.appendChild(row);
+    });
+
+    container.innerHTML = "";
+    container.appendChild(lineupBox);
+
+    // 初回描画時にも重複制御を適用
+    updateLineupSelectDisabledState(lineupBox);
+}
+
 
 /**
  * 選択済みの選手が他のポジションで選べないよう `<option>` の disabled を切り替えるヘルパー関数
