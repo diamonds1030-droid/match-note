@@ -241,10 +241,6 @@ const HEADER_CONFIG = {
     matchPage:{
         title:"試合ノート",
         buttons:`
-            <button id="undoButton" class="iconButton">
-                <i class="fa-solid fa-rotate-left"></i>
-            </button>
-
             <button id="saveMatchButton" class="iconButton">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
             </button>
