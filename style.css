@@ -352,28 +352,6 @@ button:active {
 /* ==========================================
    試合結果（チーム名選択・アウェイ入力のバランス調整）
 ========================================== */
-/* 得点カード右上の「戻る（Undo）」ボタン */
-.score-undo-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 13px;
-    color: #333;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    z-index: 5;
-}
-
-.score-undo-btn:active {
-    background-color: #e0e0e0;
-}
 
 .scoreTeamRow {
     display: flex;
