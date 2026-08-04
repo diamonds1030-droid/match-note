@@ -169,15 +169,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             <div id="goalHistory" class="goalHistory"></div>
         </div>
 
-        <!-- 3. 交代履歴（出場選手カードから変更） -->
-        <div class="card">
-            <h3>交代履歴</h3>
-                <!-- ヘッダーと全く同じ構成のボタンを追加 -->
-                <button id="undoSubButton" class="iconButton">
-                    <i class="fa-solid fa-rotate-left"></i>
-                </button>
-            <div id="subHistory" class="subHistory"></div>
-        </div>
+<!-- 3. 交代履歴 -->
+<div class="card">
+    <div style="display: flex">
+        <h3>交代履歴</h3>
+        <!-- ヘッダーや得点欄と全く同じ iconButton を追加 -->
+        <button id="undoSubButton" class="iconButton">
+            <i class="fa-solid fa-rotate-left"></i>
+        </button>
+    </div>
+    <div id="subHistory" class="subHistory"></div>
+</div>
+
 
     </main>
 
