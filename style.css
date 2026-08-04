@@ -252,35 +252,57 @@ button:active {
     gap: 12px;
 }
 
+/* 1行目（日付＆会場） */
 .row-top {
     display: flex;
-    gap: 12px;
+    gap: 10px;
+    width: 100%;
 }
 
-.row-top .form-group {
+/* 日付枠をコンパクトに固定 (横幅135px) */
+.row-top .form-group:has(#matchDate) {
+    flex: 0 0 135px;
+    max-width: 135px;
+}
+
+/* 会場枠を余った横幅いっぱいに伸ばす */
+.row-top .form-group:has(#matchPlace) {
     flex: 1;
+    width: 100%;
 }
 
+/* 2行目（大会名） */
+.row-bottom .form-group {
+    width: 100%;
+}
+
+/* 入力グループ共通（縦並び：ラベル下に枠） */
 .form-group {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .form-group label {
     font-weight: bold;
     white-space: nowrap;
-    font-size: 14px;
+    font-size: 12px;
+    color: #555;
 }
 
+/* 入力枠の見た目を統一（高さを揃える） */
 .form-group input {
     width: 100%;
-    padding: 6px 8px;
+    height: 40px;
+    padding: 6px 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
+    background-color: #fff;
     box-sizing: border-box;
+    -webkit-appearance: none; /* iOSでの日付入力の崩れ防止 */
 }
+
 
 /* ==========================================
    試合ノート画面
