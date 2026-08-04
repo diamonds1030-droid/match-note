@@ -1030,10 +1030,6 @@ function saveUndo(){
     );
 
 }
-// 「戻る」ボタンのクリック処理
-document.getElementById('undoButton').addEventListener('click', () => {
-    restoreUndo();
-});
 
 // 元に戻す（Undo）実行関数
 function restoreUndo() {
