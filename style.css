@@ -829,9 +829,14 @@ button:active {
   bottom: 0;
 }
 
+/* ==========================================
+   ドロワー（ポップアップ）ヘッダー設定
+========================================== */
+
 .drawer-header {
+  position: relative;            /* 閉じるボタンの絶対配置の基準にする */
   display: flex;
-  justify-content: space-between;
+  justify-content: center;       /* タイトル（h3）を左右中央に配置 */
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid #eee;
@@ -841,21 +846,27 @@ button:active {
   margin: 0;
   font-size: 16px;
   font-weight: bold;
+  text-align: center;            /* テキストを中央寄せ */
+  color: #333;
 }
 
 .drawer-close-btn {
+  position: absolute;            /* 右端に固定配置 */
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);   /* 上下中央に配置 */
   background: none;
   border: none;
   font-size: 20px;
   color: #888;
   cursor: pointer;
+  padding: 4px 8px;              /* タップしやすいように余白を調整 */
 }
 
-.drawer-body {
-  padding: 16px 20px;
-  overflow-y: auto;
-  flex: 1;
+.drawer-close-btn:active {
+  opacity: 0.6;
 }
+
 
 /* 得点ボタン群のポップアップ用スタイル */
 .drawerGoalContainer {
