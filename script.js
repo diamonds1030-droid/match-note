@@ -640,19 +640,12 @@ content.addEventListener(
 }
 
 //===============================
-// 大会読込
+// 大会読込（確実な選手リスト復元版）
 //===============================
 async function loadTournament(id){
 
     try{
-
-        const snapshot = await getDoc(
-            doc(
-                db,
-                "tournaments",
-                id
-            )
-        );
+        const snapshot = await getDoc(doc(db, "tournaments", id));
 
         if(!snapshot.exists()){
             alert("大会がありません");
@@ -660,22 +653,17 @@ async function loadTournament(id){
         }
 
         // 大会データを復元
-        Object.assign(
-            tournament,
-            snapshot.data()
-        );
+        Object.assign(tournament, snapshot.data());
 
-        // ★【補正ポイント1】1試合目（インデックス 0）を選択状態にリセット
+        // ★ 1試合目（インデックス 0）を強制的にカレントにする
         tournament.currentMatch = 0;
-
-        // 現在表示する試合（1試合目）
         const matchState = tournament.matches[0];
 
-        // ★【補正ポイント2】1試合目のホームチームの選手データを復元
+        // ★ ホームチームの選手データ（players）を teams 配列から即座に復元
         if (matchState && matchState.homeTeamId) {
             const team = teams.find(t => t.id === matchState.homeTeamId);
-            if (team) {
-                players = [...(team.players || [])];
+            if (team && Array.isArray(team.players)) {
+                players = [...team.players];
             } else {
                 players = [];
             }
@@ -683,38 +671,35 @@ async function loadTournament(id){
             players = [];
         }
 
-        // 画面更新（タブやスコア、交代履歴などの描画）
-        refreshMatch();
+        // ホームチーム選択のプルダウン値を同期
+        const homeSelect = document.getElementById("homeTeamSelect");
+        if (homeSelect && matchState) {
+            homeSelect.value = matchState.homeTeamId || "";
+        }
 
-        // アウェイチーム名の反映
+        // アウェイチーム名を同期
         const awayInput = document.getElementById("awayTeam");
-        if(awayInput && matchState) {
+        if (awayInput && matchState) {
             awayInput.value = matchState.awayTeam || "";
         }
 
-        // ホームチームのドロップダウン選択値を設定し、スタメンを再構築
-        if (matchState && matchState.homeTeamId) {
-            const homeSelect = document.getElementById("homeTeamSelect");
-            if(homeSelect) homeSelect.value = matchState.homeTeamId;
-
-            createLineup();
-            createSubstitutionArea();
-        }
+        // 画面全体の描画更新
+        refreshMatch();
+        
+        // ★ 最後にスタメンと交代欄を明示的に再生成
+        createLineup();
+        renderSubHistory();
 
         // 試合ノート画面へ移動
         showPage("matchPage");
 
-        alert("読込しました");
-
     }
     catch(e){
-
         console.log(e);
         alert("読込に失敗しました");
-
     }
-
 }
+
 
 //===============================
 // チーム作成
@@ -1162,53 +1147,71 @@ function createMatchTabs(){
 // ==============================
 
 // ==============================
-// 出場選手（スタメン）一覧生成
+// 出場選手（スタメン）一覧生成（修正版）
 // ==============================
 function createLineup() {
     const matchState = tournament.matches[tournament.currentMatch];
     const area = document.getElementById("lineupArea");
 
-    if (!area) return;
+    if (!area || !matchState) return;
 
     area.innerHTML = "";
 
     const positions = ["GK", "FP1", "FP2", "FP3", "FP4", "FP5", "FP6", "FP7"];
+
+    // ★ 1. 試合データに記録されている全選手（スタメン＋控え等）とグローバルの players を統合
+    const lineupNames = Object.values(matchState.lineup).filter(name => name !== "");
+    const subOutNames = matchState.substitutions ? matchState.substitutions.map(s => s.out) : [];
+    const subInNames = matchState.substitutions ? matchState.substitutions.map(s => s.in) : [];
+    
+    // 現在保持している選手リスト + 試合データに存在する選手名を統合（重複除外）
+    const allAvailablePlayers = Array.from(new Set([
+        ...(Array.isArray(players) ? players : []),
+        ...lineupNames,
+        ...subOutNames,
+        ...subInNames
+    ])).filter(name => name !== "");
 
     positions.forEach(position => {
         const row = document.createElement("div");
         row.className = "lineupRow";
 
         let options = '<option value="">選択してください</option>';
+        const currentSelectedPlayer = matchState.lineup[position] || "";
 
-        players.forEach(player => {
-            if (player === "") return;
-
-            const used = Object.entries(matchState.lineup).some(([pos, name]) => {
+        // ★ 2. 重複チェックを行いながら選択肢を作成
+        allAvailablePlayers.forEach(player => {
+            // 他のポジションで使われているか判定
+            const usedInOtherPos = Object.entries(matchState.lineup).some(([pos, name]) => {
                 return pos !== position && name === player;
             });
 
-            if (!used || matchState.lineup[position] === player) {
+            // 他で使われていない、または「まさにこのポジションで選択中の選手」なら選択肢に追加
+            if (!usedInOtherPos || player === currentSelectedPlayer) {
                 options += `<option value="${player}">${player}</option>`;
             }
         });
 
-        // 得点ボタンを削除し、純粋なスタメン設定用プルダウンのみに
         row.innerHTML = `
             <label>${position}</label>
             <select class="lineupSelect">${options}</select>
         `;
 
         const select = row.querySelector(".lineupSelect");
-        select.value = matchState.lineup[position] || "";
+        // ★ 3. 明示的に値をセット
+        select.value = currentSelectedPlayer;
 
         select.addEventListener("change", () => {
             matchState.lineup[position] = select.value;
-            createSubstitutionArea(); // 交代枠の選択肢を更新
+            if (typeof createSubstitutionArea === "function") {
+                createSubstitutionArea();
+            }
         });
 
         area.appendChild(row);
     });
 }
+
 
 
 /**
