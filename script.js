@@ -115,39 +115,6 @@ function refreshMatch() {
     if (matchName)  matchName.value  = tournament.name  || "";
 }
 
-/*
-function refreshMatch() {
-    createMatchTabs();
-    updateScore();
-    createLineup();
-    drawGoalHistory();
-
-    // ★ 試合タブ切り替え時に「その試合の交代履歴」を再描画
-    renderSubHistory();
-
-    // 大会情報（日付・会場・大会名）を試合ノートへ反映
-    const matchDate = document.getElementById("matchDate");
-    const matchPlace = document.getElementById("matchPlace");
-    const matchName = document.getElementById("matchName");
-
-    if (matchDate)  matchDate.value  = tournament.date  || "";
-    if (matchPlace) matchPlace.value = tournament.place || "";
-    if (matchName)  matchName.value  = tournament.name  || "";
-
-    // ホームチーム（試合ごとの選択）の反映
-    const matchState = tournament.matches[tournament.currentMatch];
-    const homeSelect = document.getElementById("homeTeamSelect");
-    if (homeSelect && matchState) {
-        homeSelect.value = matchState.homeTeamId || "";
-        
-        const team = teams.find(t => t.id === matchState.homeTeamId);
-        players = team ? [...(team.players || [])] : [];
-        
-        createLineup();
-    }
-}
-*/
-
 
 // ==============================
 // 共通ダイアログ
@@ -927,18 +894,6 @@ function createPlayerList(){
 
     // 2. リスト内のみ初期化
     list.innerHTML = "";
-    //const list=document.getElementById("playerList");
-    //if(!list) return;
-    //list.innerHTML="";
-    // タイトル
-    //const header=document.createElement("div");
-    //header.className="playerHeader";
-    //header.innerHTML=`
-   //     <div class="playerHeaderNo">No</div>
-   //     <div class="playerHeaderName">選手名</div>
-//    `;
-
-    //list.appendChild(header);
 
     for(let i=0;i<MAX_PLAYERS;i++){
 
@@ -1399,32 +1354,6 @@ function createSubstitutionArea(){
 // ==============================
 // 交代実行
 // ==============================
-/*
-function executeSubstitution(
-    outPlayer,
-    inPlayer,
-    index
-){
-    saveUndo();
-    const matchState =
-    tournament.matches[
-        tournament.currentMatch
-    ];
-    // 出場選手を変更
-    Object.keys(matchState.lineup).forEach(position=>{
-        if(matchState.lineup[position] === outPlayer){
-            matchState.lineup[position] = inPlayer;
-        }
-    });
-    // 実施した交代枠だけ保存
-    matchState.substitutions[index].out = outPlayer;
-    matchState.substitutions[index].in = inPlayer;
-    matchState.substitutions[index].done = true;
-    // 表示更新
-    createLineup();
-    createSubstitutionArea();
-}
-*/
 
 function executeSubstitution(outPlayer, inPlayer) {
     const currentMatchIdx = tournament.currentMatch;
@@ -1730,73 +1659,7 @@ function updateScore(){
             matchState.awayTeam || "";
     }
 }
-/*
-function renderLineupDrawer(container) {
-    const matchState = tournament.matches[tournament.currentMatch];
-    if (!matchState) return;
 
-    // ★ ホームチームの選手一覧を取得（現在選択中のチームの選手）
-    // （※ globalの players 配列が選択チームのリストになっている前提）
-    const teamPlayers = Array.isArray(players) ? players : [];
-
-    // スタメン設定用のコンテナ
-    const lineupBox = document.createElement("div");
-    lineupBox.className = "drawerLineupContainer";
-
-    // 8名のポジション定義
-    const positions = ["GK", "FP1", "FP2", "FP3", "FP4", "FP5", "FP6", "FP7"];
-
-    positions.forEach(position => {
-        const row = document.createElement("div");
-        row.className = "lineupRow";
-
-        const label = document.createElement("label");
-        label.textContent = position;
-
-        const select = document.createElement("select");
-        select.className = "lineupSelect";
-
-        let optionsHtml = '<option value="">未選択</option>';
-
-        // ★ ホームチームの選手一覧から選択肢を生成
-        teamPlayers.forEach(player => {
-            if (!player) return;
-
-            // 他のポジションで重複選択されていないか判定
-            const isUsedElsewhere = Object.entries(matchState.lineup).some(
-                ([pos, name]) => pos !== position && name === player
-            );
-
-            if (!isUsedElsewhere || matchState.lineup[position] === player) {
-                optionsHtml += `<option value="${player}">${player}</option>`;
-            }
-        });
-
-        select.innerHTML = optionsHtml;
-        select.value = matchState.lineup[position] || "";
-
-        // 選手が変更されたら matchState.lineup を更新
-        select.addEventListener("change", (e) => {
-            matchState.lineup[position] = e.target.value;
-            
-            // 交代枠のドロップダウン等も再構築が必要なら実行
-            if (typeof createSubstitutionArea === "function") {
-                createSubstitutionArea();
-            }
-            
-            // 再描画（他の枠で選択した選手を重複選択不可にするため）
-            renderLineupDrawer(container);
-        });
-
-        row.appendChild(label);
-        row.appendChild(select);
-        lineupBox.appendChild(row);
-    });
-
-    container.innerHTML = "";
-    container.appendChild(lineupBox);
-}
-*/
 /**
  * スタメン設定画面（ドロワー内）を動的に生成して表示
  * @param {HTMLElement} container - 描画先の要素（#drawerContent）
@@ -1977,19 +1840,6 @@ window.openMatchDrawer = function(type) {
         // ★ 動的に交代選択フォーム（OUT:ピッチ上 / IN:ピッチ外）を生成
         renderSubstitutionDrawer(contentEl);
     }
-/*
-    } else if (type === 'subs') {
-        titleEl.textContent = "選手交代";
-        
-        // 交代エリア要素があれば移動して表示
-        const subTarget = document.getElementById("substitutionArea");
-        if (subTarget) {
-            drawerOriginalParent = subTarget.parentElement;
-            drawerMovedElement = subTarget;
-            contentEl.appendChild(subTarget);
-        }
-    }
-*/
     overlay.classList.add("show");
     drawer.classList.add("show");
 };
@@ -2118,39 +1968,6 @@ function renderSubstitutionDrawer(container) {
     });
 }
 
-
-/**
- * メイン画面（スクロール画面）の交代履歴を描画
- */
-/*
-function renderSubHistory() {
-    const subHistoryEl = document.getElementById("subHistory");
-    if (!subHistoryEl) return;
-
-    const matchState = tournament.matches[tournament.currentMatch];
-    if (!matchState || !matchState.substitutions || matchState.substitutions.length === 0) {
-        subHistoryEl.innerHTML = '<p class="emptySubText">交代履歴はありません</p>';
-        return;
-    }
-
-    let html = '<ul class="subHistoryList">';
-    matchState.substitutions.forEach((sub, index) => {
-        if (sub.done) {
-            html += `
-                <li class="subHistoryItem">
-                    <span class="subIndex">${index + 1}</span>
-                    <span class="subOutName">${sub.out}</span>
-                    <span class="subArrow">➜</span>
-                    <span class="subInName">${sub.in}</span>
-                </li>
-            `;
-        }
-    });
-    html += '</ul>';
-
-    subHistoryEl.innerHTML = html;
-}
-*/
 /**
  * メイン画面（スクロール画面）の交代履歴を描画
  */
