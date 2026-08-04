@@ -75,6 +75,49 @@ window.onload = async function(){
 
 function refreshMatch() {
     createMatchTabs();
+    
+    // 現在選択されている試合データを取得
+    const matchState = tournament.matches[tournament.currentMatch];
+    const homeSelect = document.getElementById("homeTeamSelect");
+
+    if (matchState) {
+        // 1. ホームチーム選択肢の反映
+        if (homeSelect) {
+            homeSelect.value = matchState.homeTeamId || "";
+        }
+
+        // ★2. 【原因解決の要】選択されているチームの選手データ（players）を復元
+        if (matchState.homeTeamId) {
+            const team = teams.find(t => t.id === matchState.homeTeamId);
+            players = team ? [...(team.players || [])] : [];
+        } else {
+            // チーム未選択、または最初のチームをデフォルトセットする場合
+            if (teams.length > 0) {
+                // 必要に応じて最初のチームをセットするか、空配列にする
+                players = [...(teams[0].players || [])];
+            } else {
+                players = [];
+            }
+        }
+    }
+
+    updateScore();
+    drawGoalHistory();
+    renderSubHistory();
+
+    // 大会情報（日付・会場・大会名）の反映
+    const matchDate = document.getElementById("matchDate");
+    const matchPlace = document.getElementById("matchPlace");
+    const matchName = document.getElementById("matchName");
+
+    if (matchDate)  matchDate.value  = tournament.date  || "";
+    if (matchPlace) matchPlace.value = tournament.place || "";
+    if (matchName)  matchName.value  = tournament.name  || "";
+}
+
+/*
+function refreshMatch() {
+    createMatchTabs();
     updateScore();
     createLineup();
     drawGoalHistory();
@@ -103,7 +146,7 @@ function refreshMatch() {
         createLineup();
     }
 }
-
+*/
 
 
 // ==============================
@@ -622,35 +665,41 @@ async function loadTournament(id){
             snapshot.data()
         );
 
-        // 現在表示する試合
-        const matchState =
-            tournament.matches[
-                tournament.currentMatch
-            ];
+        // ★【補正ポイント1】1試合目（インデックス 0）を選択状態にリセット
+        tournament.currentMatch = 0;
 
-        // 画面更新
+        // 現在表示する試合（1試合目）
+        const matchState = tournament.matches[0];
+
+        // ★【補正ポイント2】1試合目のホームチームの選手データを復元
+        if (matchState && matchState.homeTeamId) {
+            const team = teams.find(t => t.id === matchState.homeTeamId);
+            if (team) {
+                players = [...(team.players || [])];
+            } else {
+                players = [];
+            }
+        } else {
+            players = [];
+        }
+
+        // 画面更新（タブやスコア、交代履歴などの描画）
         refreshMatch();
 
-        // チーム名を画面へ反映
-        const team = teams.find(
-            t => t.id === matchState.homeTeamId
-        );
+        // アウェイチーム名の反映
         const awayInput = document.getElementById("awayTeam");
-        if(awayInput) awayInput.value = matchState.awayTeam || "";
+        if(awayInput && matchState) {
+            awayInput.value = matchState.awayTeam || "";
+        }
 
-if (team) {
+        // ホームチームのドロップダウン選択値を設定し、スタメンを再構築
+        if (matchState && matchState.homeTeamId) {
+            const homeSelect = document.getElementById("homeTeamSelect");
+            if(homeSelect) homeSelect.value = matchState.homeTeamId;
 
-    const homeSelect = document.getElementById("homeTeamSelect");
-    if(homeSelect) homeSelect.value = team.id;
-
-    players = [...team.players];
-
-    createLineup();
-    createSubstitutionArea();
-
-}
-
-        // 得点表示用チーム名も更新
+            createLineup();
+            createSubstitutionArea();
+        }
 
         // 試合ノート画面へ移動
         showPage("matchPage");
@@ -666,6 +715,7 @@ if (team) {
     }
 
 }
+
 //===============================
 // チーム作成
 //===============================
