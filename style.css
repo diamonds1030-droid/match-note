@@ -540,11 +540,13 @@ button:active {
 }
 
 /* ドロワー内のスタメン設定枠（8枠をスクロールなしで収める設計） */
+/* スタメン設定枠のコンテナ */
 .drawerLineupContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;             /* 枠同士の隙間を詰める */
-    padding: 2px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 20px !important; /* 上下12px / 左右20px の余白 */
+  box-sizing: border-box;
 }
 
 .lineupSelect {
@@ -802,6 +804,7 @@ button:active {
 }
 
 /* スライドアップポップアップ */
+/* ドロワー（ポップアップ）全体の余白調整 */
 .match-drawer {
   position: fixed;
   bottom: -100%;
@@ -817,7 +820,19 @@ button:active {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-sizing: border-box; /* パディングを含めた幅計算に指定 */
 }
+
+/* ★ ポップアップ内部のコンテンツエリアに左右余白を設定 */
+.drawer-content,
+.drawerLineupContainer,
+.drawerGoalContainer,
+.drawerSubContainer {
+  padding-left: 20px !important;  /* 左右に20pxの余裕を持たせる */
+  padding-right: 20px !important;
+  box-sizing: border-box;
+}
+
 
 .match-drawer.show {
   bottom: 0;
@@ -861,13 +876,13 @@ button:active {
   opacity: 0.6;
 }
 
-
-/* 得点ボタン群のポップアップ用スタイル */
+/* 得点ボタン群のコンテナ */
 .drawerGoalContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  padding: 10px 0;
+  padding: 16px 20px !important; /* 上下16px / 左右20px の余白 */
+  box-sizing: border-box;
 }
 
 .goalScorerBtn {
@@ -896,14 +911,16 @@ button:active {
   color: #c62828;
   background-color: #ffebee;
 }
-/* --- ドロワー内の交代設定 --- */
-.drawerSubContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 10px 0;
-}
 
+
+/* 交代設定のコンテナ */
+.drawerSubContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 20px !important; /* 上下16px / 左右20px の余白 */
+  box-sizing: border-box;
+}
 .subSelectGroup {
     display: flex;
     flex-direction: column;
