@@ -230,7 +230,7 @@ const HEADER_CONFIG = {
         title:"選手登録",
         buttons:`
             <button id="backToTeamPageButton" class="iconButton" title="チーム管理へ">
-                <i class="fa-solid fa-users"></i>
+                <i class="fas fa-user-friends"></i>
             </button>
             <button id="savePlayersButton" class="iconButton">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
