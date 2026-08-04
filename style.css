@@ -255,17 +255,17 @@ button:active {
 /* 1行目（日付＆会場） */
 .row-top {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
 }
 
-/* 日付枠をコンパクトに固定 (横幅135px) */
+/* 日付エリアの横幅を固定 (横並びラベル込で約170px) */
 .row-top .form-group:has(#matchDate) {
-    flex: 0 0 135px;
-    max-width: 135px;
+    flex: 0 0 170px;
+    max-width: 170px;
 }
 
-/* 会場枠を余った横幅いっぱいに伸ばす */
+/* 会場エリアを余った横幅いっぱいに伸ばす */
 .row-top .form-group:has(#matchPlace) {
     flex: 1;
     width: 100%;
@@ -276,31 +276,40 @@ button:active {
     width: 100%;
 }
 
-/* 入力グループ共通（縦並び：ラベル下に枠） */
+/* 入力グループ共通（横並び：ラベルの右に枠） */
 .form-group {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-direction: row;      /* ラベルと枠を横並びにする */
+    align-items: center;      /* 上下の中央を揃える */
+    gap: 6px;                 /* ラベルと枠の間隔 */
 }
 
 .form-group label {
     font-weight: bold;
     white-space: nowrap;
-    font-size: 12px;
-    color: #555;
+    font-size: 13px;
+    color: #333;              /* ラベルの文字色 */
+    flex-shrink: 0;           /* ラベル文字が潰れるのを防止 */
 }
 
-/* 入力枠の見た目を統一（高さを揃える） */
+/* 入力枠の見た目を統一 */
 .form-group input {
     width: 100%;
-    height: 40px;
-    padding: 6px 10px;
+    height: 38px;
+    padding: 6px 8px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
+    color: #333 !important;   /* 青字を解除して黒文字に強制変更 */
     background-color: #fff;
     box-sizing: border-box;
-    -webkit-appearance: none; /* iOSでの日付入力の崩れ防止 */
+    -webkit-appearance: none; /* iOS等の標準装飾をリセット */
+}
+
+/* iOS Safariなどのカレンダーテキスト色指定 */
+#matchDate::-webkit-date-and-time-value {
+    color: #333;              /* 日付テキストを黒にする */
+    text-align: left;
 }
 
 
