@@ -843,38 +843,51 @@ button:active {
 ========================================== */
 
 .drawer-header {
-  position: relative;            /* 閉じるボタンの絶対配置の基準にする */
-  display: flex;
-  justify-content: center;       /* タイトル（h3）を左右中央に配置 */
-  align-items: center;
+  position: relative !important;   /* 右端固定の基準点にする */
+  width: 100%;
   padding: 16px 20px;
   border-bottom: 1px solid #eee;
+  box-sizing: border-box;
+  
+  /* Flexではなくブロック配置＋テキスト中央揃えにすることで、タイトルを正確に中央へ */
+  display: block !important;
+  text-align: center;
 }
 
 .drawer-header h3 {
   margin: 0;
   font-size: 16px;
   font-weight: bold;
-  text-align: center;            /* テキストを中央寄せ */
   color: #333;
+  line-height: 1.4;
+  
+  /* ボタンと被らないように左右に余白を確保 */
+  padding: 0 40px;
 }
 
 .drawer-close-btn {
-  position: absolute;            /* 右端に固定配置 */
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);   /* 上下中央に配置 */
-  background: none;
-  border: none;
-  font-size: 20px;
+  position: absolute !important;   /* 右端に絶対配置 */
+  right: 16px !important;         /* 右端からの距離 */
+  top: 50% !important;             /* 上下中央 */
+  transform: translateY(-50%) !important;
+  
+  /* ボタンの見た目をリセット */
+  background: transparent !important;
+  border: none !important;
+  font-size: 22px;
   color: #888;
   cursor: pointer;
-  padding: 4px 8px;              /* タップしやすいように余白を調整 */
+  padding: 4px 8px;
+  margin: 0 !important;            /* 全体buttonスタイルのmargin干渉をリセット */
+  width: auto !important;          /* 全体buttonスタイルのwidth:100%をリセット */
+  height: auto !important;         /* 全体buttonスタイルのheightをリセット */
+  line-height: 1;
 }
 
 .drawer-close-btn:active {
-  opacity: 0.6;
+  opacity: 0.5;
 }
+
 
 /* 得点ボタン群のコンテナ */
 .drawerGoalContainer {
