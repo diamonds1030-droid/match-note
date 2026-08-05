@@ -282,55 +282,56 @@ function updateHeader(pageId){
 
 }
 
+// ==============================
+// 共通ヘッダー初期化
+// ==============================
 function initializeHeaderButtons(){
 
-    document.getElementById("headerHomeButton")?.addEventListener("click", ()=>{
+    // --- イベント二重登録防止のためのヘルパー処理 ---
+    const rebindClick = (id, handler) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const newEl = el.cloneNode(true); // 要素を複製して過去のイベントをすべて削除
+        el.parentNode.replaceChild(newEl, el);
+        newEl.addEventListener("click", handler);
+    };
+
+    rebindClick("headerHomeButton", () => {
         showPage("homePage");
     });
 
-    document.getElementById("addTeamButton")?.addEventListener("click", ()=>{
+    rebindClick("addTeamButton", () => {
         openDialog({
             title:"チーム作成",
-            content:`
-                <input id="newTeamName"
-                class="teamNameInput"
-                placeholder="チーム名">
-            `,
+            content:`<input id="newTeamName" class="teamNameInput" placeholder="チーム名">`,
             buttons:[
-                {
-                    text:"作成",
-                    onclick:createTeam
-                },
-                {
-                    text:"キャンセル"
-                }
+                { text:"作成", onclick:createTeam },
+                { text:"キャンセル" }
             ]
         });
     });
-    // チーム管理画面へ移動するボタン
-    document.getElementById("backToTeamPageButton")?.addEventListener("click", ()=>{
+
+    rebindClick("backToTeamPageButton", () => {
         showPage("teamPage");
     });
-    document.getElementById("savePlayersButton")?.addEventListener("click", ()=>{
+
+    rebindClick("savePlayersButton", () => {
         savePlayers();
     });
 
-    //document.getElementById("undoButton")?.addEventListener("click", undo);
-
-    // 【得点のみ戻す】（修正）
-    document.getElementById("undoButton")?.addEventListener("click", () => {
+    // 【得点のみ1回戻す】（二重実行を防止）
+    rebindClick("undoButton", () => {
         const matchState = tournament.matches[tournament.currentMatch];
         if (matchState && matchState.goals && matchState.goals.length > 0) {
-            const lastGoal = matchState.goals.pop(); // 最新の得点履歴を取り出す
+            const lastGoal = matchState.goals.pop(); // 最新の得点を1件だけ取り出す
             
-            // スコアを1引く
+            // スコアを1だけ戻す
             if (lastGoal.scorer === "相手得点") {
                 matchState.awayScore = Math.max(0, matchState.awayScore - 1);
             } else {
                 matchState.homeScore = Math.max(0, matchState.homeScore - 1);
             }
             
-            // 画面表示を再更新
             updateScore();
             drawGoalHistory();
         } else {
@@ -338,22 +339,20 @@ function initializeHeaderButtons(){
         }
     });
 
-    // 【交代履歴のみ戻す】（修正）
-    document.getElementById("undoSubButton")?.addEventListener("click", () => {
+    // 【交代履歴のみ1回戻す】（二重実行を防止）
+    rebindClick("undoSubButton", () => {
         const matchState = tournament.matches[tournament.currentMatch];
         if (matchState && matchState.substitutions && matchState.substitutions.length > 0) {
-            matchState.substitutions.pop(); // 最新の交代履歴を1件削除
-            
-            // 交代履歴エリアを再描画
+            matchState.substitutions.pop(); // 最新の交代を1件だけ削除
             renderSubHistory();
         } else {
             alert("取り消す交代履歴はありません");
         }
     });
 
-    document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
-
+    rebindClick("saveMatchButton", saveTournament);
 }
+
 
 
 // ==============================
@@ -2117,8 +2116,8 @@ function initializeButtons() {
 
         await loadTeams();
         refreshMatch();
-        createLineup();
-        createSubstitutionArea();
+        //createLineup();
+        //createSubstitutionArea();
         showPage("matchPage");
 
     });
