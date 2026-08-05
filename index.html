@@ -224,6 +224,52 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     </div>
 </section>
 
+<!-- PK戦ダイアログ -->
+<div id="pkDialog" class="dialog">
+    <div class="dialogBody pkDialogBody">
+        <h3>PK戦 記録</h3>
+        
+        <!-- 先攻・後攻チーム選択 -->
+        <div class="pkTeamSelectArea">
+            <div class="pkTeamRow">
+                <label>先攻:</label>
+                <select id="pkFirstTeamSelect" class="dialogInput"></select>
+            </div>
+            <div class="pkTeamRow">
+                <label>後攻:</label>
+                <select id="pkSecondTeamSelect" class="dialogInput"></select>
+            </div>
+        </div>
+
+        <!-- 現在の入力ターン表示 -->
+        <div id="pkCurrentTurn" class="pkCurrentTurn">
+            入力待ち: 先攻 1本目
+        </div>
+
+        <!-- 結果入力ボタン（○ / ✖） -->
+        <div class="pkInputButtons">
+            <button id="pkSuccessBtn" class="pkResultBtn success">○ (成功)</button>
+            <button id="pkFailBtn" class="pkResultBtn fail">✖ (失敗)</button>
+        </div>
+
+        <!-- 結果表示表（横に伸びるエリア） -->
+        <div class="pkResultTableContainer">
+            <div class="pkResultRow">
+                <span id="pkFirstTeamName" class="pkTeamLabel">先攻</span>
+                <div id="pkFirstResults" class="pkResultsList"></div>
+            </div>
+            <div class="pkResultRow">
+                <span id="pkSecondTeamName" class="pkTeamLabel">後攻</span>
+                <div id="pkSecondResults" class="pkResultsList"></div>
+            </div>
+        </div>
+
+        <div id="dialogButtons">
+            <button id="pkUndoBtn" class="subButton" style="background:#757575;">1つ戻す</button>
+            <button id="pkCloseBtn" class="subButton" style="background:#e53935;">閉じる</button>
+        </div>
+    </div>
+</div>
 
 
 <!-- ===================================== -->
