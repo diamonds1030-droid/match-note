@@ -1064,8 +1064,7 @@ button:active {
     box-sizing: border-box !important; /* 内側の余白を含めて幅100%に収める */
     -webkit-appearance: none;
 }
-
-/* ボタンエリア */
+/*
 #dialogButtons {
     display: flex !important;
     gap: 12px;
@@ -1073,7 +1072,6 @@ button:active {
     box-sizing: border-box;
 }
 
-/* ダイアログ内のボタン（両方同じ緑色＆サイズ統一） */
 #dialogButtons button {
     flex: 1 !important;
     height: 48px !important;
@@ -1082,7 +1080,7 @@ button:active {
     font-size: 16px;
     font-weight: bold;
     color: #ffffff !important;
-    background-color: #2e7d32 !important; /* 両方緑色 */
+    background-color: #2e7d32 !important;
     border: none !important;
     border-radius: 8px;
     cursor: pointer;
@@ -1090,6 +1088,22 @@ button:active {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+}
+*/
+
+/* ダイアログボタンの親枠 */
+#dialogButtons {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+/* 2つのボタンを等幅にする基本設定 */
+#dialogButtons button {
+    flex: 1;
+    height: 48px;
+    margin-bottom: 0; /* 全体buttonの余白をリセット */
+    font-size: 16px;
 }
 
 #dialogButtons button:active {
