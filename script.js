@@ -283,6 +283,7 @@ function updateHeader(pageId){
 
 }
 */
+/*
 function updateHeader(pageId){
 
     const header = document.getElementById("commonHeader");
@@ -310,6 +311,39 @@ function updateHeader(pageId){
     }
 
     initializeHeaderButtons();
+}
+*/
+// ==============================
+// 共通ヘッダー表示切り替え（修正版）
+// ==============================
+function updateHeader(pageId){
+
+    const header = document.getElementById("commonHeader");
+    const title = document.getElementById("headerTitle");
+    const right = document.getElementById("headerRight");
+
+    if(!header) return;
+
+    if(pageId === "homePage"){
+        header.style.display = "none";
+        return;
+    }
+
+    // 不要な style.width や style.boxSizing は削除し、表示切り替えのみ行う
+    header.style.display = "flex";
+
+    const config = HEADER_CONFIG[pageId];
+
+    if(config){
+        if(title) title.textContent = config.title;
+        if(right) right.innerHTML = config.buttons;
+    }else{
+        if(title) title.textContent = "";
+        if(right) right.innerHTML = "";
+    }
+
+    initializeHeaderButtons();
+
 }
 
 
