@@ -2025,6 +2025,129 @@ function renderSubHistory() {
     subHistoryEl.innerHTML = html;
 }
 
+// ==========================================
+// PK戦 管理ロジック
+// ==========================================
+let pkData = {
+    firstTeam: "",
+    secondTeam: "",
+    history: [] // { team: 'first'|'second', round: 1, result: '○'|'✖' }
+};
+
+// 丸数字の配列（①②③...）
+const circleNumbers = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩","⑪","⑫","⑬","⑭","⑮"];
+
+// 開くボタン
+document.getElementById('pkBtn').addEventListener('click', () => {
+    initPKDialog();
+    document.getElementById('pkDialog').classList.add('show');
+});
+
+// 閉じるボタン
+document.getElementById('pkCloseBtn').addEventListener('click', () => {
+    document.getElementById('pkDialog').classList.remove('show');
+});
+
+// ダイアログ初期化（ホーム/アウェイチーム取得）
+function initPKDialog() {
+    const homeSelect = document.querySelector('.scoreTeamSelect');
+    const awayInput = document.querySelector('.scoreTeamInput');
+
+    const homeName = homeSelect ? (homeSelect.options[homeSelect.selectedIndex]?.text || "ホーム") : "ホーム";
+    const awayName = awayInput ? (awayInput.value || "アウェイ") : "アウェイ";
+
+    const firstSelect = document.getElementById('pkFirstTeamSelect');
+    const secondSelect = document.getElementById('pkSecondTeamSelect');
+
+    // チーム選択肢のセット
+    firstSelect.innerHTML = `<option value="${homeName}">${homeName}</option><option value="${awayName}">${awayName}</option>`;
+    secondSelect.innerHTML = `<option value="${awayName}">${awayName}</option><option value="${homeName}">${homeName}</option>`;
+
+    // 初期選択
+    firstSelect.value = homeName;
+    secondSelect.value = awayName;
+
+    // イベント連動（片方を変えたらもう片方を反転）
+    firstSelect.onchange = () => {
+        secondSelect.value = (firstSelect.value === homeName) ? awayName : homeName;
+        updatePKDisplay();
+    };
+    secondSelect.onchange = () => {
+        firstSelect.value = (secondSelect.value === homeName) ? awayName : homeName;
+        updatePKDisplay();
+    };
+
+    updatePKDisplay();
+}
+
+// 判定：次の入力ターン（先攻 or 後攻、何本目か）
+function getPKNextTurn() {
+    const total = pkData.history.length;
+    const round = Math.floor(total / 2) + 1;
+    const isFirst = (total % 2 === 0);
+    return { isFirst, round };
+}
+
+// ○ / ✖ ボタン押下処理
+document.getElementById('pkSuccessBtn').addEventListener('click', () => addPKResult('○'));
+document.getElementById('pkFailBtn').addEventListener('click', () => addPKResult('✖'));
+
+function addPKResult(resultMark) {
+    const turn = getPKNextTurn();
+    pkData.history.push({
+        team: turn.isFirst ? 'first' : 'second',
+        round: turn.round,
+        result: resultMark
+    });
+    updatePKDisplay();
+}
+
+// 1つ戻すボタン
+document.getElementById('pkUndoBtn').addEventListener('click', () => {
+    if (pkData.history.length > 0) {
+        pkData.history.pop();
+        updatePKDisplay();
+    }
+});
+
+// 画面表示更新
+function updatePKDisplay() {
+    const firstTeamName = document.getElementById('pkFirstTeamSelect').value || "先攻";
+    const secondTeamName = document.getElementById('pkSecondTeamSelect').value || "後攻";
+
+    document.getElementById('pkFirstTeamName').textContent = firstTeamName;
+    document.getElementById('pkSecondTeamName').textContent = secondTeamName;
+
+    const firstContainer = document.getElementById('pkFirstResults');
+    const secondContainer = document.getElementById('pkSecondResults');
+    firstContainer.innerHTML = "";
+    secondContainer.innerHTML = "";
+
+    // 履歴を描画
+    pkData.history.forEach((item) => {
+        const markDiv = document.createElement('div');
+        markDiv.className = `pkMark ${item.result === '○' ? 'success' : 'fail'}`;
+        markDiv.textContent = item.result;
+
+        if (item.team === 'first') {
+            firstContainer.appendChild(markDiv);
+        } else {
+            secondContainer.appendChild(markDiv);
+        }
+    });
+
+    // 次のターン案内表示
+    const turn = getPKNextTurn();
+    const numChar = circleNumbers[turn.round - 1] || `${turn.round}`;
+    const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
+    
+    // サドンデス判定（3本目以降で人数が同じ場合）
+    const isSuddenDeath = turn.round > 3;
+    const suddenText = isSuddenDeath ? "【サドンデス】" : "";
+
+    document.getElementById('pkCurrentTurn').textContent = 
+        `${suddenText}入力待ち: ${nextTeamLabel} ${numChar}本目`;
+}
 
 // ==============================
 // ホーム画面などのボタンイベント
