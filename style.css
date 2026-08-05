@@ -998,7 +998,7 @@ button:active {
 }
 
 /* ==========================================
-   共通ダイアログ（ポップアップ）シンプル設定
+   共通ダイアログ（ポップアップ）決定版
 ========================================== */
 
 .dialog {
@@ -1023,15 +1023,17 @@ button:active {
 .dialogBody {
     background: #ffffff;
     width: 88%;
-    max-width: 380px;
-    border-radius: 12px;
-    padding: 20px;
+    max-width: 360px;
+    border-radius: 16px;
+    padding: 24px 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    align-items: center;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
+/* タイトル */
 #dialogTitle,
 .dialogCard h3,
 .dialogBody h3 {
@@ -1042,47 +1044,58 @@ button:active {
     text-align: center;
 }
 
+/* コンテンツエリア */
 #dialogContent {
-    margin-bottom: 16px;
-}
-
-#generatedTournamentId {
-    font-size: 28px;
-    font-weight: bold;
-    color: #1976d2;
-}
-
-/* 共通ダイアログのボタンエリア */
-#dialogButtons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;           /* ボタン同士の間隔 */
-    margin-top: 20px;
     width: 100%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
 }
 
-/* ダイアログ内の全ボタン（作成、削除、キャンセル等）のサイズを共通化 */
-#dialogButtons button {
-    flex: 1;             /* 幅を均等に揃える */
-    max-width: 140px;    /* 大きくなりすぎない上限幅 */
-    height: 44px;        /* タップしやすい統一された高さ */
-    padding: 0 16px;
-    font-size: 15px;
-    font-weight: bold;
+/* ダイアログ内の全入力欄（はみ出し防止 & サイズ統一） */
+#dialogContent input {
+    width: 100% !important;
+    height: 48px;
+    padding: 0 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
     border-radius: 8px;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box !important; /* 内側の余白を含めて幅100%に収める */
+    -webkit-appearance: none;
+}
+
+/* ボタンエリア */
+#dialogButtons {
+    display: flex !important;
+    gap: 12px;
+    width: 100%;
     box-sizing: border-box;
-    display: inline-flex;
+}
+
+/* ダイアログ内のボタン（両方同じ緑色＆サイズ統一） */
+#dialogButtons button {
+    flex: 1 !important;
+    height: 48px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff !important;
+    background-color: #2e7d32 !important; /* 両方緑色 */
+    border: none !important;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    border: none;
+    box-sizing: border-box;
 }
 
-
-#dialogButtons button.deleteButton {
-    background-color: #d32f2f; /* 削除ボタンは赤 */
+#dialogButtons button:active {
+    opacity: 0.8;
 }
+
 
 /* ==========================================
    PK戦ダイアログ スタイル (グリッド・固定列対応)
