@@ -1067,26 +1067,56 @@ button:active {
     font-weight: bold;
 }
 
-/*==============================
-  ダイアログ
-==============================*/
-
-/*==============================
-  ダイアログ
-==============================*/
-
+/* ==========================================
+   共通ダイアログ（ポップアップ）修正CSS
+   ========================================== */
 .dialog {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.5);
     display: none;
-    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
     align-items: center;
-    z-index: 1000;
+    justify-content: center;
 }
 
 .dialog.show {
+    display: flex !important;
+}
+
+/* ポップアップ中央の白カード */
+.dialogCard {
+    background: #ffffff;
+    width: 88%;
+    max-width: 400px;
+    max-height: 85vh;
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+#dialogTitle {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+
+
+
+
+
+
+#dialogButtons button.deleteButton {
+    background-color: #d32f2f; /* 削除ボタンは赤 */
 }
 
 /* ダイアログボタンの表示担保と枠内固定 */
@@ -1097,9 +1127,9 @@ button:active {
 }
 
 #dialogContent {
-    overflow-y: auto !important; /* 入力項目が多い場合は中身だけスクロール */
-    flex: 1 !important;
-    margin-bottom: 15px !important;
+    flex: 1;
+    overflow-y: auto; /* フォームが長くなった場合は中身だけスクロール */
+    margin-bottom: 20px;
 }
 
 .dialogBody input {
@@ -1115,15 +1145,14 @@ button:active {
     color: #1976d2;
 }
 
+/* ボタン配置エリア */
 #dialogButtons {
     display: flex !important;
-    gap: 10px !important;
-    width: 100% !important;
-    margin-top: auto !important; /* ボタンを下部に固定 */
+    gap: 10px;
+    width: 100%;
 }
 
 /* ★ ダイアログ内ボタンのリセットと個別補正 */
-#dialogButtons button,
 .dialogBody .subButton {
     width: 100% !important;
     height: 44px !important;       /* 高さを44pxにリセット */
@@ -1133,15 +1162,16 @@ button:active {
 }
 
 #dialogButtons button {
-    display: block !important;
-    height: 44px !important;
-    margin: 0 !important;
-    font-size: 15px !important;
-    flex: 1 !important;
-    cursor: pointer !important;
+    flex: 1;
+    height: 44px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #2e7d32; /* メインカラー（緑） */
+    color: #ffffff;
 }
-
-
 
 /* ==========================================
    PK戦ダイアログ スタイル (グリッド・固定列対応)
