@@ -253,66 +253,7 @@ const HEADER_CONFIG = {
     }
 
 };
-/*
-function updateHeader(pageId){
 
-    const header = document.getElementById("commonHeader");
-    const title = document.getElementById("headerTitle");
-    const right = document.getElementById("headerRight");
-
-    if(!header) return;
-
-    if(pageId === "homePage"){
-        header.style.display = "none";
-        return;
-    }
-
-    header.style.display = "flex";
-
-    const config = HEADER_CONFIG[pageId];
-
-    if(config){
-        if(title) title.textContent = config.title;
-        if(right) right.innerHTML = config.buttons;
-    }else{
-        if(title) title.textContent = "";
-        if(right) right.innerHTML = "";
-    }
-
-    initializeHeaderButtons();
-
-}
-*/
-/*
-function updateHeader(pageId){
-
-    const header = document.getElementById("commonHeader");
-    const title = document.getElementById("headerTitle");
-    const right = document.getElementById("headerRight");
-
-    if(!header) return;
-
-    if(pageId === "homePage"){
-        header.style.display = "none";
-        return;
-    }
-
-    // 共通ヘッダーを表示（CSS側の position: fixed や width: 100% が適用されます）
-    header.style.display = "flex";
-
-    const config = HEADER_CONFIG[pageId];
-
-    if(config){
-        if(title) title.textContent = config.title;
-        if(right) right.innerHTML = config.buttons;
-    }else{
-        if(title) title.textContent = "";
-        if(right) right.innerHTML = "";
-    }
-
-    initializeHeaderButtons();
-}
-*/
 // ==============================
 // 共通ヘッダー表示切り替え（修正版）
 // ==============================
@@ -820,18 +761,6 @@ function createTeamList() {
 
     // 2. リスト内のみ初期化（固定サブタイトルは消えない）
     list.innerHTML = "";
-    
-    //const area = document.getElementById("teamList");
-    //if (!area) return;
-    //area.innerHTML = "";
-    // --- JavaScriptでタイトル（ヘッダー）を動的に生成 ---
-    //const header = document.createElement("div");
-    //header.className = "playerHeader"; // 選手一覧と同じスタイルクラス（固定表示用）
-    //header.innerHTML = `
-  //      <div class="playerHeaderName">登録済みチーム一覧</div>
-    //`;
-    //area.appendChild(header);
-    // ---------------------------------------------------
 
     teams.forEach(team => {
         const card = document.createElement("div");
@@ -1173,10 +1102,6 @@ function createMatchTabs(){
     });
 
 }
-
-// ==============================
-// 出場選手一覧生成
-// ==============================
 
 // ==============================
 // 出場選手（スタメン）一覧生成（修正版）
@@ -1741,69 +1666,6 @@ function updateScore(){
  * スタメン設定画面（ドロワー内）を動的に生成して表示
  * @param {HTMLElement} container - 描画先の要素（#drawerContent）
  */
-/*
-function renderLineupDrawer(container) {
-    const matchState = tournament.matches[tournament.currentMatch];
-    if (!matchState) return;
-
-    const teamPlayers = Array.isArray(players) ? players : [];
-    const lineupBox = document.createElement("div");
-    lineupBox.className = "drawerLineupContainer";
-
-    const positions = ["GK", "FP1", "FP2", "FP3", "FP4", "FP5", "FP6", "FP7"];
-
-    // 1. 各ポジションの行を生成
-    positions.forEach(position => {
-        const row = document.createElement("div");
-        row.className = "lineupRow";
-
-        const label = document.createElement("label");
-        label.textContent = position;
-
-        const select = document.createElement("select");
-        select.className = "lineupSelect";
-        select.dataset.position = position; // ポジション識別用
-
-        // 選手選択肢の生成
-        let optionsHtml = '<option value="">未選択</option>';
-        teamPlayers.forEach(player => {
-            if (!player) return;
-            optionsHtml += `<option value="${player}">${player}</option>`;
-        });
-
-        select.innerHTML = optionsHtml;
-        select.value = matchState.lineup[position] || "";
-
-        // 値が変更された時のイベント処理
-        select.addEventListener("change", (e) => {
-            // データ更新
-            matchState.lineup[position] = e.target.value;
-            
-            if (typeof createSubstitutionArea === "function") {
-                createSubstitutionArea();
-            }
-            
-            // 重複選択の無効化処理を実行
-            updateLineupSelectDisabledState(lineupBox);
-        });
-
-        row.appendChild(label);
-        row.appendChild(select);
-        lineupBox.appendChild(row);
-    });
-
-    container.innerHTML = "";
-    container.appendChild(lineupBox);
-
-    // 初回描画時にも重複制御を適用
-    updateLineupSelectDisabledState(lineupBox);
-}
-*/
-
-/**
- * スタメン設定画面（ドロワー内）を動的に生成して表示
- * @param {HTMLElement} container - 描画先の要素（#drawerContent）
- */
 function renderLineupDrawer(container) {
     const matchState = tournament.matches[tournament.currentMatch];
     if (!matchState) return;
@@ -2289,49 +2151,7 @@ function initializeButtons() {
             ]
         });
     });
-
-/*
-    document.getElementById("homeTeamSelect")
-    ?.addEventListener("change", async function () {
-
-        const id = this.value;
-        if (!id) {
-            players = [];
-            const matchState =
-                tournament.matches[
-                    tournament.currentMatch
-                ];
-
-            matchState.homeTeam = "";
-            matchState.homeTeamId = "";
-            updateScore();
-            createLineup();
-            createSubstitutionArea();
-
-            return;
-        }
-        const snapshot = await getDoc(
-            doc(db, "teams", id)
-        );
-        const team = snapshot.data();
-        players = [...team.players];
-
-        const matchState =
-            tournament.matches[
-                tournament.currentMatch
-            ];
-
-        matchState.homeTeam = team.teamName;
-        matchState.homeTeamId = id;
-
-        updateScore();
-
-        createLineup();
-
-        createSubstitutionArea();
-
-    });
-    */
+    
         // ホームチーム選択変更（試合ごとに個別保存）
     document.getElementById("homeTeamSelect")?.addEventListener("change", async function () {
         const id = this.value;
