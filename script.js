@@ -2138,7 +2138,7 @@ function updatePKDisplay() {
     while (secondRow.children.length > 1) secondRow.removeChild(secondRow.lastChild);
 
     // 最大ラウンド数の計算 (最低5本分はあらかじめマス目を表示。サドンデスで超えたら増やす)
-    let maxRound = 5;
+    let maxRound = 3;
     pkData.history.forEach(item => {
         if (item.round > maxRound) maxRound = item.round;
     });
