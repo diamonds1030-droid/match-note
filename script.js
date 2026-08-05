@@ -2026,16 +2026,13 @@ function renderSubHistory() {
 }
 
 // ==========================================
-// PK戦 管理ロジック
+// PK戦 管理ロジック (グリッド＆スクロール対応)
 // ==========================================
 let pkData = {
     firstTeam: "",
     secondTeam: "",
     history: [] // { team: 'first'|'second', round: 1, result: '○'|'✖' }
 };
-
-// 丸数字の配列（①②③...）
-const circleNumbers = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩","⑪","⑫","⑬","⑭","⑮"];
 
 // 開くボタン
 document.getElementById('pkBtn').addEventListener('click', () => {
@@ -2059,15 +2056,12 @@ function initPKDialog() {
     const firstSelect = document.getElementById('pkFirstTeamSelect');
     const secondSelect = document.getElementById('pkSecondTeamSelect');
 
-    // チーム選択肢のセット
     firstSelect.innerHTML = `<option value="${homeName}">${homeName}</option><option value="${awayName}">${awayName}</option>`;
     secondSelect.innerHTML = `<option value="${awayName}">${awayName}</option><option value="${homeName}">${homeName}</option>`;
 
-    // 初期選択
     firstSelect.value = homeName;
     secondSelect.value = awayName;
 
-    // イベント連動（片方を変えたらもう片方を反転）
     firstSelect.onchange = () => {
         secondSelect.value = (firstSelect.value === homeName) ? awayName : homeName;
         updatePKDisplay();
@@ -2080,7 +2074,7 @@ function initPKDialog() {
     updatePKDisplay();
 }
 
-// 判定：次の入力ターン（先攻 or 後攻、何本目か）
+// 次の入力ターン判定
 function getPKNextTurn() {
     const total = pkData.history.length;
     const round = Math.floor(total / 2) + 1;
@@ -2088,7 +2082,7 @@ function getPKNextTurn() {
     return { isFirst, round };
 }
 
-// ○ / ✖ ボタン押下処理
+// 結果追加
 document.getElementById('pkSuccessBtn').addEventListener('click', () => addPKResult('○'));
 document.getElementById('pkFailBtn').addEventListener('click', () => addPKResult('✖'));
 
@@ -2100,6 +2094,12 @@ function addPKResult(resultMark) {
         result: resultMark
     });
     updatePKDisplay();
+    
+    // 結果追加時にテーブルの右端まで自動スクロール
+    const wrapper = document.querySelector('.pkTableWrapper');
+    if (wrapper) {
+        wrapper.scrollLeft = wrapper.scrollWidth;
+    }
 }
 
 // 1つ戻すボタン
@@ -2118,36 +2118,67 @@ function updatePKDisplay() {
     document.getElementById('pkFirstTeamName').textContent = firstTeamName;
     document.getElementById('pkSecondTeamName').textContent = secondTeamName;
 
-    const firstContainer = document.getElementById('pkFirstResults');
-    const secondContainer = document.getElementById('pkSecondResults');
-    firstContainer.innerHTML = "";
-    secondContainer.innerHTML = "";
+    const headerRow = document.getElementById('pkHeaderRow');
+    const firstRow = document.getElementById('pkFirstRow');
+    const secondRow = document.getElementById('pkSecondRow');
 
-    // 履歴を描画
-    pkData.history.forEach((item) => {
-        const markDiv = document.createElement('div');
-        markDiv.className = `pkMark ${item.result === '○' ? 'success' : 'fail'}`;
-        markDiv.textContent = item.result;
+    // 既存の動的セル（2列目以降）をクリア
+    while (headerRow.children.length > 1) headerRow.removeChild(headerRow.lastChild);
+    while (firstRow.children.length > 1) firstRow.removeChild(firstRow.lastChild);
+    while (secondRow.children.length > 1) secondRow.removeChild(secondRow.lastChild);
 
-        if (item.team === 'first') {
-            firstContainer.appendChild(markDiv);
-        } else {
-            secondContainer.appendChild(markDiv);
-        }
+    // 最大ラウンド数の計算 (最低5本分はあらかじめマス目を表示。サドンデスで超えたら増やす)
+    let maxRound = 5;
+    pkData.history.forEach(item => {
+        if (item.round > maxRound) maxRound = item.round;
     });
+
+    // 集計変数
+    let firstTotal = 0;
+    let secondTotal = 0;
+
+    // ヘッダー（数字）とセルを組み立て
+    for (let r = 1; r <= maxRound; r++) {
+        // ヘッダー列（1, 2, 3...）
+        const th = document.createElement('th');
+        th.textContent = r;
+        headerRow.appendChild(th);
+
+        // 先攻セル
+        const tdFirst = document.createElement('td');
+        const firstItem = pkData.history.find(h => h.team === 'first' && h.round === r);
+        if (firstItem) {
+            tdFirst.textContent = firstItem.result;
+            tdFirst.className = `pkCellMark ${firstItem.result === '○' ? 'success' : 'fail'}`;
+            if (firstItem.result === '○') firstTotal++;
+        }
+        firstRow.appendChild(tdFirst);
+
+        // 後攻セル
+        const tdSecond = document.createElement('td');
+        const secondItem = pkData.history.find(h => h.team === 'second' && h.round === r);
+        if (secondItem) {
+            tdSecond.textContent = secondItem.result;
+            tdSecond.className = `pkCellMark ${secondItem.result === '○' ? 'success' : 'fail'}`;
+            if (secondItem.result === '○') secondTotal++;
+        }
+        secondRow.appendChild(tdSecond);
+    }
+
+    // 合計数の表示更新
+    document.getElementById('pkFirstTotal').textContent = `${firstTotal}勝`;
+    document.getElementById('pkSecondTotal').textContent = `${secondTotal}勝`;
 
     // 次のターン案内表示
     const turn = getPKNextTurn();
-    const numChar = circleNumbers[turn.round - 1] || `${turn.round}`;
     const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
-    
-    // サドンデス判定（3本目以降で人数が同じ場合）
-    const isSuddenDeath = turn.round > 3;
+    const isSuddenDeath = turn.round > 5;
     const suddenText = isSuddenDeath ? "【サドンデス】" : "";
 
     document.getElementById('pkCurrentTurn').textContent = 
-        `${suddenText}入力待ち: ${nextTeamLabel} ${numChar}本目`;
+        `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
 }
+
 
 // ==============================
 // ホーム画面などのボタンイベント
