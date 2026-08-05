@@ -258,7 +258,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                 <thead>
                     <tr id="pkHeaderRow">
                         <th class="pkStickyCol">チーム</th>
-                        <!-- 1, 2, 3... がJSで動的に追加されます -->
                     </tr>
                 </thead>
                 <tbody>
@@ -267,20 +266,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                             <span id="pkFirstTeamName" class="pkTeamName">先攻</span>
                             <span id="pkFirstTotal" class="pkTeamTotal">0</span>
                         </td>
-                        <!-- 先攻の結果マスが追加されます -->
                     </tr>
                     <tr id="pkSecondRow">
                         <td class="pkStickyCol">
                             <span id="pkSecondTeamName" class="pkTeamName">後攻</span>
                             <span id="pkSecondTotal" class="pkTeamTotal">0</span>
                         </td>
-                        <!-- 後攻の結果マスが追加されます -->
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div id="dialogButtons">
+        <!-- ★ id を pkDialogButtons に変更（重複回避） -->
+        <div id="pkDialogButtons">
             <button id="pkUndoBtn" class="subButton" style="background:#757575;">1つ戻す</button>
             <button id="pkCloseBtn" class="subButton" style="background:#e53935;">閉じる</button>
         </div>
@@ -289,21 +287,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 <!-- ===================================== -->
-<!-- 共通ダイアログ -->
+<!-- 共通ダイアログ（構造修正版） -->
 <!-- ===================================== -->
 <div id="commonDialog" class="dialog">
-
-    <div class="dialogBody">
-
+    <div class="dialogCard">
         <h3 id="dialogTitle"></h3>
-
         <div id="dialogContent"></div>
-
         <div id="dialogButtons"></div>
-
     </div>
-
 </div>
+
 
 
 
