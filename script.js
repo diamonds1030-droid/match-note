@@ -324,14 +324,19 @@ function initializeHeaderButtons(){
 
     bindSingleClick("addTeamButton", () => {
         openDialog({
-            title:"チーム作成",
-            content:`<input id="newTeamName" class="teamNameInput" placeholder="チーム名">`,
-            buttons:[
-                { text:"作成", onclick:createTeam },
-                { text:"キャンセル" }
+            title: "チーム作成",
+            content: `<input id="newTeamName" class="teamNameInput" placeholder="チーム名">`,
+            buttons: [
+                {
+                    text: "作成",
+                    className: "primaryButton", // ★ここを追加して「新しい大会を作成」と統一
+                    onclick: createTeam
+                },
+                { text: "キャンセル" }
             ]
         });
     });
+
 
     bindSingleClick("backToTeamPageButton", () => {
         showPage("teamPage");
