@@ -1052,25 +1052,33 @@ button:active {
     color: #1976d2;
 }
 
-/* ボタンエリア（左右きれいに並べる） */
+/* 共通ダイアログのボタンエリア */
 #dialogButtons {
-    display: flex !important;
-    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;           /* ボタン同士の間隔 */
+    margin-top: 20px;
     width: 100%;
 }
 
+/* ダイアログ内の全ボタン（作成、削除、キャンセル等）のサイズを共通化 */
 #dialogButtons button {
-    flex: 1;
-    height: 44px;
-    margin-bottom: 0 !important;
-    border: none;
-    border-radius: 6px;
+    flex: 1;             /* 幅を均等に揃える */
+    max-width: 140px;    /* 大きくなりすぎない上限幅 */
+    height: 44px;        /* タップしやすい統一された高さ */
+    padding: 0 16px;
     font-size: 15px;
     font-weight: bold;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    background-color: #2e7d32; /* メイン（作成等） */
-    color: #ffffff;
+    border: none;
 }
+
 
 #dialogButtons button.deleteButton {
     background-color: #d32f2f; /* 削除ボタンは赤 */
