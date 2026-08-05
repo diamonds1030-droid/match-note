@@ -317,27 +317,44 @@ function initializeHeaderButtons(){
 
     //document.getElementById("undoButton")?.addEventListener("click", undo);
 
-    // 【得点のみ戻す】
+    // 【得点のみ戻す】（修正）
     document.getElementById("undoButton")?.addEventListener("click", () => {
-        const currentMatch = getCurrentMatch(); // ※現在選択中の試合データを取得する関数
-        if (currentMatch && currentMatch.goals && currentMatch.goals.length > 0) {
-            currentMatch.goals.pop(); // 最新の得点履歴を1件削除
-            renderMatch();            // 試合表示を再更新
+        const matchState = tournament.matches[tournament.currentMatch];
+        if (matchState && matchState.goals && matchState.goals.length > 0) {
+            const lastGoal = matchState.goals.pop(); // 最新の得点履歴を取り出す
+            
+            // スコアを1引く
+            if (lastGoal.scorer === "相手得点") {
+                matchState.awayScore = Math.max(0, matchState.awayScore - 1);
+            } else {
+                matchState.homeScore = Math.max(0, matchState.homeScore - 1);
+            }
+            
+            // 画面表示を再更新
+            updateScore();
+            drawGoalHistory();
+        } else {
+            alert("取り消す得点がありません");
         }
     });
 
-    // 【交代履歴のみ戻す】
+    // 【交代履歴のみ戻す】（修正）
     document.getElementById("undoSubButton")?.addEventListener("click", () => {
-        const currentMatch = getCurrentMatch();
-        if (currentMatch && currentMatch.substitutions && currentMatch.substitutions.length > 0) {
-            currentMatch.substitutions.pop(); // 最新の交代履歴を1件削除
-            renderMatch();                    // 試合表示を再更新
+        const matchState = tournament.matches[tournament.currentMatch];
+        if (matchState && matchState.substitutions && matchState.substitutions.length > 0) {
+            matchState.substitutions.pop(); // 最新の交代履歴を1件削除
+            
+            // 交代履歴エリアを再描画
+            renderSubHistory();
+        } else {
+            alert("取り消す交代履歴はありません");
         }
     });
 
     document.getElementById("saveMatchButton")?.addEventListener("click", saveTournament);
 
 }
+
 
 // ==============================
 // 大会ID生成
