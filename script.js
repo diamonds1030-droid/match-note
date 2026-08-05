@@ -2116,7 +2116,7 @@ function initializeButtons() {
     document.getElementById("matchButton")?.addEventListener("click", async () => {
 
         await loadTeams();
-        refreshまtch();
+        refreshMatch();
         createLineup();
         createSubstitutionArea();
         showPage("matchPage");
