@@ -20,25 +20,23 @@ input, select, textarea {
   画面共通レイアウト設定
 ==============================*/
 
-/* 全画面共通：基本は物理的に非表示 */
+/* ▲ ここに置き換える */
 .page {
     display: none !important;
     width: 100%;
     max-width: 600px;
     margin: auto;
-    height: 100vh;
-    height: 100dvh;
-    overflow: hidden;
+    min-height: 100vh;
     background: #f5f5f5;
+    box-sizing: border-box;
 }
 
-/* activeクラスが付いた画面だけ表示（Flexボックス） */
 .page.active {
-    display: flex !important;
-    flex-direction: column;
-    position: relative; /* absolute指定されたヘッダーの基準にするため追加 */
-    padding-top: 60px;  /* ヘッダーの高さ（60px）分、メインコンテンツを下に下げる */
+    display: block !important;
+    padding-top: 60px;    /* 上ヘッダーの余白 */
+    padding-bottom: 80px; /* 下フッターナビの余白 */
 }
+
 
 
 /* 全画面共通：mainエリア（ヘッダー以外の領域）の縦スクロール指定 */
@@ -80,10 +78,14 @@ button:active {
  ヘッダー
 ==============================*/
 
+/* ▲ ここに置き換える */
 .subHeader {
-    /*position: sticky;*/
-    position: absolute;
+    position: fixed;
     top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
     height: 60px;
     display: flex;
     align-items: center;
@@ -92,8 +94,9 @@ button:active {
     z-index: 100;
     border-bottom: 1px solid rgba(0,0,0,.08);
     padding: 0 50px;
-    flex-shrink: 0; /* ヘッダーが潰れるのを防止 */
+    box-sizing: border-box;
 }
+
 
 .subHeader h2 {
     margin: 0;
