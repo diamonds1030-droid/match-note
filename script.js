@@ -296,10 +296,8 @@ function updateHeader(pageId){
         return;
     }
 
-    // 画面横幅いっぱいに広がるようスタイルをクリア・補正
+    // 共通ヘッダーを表示（CSS側の position: fixed や width: 100% が適用されます）
     header.style.display = "flex";
-    header.style.width = "100%";
-    header.style.boxSizing = "border-box";
 
     const config = HEADER_CONFIG[pageId];
 
@@ -312,8 +310,8 @@ function updateHeader(pageId){
     }
 
     initializeHeaderButtons();
-
 }
+
 
 // ==============================
 // 共通ヘッダー初期化
