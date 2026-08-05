@@ -524,6 +524,24 @@ button:active {
     font-size: 20px;
 }
 
+/* 試合結果・交代履歴のタイトルと戻すボタンの上下位置をピッタリ揃える */
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.card .iconButton {
+    align-self: center;
+}
+
+.card > div:first-child {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 15px;
+}
+
+
 .lineupRow {
     display: grid;
     grid-template-columns: 50px 1fr 80px;
