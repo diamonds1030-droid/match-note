@@ -119,41 +119,51 @@ function refreshMatch() {
 // ==============================
 // 共通ダイアログ
 // ==============================
+// ==============================
+// 共通ダイアログ (修正版)
+// ==============================
 function openDialog({
     title,
     content,
     buttons
 }){
+    const dialogTitle = document.getElementById("dialogTitle");
+    const dialogContent = document.getElementById("dialogContent");
+    const dialogButtons = document.getElementById("dialogButtons");
+    const commonDialog = document.getElementById("commonDialog");
 
-    const dialogTitle =
-        document.getElementById("dialogTitle");
-    const dialogContent =
-        document.getElementById("dialogContent");
-    const dialogButtons =
-        document.getElementById("dialogButtons");
-    const commonDialog =
-        document.getElementById("commonDialog");
     if(dialogTitle) dialogTitle.innerHTML = title;
     if(dialogContent) dialogContent.innerHTML = content;
-    if(dialogButtons) dialogButtons.innerHTML = "";
-    buttons.forEach(btn=>{
-        const button=document.createElement("button");
-        button.textContent=btn.text;
-        if(btn.className)
-            button.className=btn.className;
-        button.onclick=()=>{
-            if(btn.onclick)
-                btn.onclick();
-            closeDialog();
-        };
+    
+    // ★ ボタンエリアを初期化
+    if(dialogButtons) {
+        dialogButtons.innerHTML = "";
+        
+        // ボタンを生成して追加
+        buttons.forEach(btn => {
+            const button = document.createElement("button");
+            button.type = "button"; // フォーム送信防止
+            button.textContent = btn.text;
+            
+            // クラス名の指定があれば追加、なければ標準スタイル
+            if(btn.className) {
+                button.className = btn.className;
+            } else {
+                button.className = "subButton"; 
+            }
 
-        if(dialogButtons) dialogButtons.appendChild(button);
+            button.onclick = () => {
+                if(btn.onclick) btn.onclick();
+                closeDialog();
+            };
 
-    });
+            dialogButtons.appendChild(button);
+        });
+    }
 
     if(commonDialog) commonDialog.classList.add("show");
-
 }
+
 
 function closeDialog(){
 
