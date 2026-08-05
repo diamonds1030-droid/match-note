@@ -253,6 +253,7 @@ const HEADER_CONFIG = {
     }
 
 };
+/*
 function updateHeader(pageId){
 
     const header = document.getElementById("commonHeader");
@@ -281,26 +282,64 @@ function updateHeader(pageId){
     initializeHeaderButtons();
 
 }
+*/
+function updateHeader(pageId){
+
+    const header = document.getElementById("commonHeader");
+    const title = document.getElementById("headerTitle");
+    const right = document.getElementById("headerRight");
+
+    if(!header) return;
+
+    if(pageId === "homePage"){
+        header.style.display = "none";
+        return;
+    }
+
+    // 画面横幅いっぱいに広がるようスタイルをクリア・補正
+    header.style.display = "flex";
+    header.style.width = "100%";
+    header.style.boxSizing = "border-box";
+
+    const config = HEADER_CONFIG[pageId];
+
+    if(config){
+        if(title) title.textContent = config.title;
+        if(right) right.innerHTML = config.buttons;
+    }else{
+        if(title) title.textContent = "";
+        if(right) right.innerHTML = "";
+    }
+
+    initializeHeaderButtons();
+
+}
 
 // ==============================
 // 共通ヘッダー初期化
 // ==============================
 function initializeHeaderButtons(){
 
-    // --- イベント二重登録防止のためのヘルパー処理 ---
-    const rebindClick = (id, handler) => {
+    // --- レイアウトやCSSクラスを100%保持するイベント登録ヘルパー ---
+    const bindSingleClick = (id, handler) => {
         const el = document.getElementById(id);
         if (!el) return;
-        const newEl = el.cloneNode(true); // 要素を複製して過去のイベントをすべて削除
-        el.parentNode.replaceChild(newEl, el);
-        newEl.addEventListener("click", handler);
+        
+        // 既に登録済みのイベントリスナーがあれば削除
+        if (el._currentClickHandler) {
+            el.removeEventListener("click", el._currentClickHandler);
+        }
+        
+        // 新しいハンドラを保存してバインド
+        el._currentClickHandler = handler;
+        el.addEventListener("click", handler);
     };
 
-    rebindClick("headerHomeButton", () => {
+    bindSingleClick("headerHomeButton", () => {
         showPage("homePage");
     });
 
-    rebindClick("addTeamButton", () => {
+    bindSingleClick("addTeamButton", () => {
         openDialog({
             title:"チーム作成",
             content:`<input id="newTeamName" class="teamNameInput" placeholder="チーム名">`,
@@ -311,21 +350,20 @@ function initializeHeaderButtons(){
         });
     });
 
-    rebindClick("backToTeamPageButton", () => {
+    bindSingleClick("backToTeamPageButton", () => {
         showPage("teamPage");
     });
 
-    rebindClick("savePlayersButton", () => {
+    bindSingleClick("savePlayersButton", () => {
         savePlayers();
     });
 
-    // 【得点のみ1回戻す】（二重実行を防止）
-    rebindClick("undoButton", () => {
+    // 【得点のみ1回戻す】
+    bindSingleClick("undoButton", () => {
         const matchState = tournament.matches[tournament.currentMatch];
         if (matchState && matchState.goals && matchState.goals.length > 0) {
-            const lastGoal = matchState.goals.pop(); // 最新の得点を1件だけ取り出す
+            const lastGoal = matchState.goals.pop(); // 1件のみ削除
             
-            // スコアを1だけ戻す
             if (lastGoal.scorer === "相手得点") {
                 matchState.awayScore = Math.max(0, matchState.awayScore - 1);
             } else {
@@ -339,18 +377,18 @@ function initializeHeaderButtons(){
         }
     });
 
-    // 【交代履歴のみ1回戻す】（二重実行を防止）
-    rebindClick("undoSubButton", () => {
+    // 【交代履歴のみ1回戻す】
+    bindSingleClick("undoSubButton", () => {
         const matchState = tournament.matches[tournament.currentMatch];
         if (matchState && matchState.substitutions && matchState.substitutions.length > 0) {
-            matchState.substitutions.pop(); // 最新の交代を1件だけ削除
+            matchState.substitutions.pop(); // 1件のみ削除
             renderSubHistory();
         } else {
             alert("取り消す交代履歴はありません");
         }
     });
 
-    rebindClick("saveMatchButton", saveTournament);
+    bindSingleClick("saveMatchButton", saveTournament);
 }
 
 
