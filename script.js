@@ -2271,10 +2271,11 @@ function initializeButtons() {
                     <label for="tournamentPlace">会場・グラウンド名</label>
                     <input id="tournamentPlace" class="dialogInput" placeholder="例: ○○スポーツ広場 Aコート">
                 </div>
-                <div class="dialogIdInfo">
+             /*   <div class="dialogIdInfo">
                     <span>自動発行ID:</span>
                     <strong id="generatedTournamentId">${generatedId}</strong>
                 </div>
+                */
             `,
             buttons: [
                 {
