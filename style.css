@@ -82,10 +82,8 @@ button:active {
 .subHeader {
     position: fixed;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     width: 100%;
-    max-width: 600px;
     height: 60px;
     display: flex;
     align-items: center;
@@ -96,6 +94,7 @@ button:active {
     padding: 0 50px;
     box-sizing: border-box;
 }
+
 
 
 .subHeader h2 {
