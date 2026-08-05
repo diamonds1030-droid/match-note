@@ -1110,7 +1110,11 @@ button:active {
     margin-top: 20px;
 }
 
+/* ダイアログ内ボタンの表示補正 */
 #dialogButtons button {
+    height: 44px;
+    margin-bottom: 0;
+    font-size: 15px;
     flex: 1;
 }
 
