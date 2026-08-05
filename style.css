@@ -280,6 +280,7 @@ button:active {
 /* 2行目（大会名） */
 .row-bottom .form-group {
     width: 100%;
+    flex: 1;
 }
 
 /* 入力グループ共通（横並び：ラベルの右に枠） */
