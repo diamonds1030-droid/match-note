@@ -1115,12 +1115,13 @@ button:active {
 }
 
 
+
 /* ==========================================
-   PK戦ダイアログ スタイル
+   PK戦ダイアログ スタイル (グリッド・固定列対応)
 ========================================== */
 .pkDialogBody {
-    width: 90% !important;
-    max-width: 450px !important;
+    width: 95% !important;
+    max-width: 500px !important;
 }
 
 .pkTeamSelectArea {
@@ -1145,7 +1146,7 @@ button:active {
 .pkCurrentTurn {
     text-align: center;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     color: #1976d2;
     background: #e3f2fd;
     padding: 6px;
@@ -1166,74 +1167,107 @@ button:active {
     font-weight: bold;
     border-radius: 8px;
     margin-bottom: 0;
+    cursor: pointer;
 }
 
 .pkResultBtn.success {
     background-color: #2e7d32;
     color: white;
+    border: none;
 }
 
 .pkResultBtn.fail {
     background-color: #d32f2f;
     color: white;
+    border: none;
 }
 
-/* 結果表（右に増えていくスクロールエリア） */
-.pkResultTableContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    background: #f8f9fa;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 16px;
+/* --- グリッドテーブル表示エリア --- */
+.pkTableWrapper {
+    width: 100%;
     overflow-x: auto;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    background: #fff;
+    -webkit-overflow-scrolling: touch;
 }
 
-.pkResultRow {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: max-content;
-}
-
-.pkTeamLabel {
-    width: 70px;
+.pkGridTable {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 100%;
+    text-align: center;
     font-size: 13px;
-    font-weight: bold;
+}
+
+.pkGridTable th, 
+.pkGridTable td {
+    border: 1px solid #ccc;
+    height: 36px;
+    min-width: 36px;
+    padding: 2px 6px;
+    box-sizing: border-box;
     white-space: nowrap;
+}
+
+.pkGridTable th {
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+}
+
+/* チーム名＆合計数の固定列 (sticky) */
+.pkStickyCol {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: #f9f9f9;
+    min-width: 120px !important;
+    max-width: 140px;
+    text-align: left !important;
+    padding: 4px 8px !important;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+.pkGridTable th.pkStickyCol {
+    background-color: #e8e8e8;
+}
+
+/* チーム名と合計スコアのレイアウト */
+.pkStickyCol span.pkTeamName {
+    display: inline-block;
+    max-width: 75px;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.pkResultsList {
-    display: flex;
-    gap: 6px;
-}
-
-.pkMark {
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 14px;
+    vertical-align: middle;
     font-weight: bold;
-    background: #fff;
-    border: 1px solid #ccc;
 }
 
-.pkMark.success {
+.pkStickyCol span.pkTeamTotal {
+    float: right;
+    font-weight: bold;
+    color: #1565c0;
+    background: #e3f2fd;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+/* ○ ✖ の記号スタイル */
+.pkCellMark {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.pkCellMark.success {
     color: #2e7d32;
-    border-color: #2e7d32;
 }
 
-.pkMark.fail {
+.pkCellMark.fail {
     color: #d32f2f;
-    border-color: #d32f2f;
 }
+
 
 
 /*=============================
