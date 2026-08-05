@@ -1089,14 +1089,17 @@ button:active {
     display: flex;
 }
 
+/* ダイアログボタンの表示担保と枠内固定 */
 .dialogBody {
-    width: 320px;
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-sizing: border-box; /* 枠線・パディングを含めた高さ計算にする */
-    max-height: 90vh;        /* 画面からはみ出さないように制限 */
-    overflow-y: auto;        /* 内容が多い場合は内部スクロール */
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 85vh !important;
+}
+
+#dialogContent {
+    overflow-y: auto !important; /* 入力項目が多い場合は中身だけスクロール */
+    flex: 1 !important;
+    margin-bottom: 15px !important;
 }
 
 .dialogBody input {
@@ -1113,10 +1116,10 @@ button:active {
 }
 
 #dialogButtons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-    width: 100%;
+    display: flex !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin-top: auto !important; /* ボタンを下部に固定 */
 }
 
 /* ★ ダイアログ内ボタンのリセットと個別補正 */
@@ -1129,6 +1132,14 @@ button:active {
     flex: 1;
 }
 
+#dialogButtons button {
+    display: block !important;
+    height: 44px !important;
+    margin: 0 !important;
+    font-size: 15px !important;
+    flex: 1 !important;
+    cursor: pointer !important;
+}
 
 
 
