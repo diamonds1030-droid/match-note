@@ -252,16 +252,32 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             <button id="pkFailBtn" class="pkResultBtn fail">✖ (失敗)</button>
         </div>
 
-        <!-- 結果表示表（横に伸びるエリア） -->
-        <div class="pkResultTableContainer">
-            <div class="pkResultRow">
-                <span id="pkFirstTeamName" class="pkTeamLabel">先攻</span>
-                <div id="pkFirstResults" class="pkResultsList"></div>
-            </div>
-            <div class="pkResultRow">
-                <span id="pkSecondTeamName" class="pkTeamLabel">後攻</span>
-                <div id="pkSecondResults" class="pkResultsList"></div>
-            </div>
+        <!-- グリッド表示エリア（固定列＋横スクロールエリア） -->
+        <div class="pkTableWrapper">
+            <table class="pkGridTable">
+                <thead>
+                    <tr id="pkHeaderRow">
+                        <th class="pkStickyCol">チーム</th>
+                        <!-- 1, 2, 3... がJSで動的に追加されます -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="pkFirstRow">
+                        <td class="pkStickyCol">
+                            <span id="pkFirstTeamName" class="pkTeamName">先攻</span>
+                            <span id="pkFirstTotal" class="pkTeamTotal">0</span>
+                        </td>
+                        <!-- 先攻の結果マスが追加されます -->
+                    </tr>
+                    <tr id="pkSecondRow">
+                        <td class="pkStickyCol">
+                            <span id="pkSecondTeamName" class="pkTeamName">後攻</span>
+                            <span id="pkSecondTotal" class="pkTeamTotal">0</span>
+                        </td>
+                        <!-- 後攻の結果マスが追加されます -->
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div id="dialogButtons">
