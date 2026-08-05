@@ -36,7 +36,10 @@ input, select, textarea {
 .page.active {
     display: flex !important;
     flex-direction: column;
+    position: relative; /* absolute指定されたヘッダーの基準にするため追加 */
+    padding-top: 60px;  /* ヘッダーの高さ（60px）分、メインコンテンツを下に下げる */
 }
+
 
 /* 全画面共通：mainエリア（ヘッダー以外の領域）の縦スクロール指定 */
 .page > main {
@@ -78,7 +81,8 @@ button:active {
 ==============================*/
 
 .subHeader {
-    position: sticky;
+    /*position: sticky;*/
+    position: absolute;
     top: 0;
     height: 60px;
     display: flex;
