@@ -332,7 +332,9 @@ function initializeHeaderButtons(){
                     className: "primaryButton", // ★ここを追加して「新しい大会を作成」と統一
                     onclick: createTeam
                 },
-                { text: "キャンセル" }
+                { text: "キャンセル" 
+                    className: "primaryButton",
+                }
             ]
         });
     });
@@ -2313,6 +2315,7 @@ function initializeButtons() {
                 },
                 {
                     text: "キャンセル"
+                    className: "primaryButton",
                 }
             ]
         });
