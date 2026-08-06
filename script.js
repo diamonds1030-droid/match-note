@@ -329,13 +329,13 @@ function initializeHeaderButtons(){
             buttons: [
                 {
                     text: "作成",
-                    className: "primaryButton",
+                    //className: "primaryButton",
                     onclick: createTeam
                 },
                 { 
                     text: "キャンセル",
-                    className: "subButton",
-                    onclick: closeDialog // ★ここを正しく記述
+                    //className: "subButton",
+                    //onclick: closeDialog // ★ここを正しく記述
                 }
             ]
         });
@@ -2313,13 +2313,13 @@ function initializeButtons() {
             buttons: [
                 {
                     text: "作成",
-                    className: "primaryButton",
+                    //className: "primaryButton",
                     onclick: createTournament
                 },
                 {
                     text: "キャンセル",
-                    className: "subButton",
-                    onclick: closeDialog
+                    //className: "subButton",
+                    //onclick: closeDialog
                 }
             ]
 
