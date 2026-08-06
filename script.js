@@ -414,12 +414,14 @@ async function createTournament(){
         return;
     }
 
-    tournament.id = genIdEl ? genIdEl.textContent : generateTournamentId();
-    tournament.name = name;
-    tournament.date = dateEl ? dateEl.value : "";
-    tournament.place = placeEl ? placeEl.value : "";
-    tournament.currentMatch = 0;
-    tournament.matches = [createEmptyMatch()];
+// ⭕️ 画面表示要素を介さず、直接IDを割り振る
+tournament.id = generateTournamentId();
+tournament.name = name;
+tournament.date = dateEl ? dateEl.value : "";
+tournament.place = placeEl ? placeEl.value : "";
+tournament.currentMatch = 0;
+tournament.matches = [createEmptyMatch()];
+
 
     try{
 
