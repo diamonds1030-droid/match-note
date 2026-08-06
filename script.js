@@ -322,22 +322,25 @@ function initializeHeaderButtons(){
         showPage("homePage");
     });
 
-    bindSingleClick("addTeamButton", () => {
+       bindSingleClick("addTeamButton", () => {
         openDialog({
             title: "チーム作成",
             content: `<input id="newTeamName" class="teamNameInput" placeholder="チーム名">`,
             buttons: [
                 {
                     text: "作成",
-                    className: "primaryButton", // ★ここを追加して「新しい大会を作成」と統一
+                    className: "primaryButton",
                     onclick: createTeam
                 },
-                { text: "キャンセル",
-                    className: "primaryButton"
+                { 
+                    text: "キャンセル",
+                    className: "subButton",
+                    onclick: closeDialog // ★ここを正しく記述
                 }
             ]
         });
     });
+
 
 
     bindSingleClick("backToTeamPageButton", () => {
@@ -2315,9 +2318,11 @@ function initializeButtons() {
                 },
                 {
                     text: "キャンセル",
-                    className: "primaryButton"
+                    className: "subButton",
+                    onclick: closeDialog
                 }
             ]
+
         });
     });
     
