@@ -1065,14 +1065,46 @@ button:active {
     -webkit-appearance: none;
 }
 
-/* ダイアログボタンの親枠 */
+/* ダイアログボタンの親枠
 #dialogButtons {
     display: flex;
     justify-content: space-between;
     gap: 12px;
     width: 100%;
     box-sizing: border-box;
+}*/
+
+/* ダイアログボタンエリア（横並び＋隙間設定） */
+#dialogButtons {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;            /* ボタン間のすき間 */
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
+
+/* primaryButton の幅計算を強制リセットして 50% 均等割り化 */
+#dialogButtons .primaryButton {
+    /* ★ここがポイント：中身の文字数に関わらず完全に均等（1:1）にする計算式 */
+    flex: 1 1 0% !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+
+    /* 高さ・文字の設定 */
+    height: 48px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    
+    font-size: 16px !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    white-space: nowrap !important;  /* 改行を防止 */
+    
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+}
+
 
 /* 作成・キャンセルボタン（確実に50%ずつ） */
 #dialogButtons button {
