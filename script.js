@@ -333,9 +333,9 @@ function initializeHeaderButtons(){
                     onclick: createTeam
                 },
                 { 
-                    text: "キャンセル"
+                    text: "キャンセル",
                     //className: "subButton",
-                    //onclick: closeDialog // ★ここを正しく記述
+                    onclick: closeDialog // ★ここを正しく記述
                 }
             ]
         });
@@ -2317,9 +2317,9 @@ function initializeButtons() {
                     onclick: createTournament
                 },
                 {
-                    text: "キャンセル"
+                    text: "キャンセル",
                     //className: "subButton",
-                    //onclick: closeDialog
+                    onclick: closeDialog
                 }
             ]
 
