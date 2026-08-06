@@ -332,8 +332,8 @@ function initializeHeaderButtons(){
                     className: "primaryButton", // ★ここを追加して「新しい大会を作成」と統一
                     onclick: createTeam
                 },
-                { text: "キャンセル" 
-                    className: "primaryButton",
+                { text: "キャンセル",
+                    className: "primaryButton"
                 }
             ]
         });
@@ -2314,8 +2314,8 @@ function initializeButtons() {
                     onclick: createTournament
                 },
                 {
-                    text: "キャンセル"
-                    className: "primaryButton",
+                    text: "キャンセル",
+                    className: "primaryButton"
                 }
             ]
         });
