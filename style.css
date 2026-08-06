@@ -1068,27 +1068,34 @@ button:active {
 /* ダイアログボタンの親枠 */
 #dialogButtons {
     display: flex;
+    justify-content: space-between;
     gap: 12px;
     width: 100%;
+    box-sizing: border-box;
 }
 
-/* 作成・キャンセルボタン（同サイズ & 両方緑色） */
+/* 作成・キャンセルボタン（確実に50%ずつ） */
 #dialogButtons button {
-    flex: 1;                     /* 1:1の等幅（ピッタリ同じサイズ） */
-    height: 48px;                /* 高さを統一 */
-    margin-bottom: 0;           /* 全体buttonの不要な下余白をリセット */
+    flex: 1 1 0%;          /* 均等分配を強制 */
+    width: 0;              /* 文字数による幅の自動計算を無効化 */
+    min-width: 0;          /* デフォルトの最小幅制限を解除 */
+    height: 48px;
+    margin: 0;
+    padding: 0;            /* パディングによる幅のズレを防止 */
     font-size: 16px;
     font-weight: bold;
     color: #ffffff;
-    background-color: #2e7d32;  /* 両方とも緑色に統一 */
+    background-color: #2e7d32; /* 両方緑色 */
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 #dialogButtons button:active {
     opacity: 0.8;
 }
+
 
 
 
