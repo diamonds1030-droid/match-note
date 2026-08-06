@@ -1074,39 +1074,26 @@ button:active {
     box-sizing: border-box;
 }*/
 
-/* ダイアログボタンエリア（横並び＋隙間設定） */
 #dialogButtons {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 12px !important;            /* ボタン間のすき間 */
-    width: 100% !important;
-    box-sizing: border-box !important;
+    display: flex;
+    gap: 10px;
+    width: 100%;
 }
 
-
-/* 作成・キャンセルボタン（確実に50%ずつ） */
 #dialogButtons button {
-    flex: 1 1 0%;          /* 均等分配を強制 */
-    width: 0;              /* 文字数による幅の自動計算を無効化 */
-    min-width: 0;          /* デフォルトの最小幅制限を解除 */
+    flex: 1; /* 均等に横幅を分け合う（これだけで半分になります） */
     height: 48px;
-    margin: 0;
-    padding: 0;            /* パディングによる幅のズレを防止 */
     font-size: 16px;
     font-weight: bold;
-    color: #ffffff;
-    background-color: #2e7d32; /* 両方緑色 */
     border: none;
     border-radius: 8px;
-    cursor: pointer;
-    box-sizing: border-box;
+    background-color: #2e7d32; /* お好みのボタン色 */
+    color: white;
 }
 
 #dialogButtons button:active {
     opacity: 0.8;
 }
-
-
 
 
 /* ==========================================
