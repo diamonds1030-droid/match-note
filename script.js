@@ -139,18 +139,14 @@ function openDialog({
     if(dialogButtons) {
         dialogButtons.innerHTML = "";
         
-        // ボタンを生成して追加
+        // ⭕️ 修正後（クラスを分ける処理を消し、共通クラス dialogBtn に統一）
         buttons.forEach(btn => {
             const button = document.createElement("button");
             button.type = "button"; // フォーム送信防止
             button.textContent = btn.text;
-            
-            // クラス名の指定があれば追加、なければ標準スタイル
-            if(btn.className) {
-                button.className = btn.className;
-            } else {
-                button.className = "subButton"; 
-            }
+    
+            // ★ 個別指定を排除し、一律でダイアログ専用ボタンクラスを付与
+            button.className = "dialogBtn"; 
 
             button.onclick = () => {
                 if(btn.onclick) btn.onclick();
@@ -159,6 +155,7 @@ function openDialog({
 
             dialogButtons.appendChild(button);
         });
+
     }
 
     if(commonDialog) commonDialog.classList.add("show");
