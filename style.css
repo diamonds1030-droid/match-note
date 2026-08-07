@@ -335,7 +335,7 @@ button:active {
 
 .matchFixedArea {
     background: #ffffff;
-    padding: 15px;
+    padding: 10px;
     border-bottom: 2px solid #dddddd;
     box-shadow: 0 2px 5px rgba(0,0,0,.08);
     z-index: 10;
@@ -344,21 +344,24 @@ button:active {
 
 .matchInfo {
     display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 10px;
+    grid-template-columns: 60px 1fr;
+    gap: 6px;
     align-items: center;
 }
 
 .matchInfo label {
     font-weight: bold;
+    font-size: 14px;
 }
 
 .matchInfo input {
-    height: 40px;
+    width: 100%;
+    height: 36px;
     border: 1px solid #cccccc;
     border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 16px;
+    padding: 4px 8px;
+    font-size: 15px;
+    box-sizing: border-box;
 }
 
 /* ==========================================
