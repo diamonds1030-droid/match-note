@@ -278,7 +278,7 @@ function updateHeader(pageId){
     }
 
     // 不要な style.width や style.boxSizing は削除し、表示切り替えのみ行う
-   // header.style.display = "flex";
+    header.style.display = "flex";
 
     const config = HEADER_CONFIG[pageId];
 
