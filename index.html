@@ -112,10 +112,34 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
         
-<!-- 1. 大会情報 -->
+    
+    <div class="matchFixedArea">
+    <!-- 1行目：日付と会場 -->
+    <div class="row-top">
+        <div class="form-group">
+            <label>日付</label>
+            <input type="date" id="matchDate">
+        </div>
+        <div class="form-group">
+            <label>会場</label>
+            <input type="text" id="matchPlace">
+        </div>
+    </div>
+
+    <!-- 2行目：大会名 -->
+    <div class="row-bottom">
+        <div class="form-group">
+            <label>大会名</label>
+            <input type="text" id="matchName">
+        </div>
+    </div>
+</div>
+
+    
+<!-- 1. 大会情報 
 <div class="card">
     <div class="inputRow">
-        <!-- 1行目: 日付 & 会場（横並び） -->
+        <!-- 1行目: 日付 & 会場（横並び）
         <div class="row-top">
             <div class="form-group">
                 <label for="matchDate">日付</label>
@@ -128,7 +152,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             </div>
         </div>
 
-        <!-- 2行目: 大会名（ラベルの横に入力欄を配置し、横幅いっぱいに伸ばす） -->
+        <!-- 2行目: 大会名（ラベルの横に入力欄を配置し、横幅いっぱいに伸ばす） 
         <div class="row-bottom">
             <div class="form-group">
                 <label for="matchName">大会名</label>
@@ -137,9 +161,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         </div>
     </div>
 </div>
-
-
-
+-->
 
         <div class="matchTabs">
             <div class="matchTabHeader">
