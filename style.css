@@ -1082,6 +1082,7 @@ button:active {
 
 #dialogButtons button {
     flex: 1; /* 均等に横幅を分け合う（これだけで半分になります） */
+    width 0;
     height: 48px;
     font-size: 16px;
     font-weight: bold;
