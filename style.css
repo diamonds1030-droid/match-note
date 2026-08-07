@@ -1065,24 +1065,18 @@ button:active {
     -webkit-appearance: none;
 }
 
-/* ダイアログボタンの親枠
+/* ダイアログボタンの親枠*/
 #dialogButtons {
     display: flex;
     justify-content: space-between;
     gap: 12px;
     width: 100%;
     box-sizing: border-box;
-}*/
-
-#dialogButtons {
-    display: flex;
-    gap: 10px;
-    width: 100%;
 }
 
 #dialogButtons button {
     flex: 1; /* 均等に横幅を分け合う（これだけで半分になります） */
-    width 0;
+    width: 0;
     height: 48px;
     font-size: 16px;
     font-weight: bold;
