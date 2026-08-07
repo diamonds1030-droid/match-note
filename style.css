@@ -1065,11 +1065,12 @@ button:active {
     -webkit-appearance: none;
 }
 
-/* ダイアログボタンの親枠 */
+/* ダイアログボタンの親枠（自ら横幅一杯に広がるよう指定） */
 #dialogButtons {
     display: flex;
-    gap: 12px;           /* ボタン同士のすき間 */
-    width: 100%;         /* カードの内幅いっぱいに広げる */
+    gap: 12px;
+    width: 100%;
+    align-self: stretch; /* ★カード幅いっぱいに強制拡張 */
     box-sizing: border-box;
 }
 
