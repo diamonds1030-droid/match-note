@@ -423,6 +423,8 @@ button:active {
 }
 
 #matchTabArea {
+    margin-top: 2px;
+    margin-bottom: 2px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
