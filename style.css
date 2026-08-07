@@ -322,7 +322,7 @@ button:active {
     display: flex;
     justify-content: space-between; 
     align-items: center;            
-    margin-bottom: 12px;           
+    margin-bottom: 8px;           
 }
 
 .scoreHeaderRow h3 {
@@ -342,7 +342,7 @@ button:active {
     z-index: 10;
     flex-shrink: 0;
     border-radius: 12px;
-    margin-buttom: 8px;
+    /*margin-buttom: 8px;*/
 }
 
 .matchInfo {
