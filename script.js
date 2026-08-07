@@ -178,17 +178,17 @@ function showPage(pageId) {
 
     document.querySelectorAll(".page").forEach(page => {
         page.classList.remove("active");
-        page.style.display = "none";
+     //   page.style.display = "none";
     });
 
     const page = document.getElementById(pageId);
 
     if (page) {
-        if (pageId === "matchPage") {
-            page.style.display = "flex";
-        } else {
-            page.style.display = "block";
-        }
+        //if (pageId === "matchPage") {
+            //page.style.display = "flex";
+   //     } else {
+            //page.style.display = "block";
+        //}
 
         page.classList.add("active");
     }
