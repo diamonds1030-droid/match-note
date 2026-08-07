@@ -1068,18 +1068,19 @@ button:active {
 /* ダイアログボタンの親枠 */
 #dialogButtons {
     display: flex;
-    gap: 12px;
-    width: 100%;
+    gap: 12px;           /* ボタン同士のすき間 */
+    width: 100%;         /* カードの内幅いっぱいに広げる */
     box-sizing: border-box;
 }
 
-/* ボタン本体（シンプルに強制拡張） */
+/* ボタン本体（2つのボタンを横いっぱいに拡張） */
 #dialogButtons button {
-    flex: 1 !important;       /* ★強制的に幅を分け合う */
-    width: 100% !important;   /* ★文字数に依存せず広げる */
+    flex: 1 !important;        /* 親枠の幅を等しく分け合って伸びる */
+    width: 100% !important;    /* 中身の文字数に関わらず幅を拡張 */
     height: 48px;
     font-size: 16px;
     font-weight: bold;
+    white-space: nowrap;      /* 「キャンセル」の文字落ち（改行）を防止 */
     border: none;
     border-radius: 8px;
     background-color: #2e7d32;
@@ -1089,6 +1090,7 @@ button:active {
 #dialogButtons button:active {
     opacity: 0.8;
 }
+
 
 
 
