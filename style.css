@@ -1065,30 +1065,31 @@ button:active {
     -webkit-appearance: none;
 }
 
-/* ダイアログボタンの親枠*/
+/* ダイアログボタンの親枠 */
 #dialogButtons {
     display: flex;
-    justify-content: space-between;
     gap: 12px;
     width: 100%;
     box-sizing: border-box;
 }
 
+/* ボタン本体（シンプルに強制拡張） */
 #dialogButtons button {
-    flex: 1; /* 均等に横幅を分け合う（これだけで半分になります） */
-    width: 0;
+    flex: 1 !important;       /* ★強制的に幅を分け合う */
+    width: 100% !important;   /* ★文字数に依存せず広げる */
     height: 48px;
     font-size: 16px;
     font-weight: bold;
     border: none;
     border-radius: 8px;
-    background-color: #2e7d32; /* お好みのボタン色 */
+    background-color: #2e7d32;
     color: white;
 }
 
 #dialogButtons button:active {
     opacity: 0.8;
 }
+
 
 
 /* ==========================================
