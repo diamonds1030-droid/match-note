@@ -2279,7 +2279,7 @@ function initializeButtons() {
 
         matchState.awayTeam = awayInput.value;
 
-        createMatchTabs();
+       // createMatchTabs();
 
     });
 
