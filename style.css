@@ -1096,6 +1096,18 @@ button:active {
 }
 
 
+.dialogFormGroup {
+    width: 100%;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.dialogFormGroup label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+    font-size: 14px;
+}
 
 
 /* ==========================================
