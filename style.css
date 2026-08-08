@@ -337,7 +337,7 @@ button:active {
 .matchFixedArea {
     background: #ffffff;
     padding: 10px;
-    padding-bottum: 8px;
+    padding-bottom: 0px;
     border-bottom: 2px solid #dddddd;
     box-shadow: 0 2px 5px rgba(0,0,0,.08);
     z-index: 10;
