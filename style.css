@@ -1219,7 +1219,7 @@ button:active {
     color: #333;
     font-weight: bold;
 }
-
+/*left Rigthを追加したので削除可能 */
 .pkStickyCol {
     position: sticky;
     left: 0;
@@ -1231,6 +1231,32 @@ button:active {
     padding: 4px 8px !important;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
 }
+
+/* 左端固定：チーム名 */
+.pkStickyLeft {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: #f9f9f9;
+    min-width: 90px;
+    text-align: left;
+    padding: 4px 8px;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+/* 右端固定：合計スコア */
+.pkStickyRight {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background-color: #e3f2fd; /* 少し色を変えると見やすいです */
+    min-width: 50px;
+    text-align: center;
+    font-weight: bold;
+    color: #1565c0;
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.08);
+}
+
 
 .pkGridTable th.pkStickyCol {
     background-color: #e8e8e8;
