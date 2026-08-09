@@ -298,6 +298,77 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </div>
 
 
+<!-- PK戦ドロワー -->
+<div id="pkDrawerOverlay" class="drawer-overlay" onclick="closePKDrawer()"></div>
+<div id="pkDrawer" class="match-drawer">
+    <div class="drawer-header">
+        <h3>PK戦 記録</h3>
+        <button type="button" class="drawer-close-btn" onclick="closePKDrawer()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="drawer-body">
+        <!-- 先攻・後攻チーム選択 -->
+        <div class="pkTeamSelectArea">
+            <div class="pkTeamRow">
+                <label>先攻:</label>
+                <select id="pkFirstTeamSelect" class="dialogInput"></select>
+            </div>
+            <div class="pkTeamRow">
+                <label>後攻:</label>
+                <select id="pkSecondTeamSelect" class="dialogInput"></select>
+            </div>
+        </div>
+
+        <!-- 現在の入力ターン表示 -->
+        <div id="pkCurrentTurn" class="pkCurrentTurn">
+            入力待ち: 先攻 1本目
+        </div>
+
+        <!-- 結果入力ボタン（○ / ✖） -->
+        <div class="pkInputButtons">
+            <button id="pkSuccessBtn" class="pkResultBtn success">○ (成功)</button>
+            <button id="pkFailBtn" class="pkResultBtn fail">✖ (失敗)</button>
+        </div>
+        
+        <!-- グリッド表示エリア -->
+        <div class="pkTableWrapper">
+            <table class="pkGridTable">
+                <thead>
+                    <tr id="pkHeaderRow">
+                        <th class="pkStickyLeft">チーム</th>
+                        <th class="pkStickyRight">合計</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="pkFirstRow">
+                        <td class="pkStickyLeft">
+                            <span id="pkFirstTeamName" class="pkTeamName">先攻</span>
+                        </td>
+                        <td class="pkStickyRight">
+                            <span id="pkFirstTotal" class="pkTeamTotal">0</span>
+                        </td>
+                    </tr>
+                    <tr id="pkSecondRow">
+                        <td class="pkStickyLeft">
+                            <span id="pkSecondTeamName" class="pkTeamName">後攻</span>
+                        </td>
+                        <td class="pkStickyRight">
+                            <span id="pkSecondTotal" class="pkTeamTotal">0</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- アクションボタン（1つ戻す） -->
+        <div id="pkDialogButtons" style="margin-top: 15px;">
+            <button id="pkUndoBtn" class="subButton" style="background:#757575; width: 100%;">1つ戻す</button>
+        </div>
+    </div>
+</div>
+
+
 <!-- ===================================== -->
 <!-- 共通ダイアログ（構造修正版） -->
 <!-- ===================================== -->
