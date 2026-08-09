@@ -2062,6 +2062,15 @@ function closePKDrawer() {
 // HTMLの onclick から呼び出せるように window に登録（module形式の場合）
 window.openPKDrawer = openPKDrawer;
 window.closePKDrawer = closePKDrawer;
+
+// PK戦ボタンでドロワーを開く
+document.getElementById('pkBtn').addEventListener('click', () => {
+    openPKDrawer();
+});
+
+// 「閉じる」ボタンが不要になった場合（右上の「✕」やオーバーレイで閉じるため）、
+// pkCloseBtn のイベントリスナーは削除するか、closePKDrawer() を呼ぶように修正してください。
+
 // ドロワー用ここまで
 
 // ダイアログ初期化（ホーム/アウェイチーム取得）
