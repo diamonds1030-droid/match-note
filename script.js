@@ -184,12 +184,6 @@ function showPage(pageId) {
     const page = document.getElementById(pageId);
 
     if (page) {
-        //if (pageId === "matchPage") {
-            //page.style.display = "flex";
-   //     } else {
-            //page.style.display = "block";
-        //}
-
         page.classList.add("active");
     }
     if (pageId !== 'playerPage') {
@@ -215,9 +209,6 @@ function resetPlayerPage() {
         playerList.innerHTML = "";
     }
 }
-
-
-
 
 // ==============================
 // 共通ヘッダー化
@@ -432,7 +423,6 @@ tournament.matches = [createEmptyMatch()];
             tournament
         );
 
-
         await setDoc(
             doc(
                 db,
@@ -547,8 +537,6 @@ async function loadTournamentList(){
     });
     
     tournaments.forEach(data=>{
-
-
         const card=document.createElement("div");
         card.className="historySwipe";
         card.innerHTML=`
@@ -659,9 +647,7 @@ content.addEventListener(
 
     }
 );
-
         area.appendChild(card);
-
     });
 
 }
@@ -1097,9 +1083,7 @@ function createMatchTabs(){
     tournament.matches.forEach((m,index)=>{
 
         const tab=document.createElement("button");
-
         tab.className="matchTab";
-
         if(index===tournament.currentMatch){
 
             tab.classList.add("active");
@@ -1187,8 +1171,6 @@ function createLineup() {
         area.appendChild(row);
     });
 }
-
-
 
 /**
  * 現在ピッチ上に出場している選手の一覧を取得（スタメン + 交代反映）
