@@ -1141,7 +1141,7 @@ button:active {
 }
 
 .pkTeamRow label {
-    width: 45px;
+    width: 100px;
     font-weight: bold;
     font-size: 14px;
 }
@@ -1171,6 +1171,7 @@ button:active {
     border-radius: 8px;
     margin-bottom: 0;
     cursor: pointer;
+    min-width: 100px;
 }
 
 .pkResultBtn.success {
