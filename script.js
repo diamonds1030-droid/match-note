@@ -2045,6 +2045,24 @@ document.getElementById('pkBtn').addEventListener('click', () => {
 document.getElementById('pkCloseBtn').addEventListener('click', () => {
     document.getElementById('pkDialog').classList.remove('show');
 });
+//ドロワー用ここから
+// PK戦ドロワーを開く
+function openPKDrawer() {
+    initPKDialog(); // データや選択肢の初期化処理（関数名は既存のままでOKです）
+    document.getElementById('pkDrawerOverlay').classList.add('show');
+    document.getElementById('pkDrawer').classList.add('show');
+}
+
+// PK戦ドロワーを閉じる
+function closePKDrawer() {
+    document.getElementById('pkDrawerOverlay').classList.remove('show');
+    document.getElementById('pkDrawer').classList.remove('show');
+}
+
+// HTMLの onclick から呼び出せるように window に登録（module形式の場合）
+window.openPKDrawer = openPKDrawer;
+window.closePKDrawer = closePKDrawer;
+// ドロワー用ここまで
 
 // ダイアログ初期化（ホーム/アウェイチーム取得）
 function initPKDialog() {
