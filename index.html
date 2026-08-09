@@ -273,8 +273,57 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
             <button id="pkSuccessBtn" class="pkResultBtn success">○ (成功)</button>
             <button id="pkFailBtn" class="pkResultBtn fail">✖ (失敗)</button>
         </div>
-
+        
         <!-- グリッド表示エリア（固定列＋横スクロールエリア） -->
+        <div class="pkTableWrapper">
+            <table class="pkGridTable">
+                <thead>
+                    <tr id="pkHeaderRow">
+                        <!-- ① 左端：チーム名列 -->
+                        <th class="pkStickyLeft">チーム</th>
+                        
+                        <!-- ※ここに JavaScript で 1本目, 2本目... の<th>が挿入されます -->
+
+                        <!-- ② 右端：合計列 -->
+                        <th class="pkStickyRight">合計</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 先攻チーム行 -->
+                    <tr id="pkFirstRow">
+                        <!-- 左端：チーム名 -->
+                        <td class="pkStickyLeft">
+                            <span id="pkFirstTeamName" class="pkTeamName">先攻</span>
+                        </td>
+                        
+                        <!-- ※ここに JavaScript で ○/✖ の <td> が挿入されます -->
+
+                        <!-- 右端：合計スコア -->
+                        <td class="pkStickyRight">
+                            <span id="pkFirstTotal" class="pkTeamTotal">0</span>
+                        </td>
+                    </tr>
+
+                    <!-- 後攻チーム行 -->
+                    <tr id="pkSecondRow">
+                        <!-- 左端：チーム名 -->
+                        <td class="pkStickyLeft">
+                            <span id="pkSecondTeamName" class="pkTeamName">後攻</span>
+                        </td>
+                        
+                        <!-- ※ここに JavaScript で ○/✖ の <td> が挿入されます -->
+
+                        <!-- 右端：合計スコア -->
+                        <td class="pkStickyRight">
+                            <span id="pkSecondTotal" class="pkTeamTotal">0</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- グリッド表示エリア（固定列＋横スクロールエリア）
         <div class="pkTableWrapper">
             <table class="pkGridTable">
                 <thead>
@@ -298,6 +347,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                 </tbody>
             </table>
         </div>
+        -->
 
         <!-- ★ id を pkDialogButtons に変更（重複回避） -->
         <div id="pkDialogButtons">
