@@ -2110,7 +2110,91 @@ document.getElementById('pkUndoBtn').addEventListener('click', () => {
         updatePKDisplay();
     }
 });
+// 画面表示更新
+function updatePKDisplay() {
+    const firstTeamName = document.getElementById('pkFirstTeamSelect').value || "先攻";
+    const secondTeamName = document.getElementById('pkSecondTeamSelect').value || "後攻";
 
+    document.getElementById('pkFirstTeamName').textContent = firstTeamName;
+    document.getElementById('pkSecondTeamName').textContent = secondTeamName;
+
+    const headerRow = document.getElementById('pkHeaderRow');
+    const firstRow = document.getElementById('pkFirstRow');
+    const secondRow = document.getElementById('pkSecondRow');
+
+    // ★修正①：既存の動的セル（2列目〜合計の手前まで）をクリア
+    // 「チーム名(左)」と「合計(右)」の2つ(length === 2)になるまで、最後から2番目の子要素を消し続ける
+    while (headerRow.children.length > 2) {
+        headerRow.removeChild(headerRow.children[headerRow.children.length - 2]);
+    }
+    while (firstRow.children.length > 2) {
+        firstRow.removeChild(firstRow.children[firstRow.children.length - 2]);
+    }
+    while (secondRow.children.length > 2) {
+        secondRow.removeChild(secondRow.children[secondRow.children.length - 2]);
+    }
+
+    // 各行の一番右にある「合計セル（.pkStickyRight）」を取得しておく
+    const headerTotal = headerRow.querySelector('.pkStickyRight');
+    const firstTotalCell = firstRow.querySelector('.pkStickyRight');
+    const secondTotalCell = secondRow.querySelector('.pkStickyRight');
+
+    // 最大ラウンド数の計算 (最低3本分はあらかじめマス目を表示。サドンデスで超えたら増やす)
+    let maxRound = 3;
+    pkData.history.forEach(item => {
+        if (item.round > maxRound) maxRound = item.round;
+    });
+
+    // 集計変数
+    let firstTotal = 0;
+    let secondTotal = 0;
+
+    // ヘッダー（数字）とセルを組み立て
+    for (let r = 1; r <= maxRound; r++) {
+        // ヘッダー列（1, 2, 3...）
+        const th = document.createElement('th');
+        th.textContent = r;
+        // ★修正②：合計ヘッダーの手前に挿入
+        headerRow.insertBefore(th, headerTotal);
+
+        // 先攻セル
+        const tdFirst = document.createElement('td');
+        const firstItem = pkData.history.find(h => h.team === 'first' && h.round === r);
+        if (firstItem) {
+            tdFirst.textContent = firstItem.result;
+            tdFirst.className = `pkCellMark ${firstItem.result === '○' ? 'success' : 'fail'}`;
+            if (firstItem.result === '○') firstTotal++;
+        }
+        // ★修正②：先攻合計セルの手前に挿入
+        firstRow.insertBefore(tdFirst, firstTotalCell);
+
+        // 後攻セル
+        const tdSecond = document.createElement('td');
+        const secondItem = pkData.history.find(h => h.team === 'second' && h.round === r);
+        if (secondItem) {
+            tdSecond.textContent = secondItem.result;
+            tdSecond.className = `pkCellMark ${secondItem.result === '○' ? 'success' : 'fail'}`;
+            if (secondItem.result === '○') secondTotal++;
+        }
+        // ★修正②：後攻合計セルの手前に挿入
+        secondRow.insertBefore(tdSecond, secondTotalCell);
+    }
+
+    // 合計数の表示更新（※「○本」などの表記はお好みで変更できます）
+    document.getElementById('pkFirstTotal').textContent = `${firstTotal}`;
+    document.getElementById('pkSecondTotal').textContent = `${secondTotal}`;
+
+    // 次のターン案内表示
+    const turn = getPKNextTurn();
+    const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
+    const isSuddenDeath = turn.round > 3;
+    const suddenText = isSuddenDeath ? "【サドンデス】" : "";
+
+    document.getElementById('pkCurrentTurn').textContent = 
+        `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
+}
+
+/*
 // 画面表示更新
 function updatePKDisplay() {
     const firstTeamName = document.getElementById('pkFirstTeamSelect').value || "先攻";
@@ -2144,6 +2228,7 @@ function updatePKDisplay() {
         const th = document.createElement('th');
         th.textContent = r;
         headerRow.appendChild(th);
+        
 
         // 先攻セル
         const tdFirst = document.createElement('td');
@@ -2179,7 +2264,7 @@ function updatePKDisplay() {
     document.getElementById('pkCurrentTurn').textContent = 
         `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
 }
-
+*/
 
 // ==============================
 // ホーム画面などのボタンイベント
