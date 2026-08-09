@@ -336,7 +336,7 @@ button:active {
 
 .matchFixedArea {
     background: #ffffff;
-    padding: 0px;
+    padding: 10px;
     padding-bottom: 0px;
     border-bottom: 2px solid #dddddd;
     box-shadow: 0 2px 5px rgba(0,0,0,.08);
@@ -485,7 +485,7 @@ button:active {
 .card {
     background: #ffffff;
     border-radius: 10px;
-    padding: 0px;
+    padding: 10px;
     margin-top: 0px;
     margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,.08);
