@@ -283,7 +283,7 @@ button:active {
     flex-direction: row;      
     align-items: center;      
     gap: 8px;                 
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     width: 100%;
 }
 
@@ -299,8 +299,8 @@ button:active {
 .form-group input,
 .dialogInput {
     width: 100%;
-    height: 30px;
-    padding: 4px 4px;
+    height: 20px;
+    padding: 0px 0px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 8px;
