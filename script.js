@@ -2430,17 +2430,38 @@ function initializeButtons() {
         tournament.date = e.target.value;
     });
 
-    // ★ PK戦ボタンをクリックしたらドロワーを開くイベントを追加
-    document.getElementById("openPKButton")?.addEventListener("click", () => {
+    // ==========================================
+    // ★ 追加：PK戦関連のイベント登録
+    // ==========================================
+
+    // 1. フッターの「PK戦」ボタンでドロワーを開く
+    document.getElementById("pkBtn")?.addEventListener("click", () => {
         openPKDrawer();
     });
 
-    // ★ PK戦ドロワー内の「閉じる」ボタンやオーバーレイクリックで閉じる処理
-    document.getElementById("closePKButton")?.addEventListener("click", () => {
-        closePKDrawer();
-    });
-    document.getElementById("pkDrawerOverlay")?.addEventListener("click", () => {
-        closePKDrawer();
+    // 2. 「○ (成功)」ボタン
+    document.getElementById("pkSuccessBtn")?.addEventListener("click", () => {
+        addPKResult("○");
     });
 
+    // 3. 「✖ (失敗)」ボタン
+    document.getElementById("pkFailBtn")?.addEventListener("click", () => {
+        addPKResult("✖");
+    });
+
+    // 4. 「1つ戻す」ボタン
+    document.getElementById("pkUndoBtn")?.addEventListener("click", () => {
+        undoPKResult();
+    });
 }
+// PK戦の記録を1つ消す処理
+function undoPKResult() {
+    const pkData = getCurrentPKData();
+    if (pkData.history.length > 0) {
+        pkData.history.pop(); // 最後の入力結果を削除
+        updatePKDisplay();    // 表示を更新
+    } else {
+        alert("取り消す記録がありません");
+    }
+}
+
