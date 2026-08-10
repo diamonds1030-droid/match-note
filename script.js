@@ -1802,16 +1802,19 @@ function updateScore(){
 
         // PK履歴が存在する場合のみ計算
         if (pkData && Array.isArray(pkData.history) && pkData.history.length > 0) {
-            // 先攻・後攻の得点を集計
+               // 先攻・後攻の得点を集計
             const firstTotal = pkData.history.filter(h => h.team === 'first' && h.result === '○').length;
             const secondTotal = pkData.history.filter(h => h.team === 'second' && h.result === '○').length;
 
-            // ホームチームが先攻か後攻かを判定して割り当て
-            const homeTeamName = matchState.homeTeam || "ホーム";
+            // ホームチーム名を取得（未設定時はデフォルト値）
+            const homeTeamName = (matchState.homeTeam || "ホーム").trim();
+            const firstTeamName = (pkData.firstTeam || "").trim();
+
             let homePkScore = 0;
             let awayPkScore = 0;
 
-            if (pkData.firstTeam === homeTeamName) {
+            // firstTeam がホームチームと一致しているか判断（空文字や初期選択への配慮）
+            if (firstTeamName === homeTeamName || firstTeamName === "ホーム" || !firstTeamName) {
                 homePkScore = firstTotal;
                 awayPkScore = secondTotal;
             } else {
@@ -1819,9 +1822,12 @@ function updateScore(){
                 awayPkScore = firstTotal;
             }
 
+
             // 表示の書き換え（例: 3 PK 2）
             pkDisplayEl.textContent = `${homePkScore} PK ${awayPkScore}`;
             pkDisplayEl.style.display = "block";
+            pkDisplayEl.style.textAlign = "center"; // ★ 中央揃えを追加
+
         } else {
             // PKデータが無い場合は非表示
             pkDisplayEl.textContent = "";
@@ -2254,6 +2260,10 @@ function initPKDialog() {
         // 保存済みの選択があればそれをセット、無ければデフォルト
         firstSelect.value = pkData.firstTeam || homeName;
         secondSelect.value = pkData.secondTeam || awayName;
+
+        // ★ 初期状態の pkData にも現在の値を確実にセットする
+        pkData.firstTeam = firstSelect.value;
+        pkData.secondTeam = secondSelect.value;
 
         firstSelect.onchange = () => {
             secondSelect.value = (firstSelect.value === homeName) ? awayName : homeName;
