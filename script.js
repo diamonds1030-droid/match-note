@@ -2047,11 +2047,30 @@ let pkData = {
 //});
 //ドロワー用ここから
 // PK戦ドロワーを開く
+//function openPKDrawer() {
+    //initPKDialog(); // データや選択肢の初期化処理（関数名は既存のままでOKです）
+    //document.getElementById('pkDrawerOverlay').classList.add('show');
+    //document.getElementById('pkDrawer').classList.add('show');
+//}
+// PKドロワーを開く処理の修正例
 function openPKDrawer() {
-    initPKDialog(); // データや選択肢の初期化処理（関数名は既存のままでOKです）
+    // 1. 現在アクティブな試合のIDを取得（例: currentMatchId）
+    const currentMatch = getCurrentMatch(); // 現在の試合データを取得する関数
+
+    // 2. その試合専用のPKデータを読み込む
+    if (currentMatch && currentMatch.pkData) {
+        // 保存済みのPKデータがあればそれを表示に反映
+        loadPKDataToUI(currentMatch.pkData);
+    } else {
+        // まだPK記録がない試合の場合はフォームを初期化（リセット）
+        resetPKForm();
+    }
+
+    // 3. ドロワーを表示
     document.getElementById('pkDrawerOverlay').classList.add('show');
-    document.getElementById('pkDrawer').classList.add('show');
+    document.getElementById('pkDialog').classList.add('show');
 }
+
 
 // PK戦ドロワーを閉じる
 function closePKDrawer() {
