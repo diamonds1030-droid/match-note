@@ -1204,8 +1204,6 @@ button:active {
     -webkit-overflow-scrolling: touch;
 }
 
-}
-
 .pkGridTable {
     border-collapse: collapse;
     width: max-content;
