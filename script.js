@@ -2455,22 +2455,8 @@ function updatePKDisplay() {
             currentTurnEl.style.fontWeight = "";
         }
     }
+    updateScore();
 }
-
-    //const turn = getPKNextTurn();
-    //const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
-    //const isSuddenDeath = turn.round > 3;
-    //const suddenText = isSuddenDeath ? "【サドンデス】" : "";
-
-    //const currentTurnEl = document.getElementById('pkCurrentTurn');
-    //if (currentTurnEl) {
-        //currentTurnEl.textContent = `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
-    //}
-//}
-
-
-
-
 
 // PK戦の保存
 function savePKData() {
