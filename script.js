@@ -255,7 +255,7 @@ const HEADER_CONFIG = {
     historyPage:{
         title:"試合ノート一覧",
         buttons:`
-            <button id="addTeamButton" class="iconButton">
+            <button id="createTournamentButton" class="iconButton">
                 <i class="fa-solid fa-pen-to-square"></i>
             </button>
         `
