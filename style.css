@@ -1193,35 +1193,45 @@ button:active {
     border: none;
 }
 
+/* 外枠：縦スクロールを完全に止め、枠自体に上下の余白を作る */
 .pkTableWrapper {
     width: 100%;
     height: auto;
-    max-height: auto;
+    max-height: none;
     overflow-x: auto;
+    overflow-y: hidden;         /* ★ 縦スクロールを防止 */
     border: 1px solid #ccc;
     border-radius: 6px;
     margin-bottom: 16px;
     background: #fff;
     -webkit-overflow-scrolling: touch;
+    
+    padding: 2px 0;             /* ★ 枠線の内側に上下2pxのゆとりを作る */
+    box-sizing: border-box;
 }
 
+/* テーブル全体 */
 .pkGridTable {
-    border-collapse: collapse;
+    border-collapse: separate;  /* ★ 重なりを防止し、綺麗な外枠を維持 */
+    border-spacing: 0;
     width: max-content;
     min-width: 100%;
     text-align: center;
     font-size: 13px;
 }
 
+/* 各セルの高さと上下余白の調整 */
 .pkGridTable th, 
 .pkGridTable td {
     border: 1px solid #ccc;
-    height: 36px;
+    height: 40px;               /* ★ 高さを36pxから40pxに少し広げる */
     min-width: 36px;
-    padding: 2px 6px;
+    padding: 4px 6px;           /* ★ 上下のパディングを少し調整 */
     box-sizing: border-box;
     white-space: nowrap;
+    vertical-align: middle;     /* ★ 文字を上下中央に完璧に揃える */
 }
+
 
 .pkGridTable th {
     background-color: #f0f0f0;
