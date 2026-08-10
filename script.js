@@ -2036,15 +2036,15 @@ let pkData = {
 };
 
 // 開くボタン
-document.getElementById('pkBtn').addEventListener('click', () => {
-    initPKDialog();
-    document.getElementById('pkDialog').classList.add('show');
-});
+//document.getElementById('pkBtn').addEventListener('click', () => {
+    //initPKDialog();
+    //document.getElementById('pkDialog').classList.add('show');
+//});
 
 // 閉じるボタン
-document.getElementById('pkCloseBtn').addEventListener('click', () => {
-    document.getElementById('pkDialog').classList.remove('show');
-});
+//document.getElementById('pkCloseBtn').addEventListener('click', () => {
+    //document.getElementById('pkDialog').classList.remove('show');
+//});
 //ドロワー用ここから
 // PK戦ドロワーを開く
 function openPKDrawer() {
