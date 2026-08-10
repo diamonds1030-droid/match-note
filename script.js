@@ -1800,28 +1800,35 @@ function updateScore(){
     if (pkDisplayEl) {
         const pkData = getCurrentPKData();
 
-        // PK履歴が存在する場合のみ計算
-        if (pkData && Array.isArray(pkData.history) && pkData.history.length > 0) {
-               // 先攻・後攻の得点を集計
-            const firstTotal = pkData.history.filter(h => h.team === 'first' && h.result === '○').length;
-            const secondTotal = pkData.history.filter(h => h.team === 'second' && h.result === '○').length;
+// updateScore 関数内の PK集計ブロック
 
-            // ホームチーム名を取得（未設定時はデフォルト値）
-            const homeTeamName = (matchState.homeTeam || "ホーム").trim();
-            const firstTeamName = (pkData.firstTeam || "").trim();
+if (pkData && pkData.history && pkData.history.length > 0) {
+    // 1. 'first'（先攻）と 'second'（後攻）の成功数を集計
+    const firstTotal = pkData.history.filter(h => h.team === 'first' && h.result === '○').length;
+    const secondTotal = pkData.history.filter(h => h.team === 'second' && h.result === '○').length;
 
-            let homePkScore = 0;
-            let awayPkScore = 0;
+    const homeTeamName = (matchState.homeTeam || "ホーム").trim();
+    const awayTeamName = (matchState.awayTeam || "アウェイ").trim();
+    const firstTeamName = (pkData.firstTeam || homeTeamName).trim();
 
-            // firstTeam がホームチームと一致しているか判断（空文字や初期選択への配慮）
-            if (firstTeamName === homeTeamName || firstTeamName === "ホーム" || !firstTeamName) {
-                homePkScore = firstTotal;
-                awayPkScore = secondTotal;
-            } else {
-                homePkScore = secondTotal;
-                awayPkScore = firstTotal;
-            }
+    let homePkScore = 0;
+    let awayPkScore = 0;
 
+    // 2. 先攻チーム(firstTeam)が「ホーム」か「アウェイ」かを正確に判定
+    if (firstTeamName === homeTeamName || firstTeamName === "ホーム") {
+        // 先攻 ＝ ホーム
+        homePkScore = firstTotal;
+        awayPkScore = secondTotal;
+    } else {
+        // 先攻 ＝ アウェイ
+        homePkScore = secondTotal;
+        awayPkScore = firstTotal;
+    }
+
+    // スコア表示要素へ反映
+    if (homePkElement) homePkElement.textContent = homePkScore;
+    if (awayPkElement) awayPkElement.textContent = awayPkScore;
+}
 
             // 表示の書き換え（例: 3 PK 2）
             pkDisplayEl.textContent = `${homePkScore} PK ${awayPkScore}`;
@@ -1834,6 +1841,21 @@ function updateScore(){
             pkDisplayEl.style.display = "none";
         }
     }
+}
+
+// 例：PKの結果を追加する処理
+function recordPKKick(result) {
+    // 現在のキッカーが先攻か後攻かを特定
+    //奇数回目＝先攻(first)、偶数回目＝後攻(second) としている場合の例
+    const isFirstTeamTurn = (pkData.history.length % 2 === 0); 
+    
+    pkData.history.push({
+        team: isFirstTeamTurn ? 'first' : 'second',
+        result: result // '○' や '×'
+    });
+
+    updatePKDisplay();
+    updateScore(); // スコアを更新
 }
 
 /**
