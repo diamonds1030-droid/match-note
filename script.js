@@ -1772,7 +1772,6 @@ function undo(){
 // ==============================
 // スコア表示更新
 // ==============================
-
 function updateScore(){
 
     const matchState =
@@ -1793,6 +1792,44 @@ function updateScore(){
         awayInput.value =
             matchState.awayTeam || "";
     }
+
+    // ==========================================
+    // ★ 追加：PK戦結果の表示（「3 PK 2」形式）
+    // ==========================================
+    const pkDisplayEl = document.getElementById("pkScoreDisplay");
+    if (pkDisplayEl) {
+        const pkData = getCurrentPKData();
+
+        // PK履歴が存在する場合のみ計算
+        if (pkData && Array.isArray(pkData.history) && pkData.history.length > 0) {
+            // 先攻・後攻の得点を集計
+            const firstTotal = pkData.history.filter(h => h.team === 'first' && h.result === '○').length;
+            const secondTotal = pkData.history.filter(h => h.team === 'second' && h.result === '○').length;
+
+            // ホームチームが先攻か後攻かを判定して割り当て
+            const homeTeamName = matchState.homeTeam || "ホーム";
+            let homePkScore = 0;
+            let awayPkScore = 0;
+
+            if (pkData.firstTeam === homeTeamName) {
+                homePkScore = firstTotal;
+                awayPkScore = secondTotal;
+            } else {
+                homePkScore = secondTotal;
+                awayPkScore = firstTotal;
+            }
+
+            // 表示の書き換え（例: 3 PK 2）
+            pkDisplayEl.textContent = `${homePkScore} PK ${awayPkScore}`;
+            pkDisplayEl.style.display = "block";
+        } else {
+            // PKデータが無い場合は非表示
+            pkDisplayEl.textContent = "";
+            pkDisplayEl.style.display = "none";
+        }
+    }
+}
+
 }
 
 /**
