@@ -1124,7 +1124,7 @@ button:active {
 
 .pkDialogBody {
     width: 95% !important;
-    max-width: 500px !important;
+    max-width: 400px !important;
 }
 
 .pkTeamSelectArea {
