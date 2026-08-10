@@ -1830,8 +1830,6 @@ function updateScore(){
     }
 }
 
-}
-
 /**
  * スタメン設定画面（ドロワー内）を動的に生成して表示
  * @param {HTMLElement} container - 描画先の要素（#drawerContent）
