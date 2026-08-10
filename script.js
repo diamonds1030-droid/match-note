@@ -225,6 +225,9 @@ const HEADER_CONFIG = {
     teamPage:{
         title:"チーム管理",
         buttons:`
+            <button id="editTeamNameButton" class="iconButton">
+                <i class="fas fa-cog"></i>
+            </button>
             <button id="addTeamButton" class="iconButton">
                 <i class="fa-solid fa-pen-to-square"></i>
             </button>
@@ -339,6 +342,54 @@ function initializeHeaderButtons(){
             ]
         });
     });
+    
+    // ★ チーム名変更ダイアログの表示
+
+       bindSingleClick("editTeamNameButton", () => {
+        openDialog({
+            title: "チーム名の変更",
+            content: `
+                <div class="dialogFormGroup">
+                    <label for="newTeamName">新しいチーム名 <span class="required">*</span></label>
+                    <input id="newTeamName" class="dialogInput" value="${currentName}" placeholder="例: urawa">
+                </div>
+            `,
+            buttons: [
+                {
+                    text: "保存",
+                    onclick: updateTeamName
+                },
+                {
+                    text: "キャンセル",
+                    onclick: closeDialog
+                }
+            ]
+        });
+    });
+
+// ★ チーム名更新処理の関数
+function updateTeamName() {
+    const inputName = document.getElementById("newTeamName")?.value.trim();
+
+    if (!inputName) {
+        alert("チーム名を入力してください。");
+        return;
+    }
+
+    // 1. 画面上の表示を更新
+    const teamNameEl = document.getElementById("currentTeamName");
+    if (teamNameEl) {
+        teamNameEl.textContent = inputName;
+    }
+
+    // 2. データの保存処理（localStorage や Firebase / API などお使いの保存先に合わせます）
+    // 例: localStorage の場合
+    // localStorage.setItem("teamName", inputName);
+
+    // 3. ダイアログを閉じる
+    closeDialog();
+}
+
 
 
 
