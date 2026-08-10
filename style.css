@@ -1205,6 +1205,7 @@ button:active {
     overflow-y: hidden; 
     /* 2. もし横スクロール（対戦数が増えたとき）だけは許可したい場合 */
     overflow-x: auto;   /* 横スクロールは維持 */
+    max-height: none;
 }
 
 }
