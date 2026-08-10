@@ -2312,6 +2312,24 @@ function updatePKDisplay() {
 }
 */
 
+// PK結果を保存する処理の修正例
+function savePKData() {
+    const currentMatch = getCurrentMatch();
+    
+    if (!currentMatch) return;
+
+    // 現在の試合データ内にPK結果を紐づけて保存
+    currentMatch.pkData = {
+        firstTeam: document.getElementById('pkFirstTeamSelect').value,
+        secondTeam: document.getElementById('pkSecondTeamSelect').value,
+        history: currentPKHistory // 現在の入力履歴
+    };
+
+    // 全体データ（matches等）を localStorage や状態管理に保存
+    saveAllMatchesToStorage();
+}
+
+
 // ==============================
 // ホーム画面などのボタンイベント
 // ==============================
