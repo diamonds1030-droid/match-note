@@ -344,7 +344,12 @@ function initializeHeaderButtons(){
     });
     
     // ★ チーム名変更ダイアログの表示
-       bindSingleClick("editTeamNameButton", () => {
+    // ★ チーム名変更ダイアログの表示
+    bindSingleClick("editTeamNameButton", () => {
+        // 現在選択中（または登録中）のチーム名を取得
+        const currentTeam = teams.find(t => t.id === currentPlayerTeamId);
+        const currentName = currentTeam ? currentTeam.teamName : "";
+
         openDialog({
             title: "チーム名の変更",
             content: `
@@ -365,6 +370,7 @@ function initializeHeaderButtons(){
             ]
         });
     });
+
 
     bindSingleClick("backToTeamPageButton", () => {
         showPage("teamPage");
@@ -442,7 +448,8 @@ function initializeHeaderButtons(){
 }
 
 // ★ チーム名更新処理の関数
-function updateTeamName() {
+// ★ チーム名更新処理の関数
+async function updateTeamName() {
     const inputName = document.getElementById("newTeamName")?.value.trim();
 
     if (!inputName) {
@@ -450,15 +457,28 @@ function updateTeamName() {
         return;
     }
 
-    // 1. 画面上の表示を更新
-    const teamNameEl = document.getElementById("currentTeamName");
-    if (teamNameEl) {
-        teamNameEl.textContent = inputName;
+    if (!currentPlayerTeamId) {
+        alert("変更対象のチームが選択されていません。チーム一覧からチームを選択してください。");
+        return;
     }
 
-    // 3. ダイアログを閉じる
-    closeDialog();
+    try {
+        // 1. Firestoreのチーム名を更新
+        await setDoc(doc(db, "teams", currentPlayerTeamId), {
+            teamName: inputName
+        }, { merge: true });
+
+        // 2. チーム一覧と表示を再読み込み
+        await loadTeams();
+
+        alert("チーム名を更新しました。");
+        closeDialog();
+    } catch (e) {
+        console.error(e);
+        alert("チーム名の更新に失敗しました。");
+    }
 }
+
 
 
 // ==============================
