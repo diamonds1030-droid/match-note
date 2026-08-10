@@ -317,9 +317,9 @@ function initializeHeaderButtons(){
         el.addEventListener("click", handler);
     };
 
-    bindSingleClick("headerHomeButton", () => {
-        showPage("homePage");
-    });
+        bindSingleClick("headerHomeButton", () => {
+            showPage("homePage");
+        });
 
        bindSingleClick("addTeamButton", () => {
         openDialog({
@@ -379,6 +379,40 @@ function initializeHeaderButtons(){
             alert("取り消す交代履歴はありません");
         }
     });
+    
+    // ★ 大会作成ダイアログの表示設定（イベント委譲）
+       bindSingleClick("createTournamentButton", () => {
+        openDialog({
+            title: "新しい大会を作成",
+            content: `
+                <div class="dialogFormGroup">
+                    <label for="tournamentName">大会名 <span class="required">*</span></label>
+                    <input id="tournamentName" class="dialogInput" placeholder="例: 第10回 市民サッカー大会 (U-10)">
+                </div>
+
+                <div class="dialogFormGroup">
+                    <label for="tournamentDate">開催日</label>
+                    <input id="tournamentDate" type="date" class="dialogInput">
+                </div>
+
+                <div class="dialogFormGroup">
+                    <label for="tournamentPlace">会場・グラウンド名</label>
+                    <input id="tournamentPlace" class="dialogInput" placeholder="例: ○○スポーツ広場 Aコート">
+                </div>
+            `,
+            buttons: [
+                {
+                    text: "作成",
+                    onclick: createTournament
+                },
+                {
+                    text: "キャンセル",
+                    onclick: closeDialog
+                }
+            ]
+        });
+    });
+
 
     bindSingleClick("saveMatchButton", saveTournament);
 }
