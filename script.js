@@ -1845,21 +1845,6 @@ if (pkData && pkData.history && pkData.history.length > 0) {
     }
 }
 
-// 例：PKの結果を追加する処理
-function recordPKKick(result) {
-    // 現在のキッカーが先攻か後攻かを特定
-    //奇数回目＝先攻(first)、偶数回目＝後攻(second) としている場合の例
-    const isFirstTeamTurn = (pkData.history.length % 2 === 0); 
-    
-    pkData.history.push({
-        team: isFirstTeamTurn ? 'first' : 'second',
-        result: result // '○' や '×'
-    });
-
-    updatePKDisplay();
-    updateScore(); // スコアを更新
-}
-
 /**
  * スタメン設定画面（ドロワー内）を動的に生成して表示
  * @param {HTMLElement} container - 描画先の要素（#drawerContent）
