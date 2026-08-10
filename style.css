@@ -1196,8 +1196,8 @@ button:active {
 /* 外枠：縦スクロールを完全に止め、枠自体に上下の余白を作る */
 .pkTableWrapper {
     width: 100%;
-    height: 130px;
-    max-height: none;
+    height: 120px;              /* ★ AUTOをやめ、アウェイの行が入る十分な高さを指定 */
+    max-height: 120px;          /* ★ heightと同じ値に揃える */
     overflow-x: auto;
     overflow-y: hidden;         /* ★ 縦スクロールを防止 */
     border: 1px solid #ccc;
@@ -1208,15 +1208,17 @@ button:active {
     box-sizing: border-box;
 }
 
-/* テーブル全体 */
+/* テーブル全体（★ 一切変更なし） */
 .pkGridTable {
-    border-collapse: separate;  /* ★ 重なりを防止し、綺麗な外枠を維持 */
+    border-collapse: separate;
     border-spacing: 0;
     width: max-content;
     min-width: 100%;
     text-align: center;
     font-size: 13px;
 }
+
+
 
 /* 各セルの高さと上下余白の調整 */
 .pkGridTable th, 
