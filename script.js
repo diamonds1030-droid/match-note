@@ -344,7 +344,6 @@ function initializeHeaderButtons(){
     });
     
     // ★ チーム名変更ダイアログの表示
-
        bindSingleClick("editTeamNameButton", () => {
         openDialog({
             title: "チーム名の変更",
@@ -366,32 +365,6 @@ function initializeHeaderButtons(){
             ]
         });
     });
-
-// ★ チーム名更新処理の関数
-function updateTeamName() {
-    const inputName = document.getElementById("newTeamName")?.value.trim();
-
-    if (!inputName) {
-        alert("チーム名を入力してください。");
-        return;
-    }
-
-    // 1. 画面上の表示を更新
-    const teamNameEl = document.getElementById("currentTeamName");
-    if (teamNameEl) {
-        teamNameEl.textContent = inputName;
-    }
-
-    // 2. データの保存処理（localStorage や Firebase / API などお使いの保存先に合わせます）
-    // 例: localStorage の場合
-    // localStorage.setItem("teamName", inputName);
-
-    // 3. ダイアログを閉じる
-    closeDialog();
-}
-
-
-
 
     bindSingleClick("backToTeamPageButton", () => {
         showPage("teamPage");
@@ -468,6 +441,24 @@ function updateTeamName() {
     bindSingleClick("saveMatchButton", saveTournament);
 }
 
+// ★ チーム名更新処理の関数
+function updateTeamName() {
+    const inputName = document.getElementById("newTeamName")?.value.trim();
+
+    if (!inputName) {
+        alert("チーム名を入力してください。");
+        return;
+    }
+
+    // 1. 画面上の表示を更新
+    const teamNameEl = document.getElementById("currentTeamName");
+    if (teamNameEl) {
+        teamNameEl.textContent = inputName;
+    }
+
+    // 3. ダイアログを閉じる
+    closeDialog();
+}
 
 
 // ==============================
