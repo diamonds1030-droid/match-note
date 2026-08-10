@@ -1773,11 +1773,7 @@ function undo(){
 // スコア表示更新
 // ==============================
 function updateScore(){
-
-    const matchState =
-        tournament.matches[
-            tournament.currentMatch
-        ];
+    const matchState = tournament.matches[tournament.currentMatch];
 
     const homeScoreEl = document.getElementById("homeScore");
     const awayScoreEl = document.getElementById("awayScore");
@@ -1785,65 +1781,52 @@ function updateScore(){
     if (homeScoreEl) homeScoreEl.textContent = matchState.homeScore;
     if (awayScoreEl) awayScoreEl.textContent = matchState.awayScore;
 
-    const awayInput =
-        document.getElementById("awayTeam");
-
+    const awayInput = document.getElementById("awayTeam");
     if (awayInput) {
-        awayInput.value =
-            matchState.awayTeam || "";
+        awayInput.value = matchState.awayTeam || "";
     }
 
-    // ==========================================
-    // ★ 追加：PK戦結果の表示（「3 PK 2」形式）
-    // ==========================================
+    // PK戦結果の表示処理
     const pkDisplayEl = document.getElementById("pkScoreDisplay");
     if (pkDisplayEl) {
         const pkData = getCurrentPKData();
 
-// updateScore 関数内の PK集計ブロック
+        if (pkData && pkData.history && pkData.history.length > 0) {
+            const firstTotal = pkData.history.filter(h => h.team === 'first' && h.result === '○').length;
+            const secondTotal = pkData.history.filter(h => h.team === 'second' && h.result === '○').length;
 
-if (pkData && pkData.history && pkData.history.length > 0) {
-    // 1. 'first'（先攻）と 'second'（後攻）の成功数を集計
-    const firstTotal = pkData.history.filter(h => h.team === 'first' && h.result === '○').length;
-    const secondTotal = pkData.history.filter(h => h.team === 'second' && h.result === '○').length;
+            const homeTeamName = (matchState.homeTeam || "ホーム").trim();
+            const awayTeamName = (matchState.awayTeam || "アウェイ").trim();
+            const firstTeamName = (pkData.firstTeam || homeTeamName).trim();
 
-    const homeTeamName = (matchState.homeTeam || "ホーム").trim();
-    const awayTeamName = (matchState.awayTeam || "アウェイ").trim();
-    const firstTeamName = (pkData.firstTeam || homeTeamName).trim();
+            let homePkScore = 0;
+            let awayPkScore = 0;
 
-    let homePkScore = 0;
-    let awayPkScore = 0;
+            if (firstTeamName === homeTeamName || firstTeamName === "ホーム") {
+                homePkScore = firstTotal;
+                awayPkScore = secondTotal;
+            } else {
+                homePkScore = secondTotal;
+                awayPkScore = firstTotal;
+            }
 
-    // 2. 先攻チーム(firstTeam)が「ホーム」か「アウェイ」かを正確に判定
-    if (firstTeamName === homeTeamName || firstTeamName === "ホーム") {
-        // 先攻 ＝ ホーム
-        homePkScore = firstTotal;
-        awayPkScore = secondTotal;
-    } else {
-        // 先攻 ＝ アウェイ
-        homePkScore = secondTotal;
-        awayPkScore = firstTotal;
-    }
+            const homePkElement = document.getElementById("homePkScore");
+            const awayPkElement = document.getElementById("awayPkScore");
+            if (homePkElement) homePkElement.textContent = homePkScore;
+            if (awayPkElement) awayPkElement.textContent = awayPkScore;
 
-    // スコア表示要素へ反映
-    if (homePkElement) homePkElement.textContent = homePkScore;
-    if (awayPkElement) awayPkElement.textContent = awayPkScore;
-}
-
-         // 表示の書き換え（例: 3 PK 2）
-        pkDisplayEl.textContent = `${homePkScore} PK ${awayPkScore}`;
-        pkDisplayEl.style.display = "block";
-        pkDisplayEl.style.width = "100%";       // ★ 幅を親要素いっぱいに広げる
-        pkDisplayEl.style.textAlign = "center"; // ★ 中央揃えを強制
-        pkDisplayEl.style.margin = "8px 0";     // ★ 上下に少し余白をつける（お好みで）
-
+            pkDisplayEl.textContent = `${homePkScore} PK ${awayPkScore}`;
+            pkDisplayEl.style.display = "block";
+            pkDisplayEl.style.width = "100%";
+            pkDisplayEl.style.textAlign = "center";
+            pkDisplayEl.style.margin = "8px 0";
         } else {
-            // PKデータが無い場合は非表示
             pkDisplayEl.textContent = "";
             pkDisplayEl.style.display = "none";
         }
     }
 }
+
 
 /**
  * スタメン設定画面（ドロワー内）を動的に生成して表示
