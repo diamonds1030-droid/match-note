@@ -1236,7 +1236,7 @@ button:active {
     left: 0;
     z-index: 2;
     background-color: #f9f9f9;
-    min-width: 90px;
+    min-width: 150px;
     text-align: left;
     padding: 4px 8px;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
