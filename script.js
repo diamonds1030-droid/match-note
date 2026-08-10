@@ -358,7 +358,7 @@ function initializeHeaderButtons(){
         openDialog({
             title: "チーム名の変更",
             content: `
-                <div class="dialogFormGroup">
+                <div class="dialogFormGroup" style="margin-top: 15px;">
                     <label for="selectEditTeam">変更するチーム <span class="required">*</span></label>
                     <select id="selectEditTeam" class="dialogInput">
                         ${teamOptions}
