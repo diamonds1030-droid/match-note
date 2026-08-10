@@ -1201,6 +1201,13 @@ button:active {
     margin-bottom: 16px;
     background: #fff;
     -webkit-overflow-scrolling: touch;
+    .pkTableWrapper {
+    /* 1. 縦スクロールを完全に禁止する場合 */
+    overflow-y: hidden; 
+    /* 2. もし横スクロール（対戦数が増えたとき）だけは許可したい場合 */
+    overflow-x: auto;   /* 横スクロールは維持 */
+}
+
 }
 
 .pkGridTable {
