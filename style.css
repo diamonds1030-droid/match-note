@@ -1145,9 +1145,9 @@ button:active {
     align-items: center;
     gap: 8px;
 }
-
+/*先行・後攻*/
 .pkTeamRow label {
-    width: 150px;
+    width: 50px;
     font-weight: bold;
     font-size: 14px;
 }
@@ -1196,7 +1196,7 @@ button:active {
 .pkTableWrapper {
     width: 100%;
     height: auto;
-    max-height: none;
+    max-height: auto;
     overflow-x: auto;
     border: 1px solid #ccc;
     border-radius: 6px;
