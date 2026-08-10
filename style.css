@@ -1161,6 +1161,7 @@ button:active {
     padding: 6px;
     border-radius: 6px;
     margin-bottom: 12px;
+    min-height: 2.8em;
 }
 
 .pkInputButtons {
