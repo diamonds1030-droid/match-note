@@ -1830,10 +1830,12 @@ if (pkData && pkData.history && pkData.history.length > 0) {
     if (awayPkElement) awayPkElement.textContent = awayPkScore;
 }
 
-            // 表示の書き換え（例: 3 PK 2）
-            pkDisplayEl.textContent = `${homePkScore} PK ${awayPkScore}`;
-            pkDisplayEl.style.display = "block";
-            pkDisplayEl.style.textAlign = "center"; // ★ 中央揃えを追加
+         // 表示の書き換え（例: 3 PK 2）
+        pkDisplayEl.textContent = `${homePkScore} PK ${awayPkScore}`;
+        pkDisplayEl.style.display = "block";
+        pkDisplayEl.style.width = "100%";       // ★ 幅を親要素いっぱいに広げる
+        pkDisplayEl.style.textAlign = "center"; // ★ 中央揃えを強制
+        pkDisplayEl.style.margin = "8px 0";     // ★ 上下に少し余白をつける（お好みで）
 
         } else {
             // PKデータが無い場合は非表示
