@@ -2228,22 +2228,22 @@ function updatePKDisplay() {
 
 
 
-// PK結果を保存する処理の修正例
+// PK戦の保存
 function savePKData() {
-    const currentMatch = getCurrentMatch();
-    
-    if (!currentMatch) return;
+    const matchState = tournament.matches[tournament.currentMatch];
+    if (!matchState) return;
 
-    // 現在の試合データ内にPK結果を紐づけて保存
-    currentMatch.pkData = {
-        firstTeam: document.getElementById('pkFirstTeamSelect').value,
-        secondTeam: document.getElementById('pkSecondTeamSelect').value,
-        history: currentPKHistory // 現在の入力履歴
-    };
+    const firstSelect = document.getElementById('pkFirstTeamSelect');
+    const secondSelect = document.getElementById('pkSecondTeamSelect');
 
-    // 全体データ（matches等）を localStorage や状態管理に保存
-    saveAllMatchesToStorage();
+    const pkData = getCurrentPKData();
+    if (firstSelect) pkData.firstTeam = firstSelect.value;
+    if (secondSelect) pkData.secondTeam = secondSelect.value;
+
+    // 大会全体を保存（Firestoreへ）
+    saveTournament();
 }
+
 
 
 // ==============================
