@@ -2338,16 +2338,98 @@ function updatePKDisplay() {
     if (firstTotalEl) firstTotalEl.textContent = `${firstTotal}`;
     if (secondTotalEl) secondTotalEl.textContent = `${secondTotal}`;
 
-    const turn = getPKNextTurn();
-    const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
-    const isSuddenDeath = turn.round > 3;
-    const suddenText = isSuddenDeath ? "【サドンデス】" : "";
+    // ==========================================
+    // ★ PK勝敗判定 ＆ 入力ロック処理の追加
+    // ==========================================
+    const maxRegularShots = 3; // 3人制
+    
+    // それぞれの成功数を抽出
+    const firstHistory = pkData.history.filter(h => h.team === 'first');
+    const secondHistory = pkData.history.filter(h => h.team === 'second');
+
+    const shotsFirst = firstHistory.length;
+    const shotsSecond = secondHistory.length;
+
+    let winner = null; // 勝者チーム名
+
+    // 1. 3人制（規定本数内）での勝敗判定
+    if (shotsFirst <= maxRegularShots && shotsSecond <= maxRegularShots) {
+        const remainingFirst = maxRegularShots - shotsFirst;
+        const remainingSecond = maxRegularShots - shotsSecond;
+
+        // 後攻が残り全部決めても先攻に届かない場合
+        if (firstTotal > secondTotal + remainingSecond) {
+            winner = firstTeamName;
+        } 
+        // 先攻が残り全部決めても後攻に届かない場合
+        else if (secondTotal > firstTotal + remainingFirst) {
+            winner = secondTeamName;
+        } 
+        // 3本ずつ蹴り終えて点差がある場合
+        else if (shotsFirst === maxRegularShots && shotsSecond === maxRegularShots) {
+            if (firstTotal > secondTotal) winner = firstTeamName;
+            if (secondTotal > firstTotal) winner = secondTeamName;
+        }
+    } 
+    // 2. サドンデス（4本目以降）での判定
+    else if (shotsFirst === shotsSecond && shotsFirst > maxRegularShots) {
+        // 同一本数を蹴り終えた時点で差がついていれば決着
+        if (firstTotal > secondTotal) winner = firstTeamName;
+        if (secondTotal > firstTotal) winner = secondTeamName;
+    }
+
+    // ボタン・入力の活性/非活性を制御する関数
+    const setPKInputsDisabled = (disabled) => {
+        const successBtn = document.getElementById("pkSuccessBtn");
+        const failBtn = document.getElementById("pkFailBtn");
+        const firstSelect = document.getElementById('pkFirstTeamSelect');
+        const secondSelect = document.getElementById('pkSecondTeamSelect');
+
+        if (successBtn) successBtn.disabled = disabled;
+        if (failBtn) failBtn.disabled = disabled;
+        if (firstSelect) firstSelect.disabled = disabled;
+        if (secondSelect) secondSelect.disabled = disabled;
+    };
 
     const currentTurnEl = document.getElementById('pkCurrentTurn');
-    if (currentTurnEl) {
-        currentTurnEl.textContent = `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
+
+    if (winner) {
+        // --- 勝敗が確定した場合 ---
+        if (currentTurnEl) {
+            currentTurnEl.textContent = `🎉 PK戦終了！ 勝者: ${winner}`;
+            currentTurnEl.style.color = "#d9534f"; // 勝利強調（赤・オレンジ等）
+            currentTurnEl.style.fontWeight = "bold";
+        }
+        // 結果入力ボタンとチーム選択を無効化（「1つ戻す」ボタン等は押せるように保持）
+        setPKInputsDisabled(true);
+
+    } else {
+        // --- 試合継続中の場合 ---
+        setPKInputsDisabled(false); // ボタン無効化を解除
+
+        const turn = getPKNextTurn();
+        const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
+        const isSuddenDeath = turn.round > 3;
+        const suddenText = isSuddenDeath ? "【サドンデス】" : "";
+
+        if (currentTurnEl) {
+            currentTurnEl.textContent = `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
+            currentTurnEl.style.color = ""; // スタイルリセット
+            currentTurnEl.style.fontWeight = "";
+        }
     }
 }
+
+    //const turn = getPKNextTurn();
+    //const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
+    //const isSuddenDeath = turn.round > 3;
+    //const suddenText = isSuddenDeath ? "【サドンデス】" : "";
+
+    //const currentTurnEl = document.getElementById('pkCurrentTurn');
+    //if (currentTurnEl) {
+        //currentTurnEl.textContent = `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
+    //}
+//}
 
 
 
