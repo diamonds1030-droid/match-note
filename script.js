@@ -2430,4 +2430,17 @@ function initializeButtons() {
         tournament.date = e.target.value;
     });
 
+    // ★ PK戦ボタンをクリックしたらドロワーを開くイベントを追加
+    document.getElementById("openPKButton")?.addEventListener("click", () => {
+        openPKDrawer();
+    });
+
+    // ★ PK戦ドロワー内の「閉じる」ボタンやオーバーレイクリックで閉じる処理
+    document.getElementById("closePKButton")?.addEventListener("click", () => {
+        closePKDrawer();
+    });
+    document.getElementById("pkDrawerOverlay")?.addEventListener("click", () => {
+        closePKDrawer();
+    });
+
 }
