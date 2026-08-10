@@ -26,6 +26,7 @@ let teams = [];
 let currentTournamentId="";
 let deleteTournamentId = "";
 
+// 27行目付近の createEmptyMatch 関数を以下のように変更
 function createEmptyMatch() {
     return {
         homeTeamId: "",
@@ -36,12 +37,18 @@ function createEmptyMatch() {
         lineup: {
             GK: "", FP1: "", FP2: "", FP3: "", FP4: "", FP5: "", FP6: "", FP7: ""
         },
-        // ★各試合で独立した交代履歴配列
         substitutions: [],
         goals: [],
-        undoStack: []
+        undoStack: [],
+        // ★ 各試合で独立したPKデータを保持する
+        pkData: {
+            firstTeam: "",
+            secondTeam: "",
+            history: []
+        }
     };
 }
+
 
 const tournament={
 
@@ -2029,100 +2036,85 @@ function renderSubHistory() {
 // ==========================================
 // PK戦 管理ロジック (グリッド＆スクロール対応)
 // ==========================================
-let pkData = {
-    firstTeam: "",
-    secondTeam: "",
-    history: [] // { team: 'first'|'second', round: 1, result: '○'|'✖' }
-};
 
-// 開くボタン
-//document.getElementById('pkBtn').addEventListener('click', () => {
-    //initPKDialog();
-    //document.getElementById('pkDialog').classList.add('show');
-//});
+// ⭕️ 代わりに、現在の試合の pkData を安全に取得・初期化する関数を追加します
+function getCurrentPKData() {
+    const matchState = tournament.matches[tournament.currentMatch];
+    if (!matchState) return { firstTeam: "", secondTeam: "", history: [] };
 
-// 閉じるボタン
-//document.getElementById('pkCloseBtn').addEventListener('click', () => {
-    //document.getElementById('pkDialog').classList.remove('show');
-//});
-//ドロワー用ここから
-// PK戦ドロワーを開く
-//function openPKDrawer() {
-    //initPKDialog(); // データや選択肢の初期化処理（関数名は既存のままでOKです）
-    //document.getElementById('pkDrawerOverlay').classList.add('show');
-    //document.getElementById('pkDrawer').classList.add('show');
-//}
-// PKドロワーを開く処理の修正例
-function openPKDrawer() {
-    // 1. 現在アクティブな試合のIDを取得（例: currentMatchId）
-    const currentMatch = getCurrentMatch(); // 現在の試合データを取得する関数
-
-    // 2. その試合専用のPKデータを読み込む
-    if (currentMatch && currentMatch.pkData) {
-        // 保存済みのPKデータがあればそれを表示に反映
-        loadPKDataToUI(currentMatch.pkData);
-    } else {
-        // まだPK記録がない試合の場合はフォームを初期化（リセット）
-        resetPKForm();
+    // 過去の保存データで pkData が未定義だった場合の自動初期化
+    if (!matchState.pkData) {
+        matchState.pkData = { firstTeam: "", secondTeam: "", history: [] };
     }
-
-    // 3. ドロワーを表示
-    document.getElementById('pkDrawerOverlay').classList.add('show');
-    document.getElementById('pkDialog').classList.add('show');
+    return matchState.pkData;
 }
+// ==========================================
+// PK戦 管理ロジック
+// ==========================================
 
+// PK戦ドロワーを開く
+function openPKDrawer() {
+    initPKDialog(); // 現在の試合データに基づいて初期化
+    
+    const overlay = document.getElementById('pkDrawerOverlay');
+    const drawer = document.getElementById('pkDrawer') || document.getElementById('pkDialog');
+    
+    if (overlay) overlay.classList.add('show');
+    if (drawer) drawer.classList.add('show');
+}
 
 // PK戦ドロワーを閉じる
 function closePKDrawer() {
-    document.getElementById('pkDrawerOverlay').classList.remove('show');
-    document.getElementById('pkDrawer').classList.remove('show');
+    const overlay = document.getElementById('pkDrawerOverlay');
+    const drawer = document.getElementById('pkDrawer') || document.getElementById('pkDialog');
+    
+    if (overlay) overlay.classList.remove('show');
+    if (drawer) drawer.classList.remove('show');
 }
 
-// HTMLの onclick から呼び出せるように window に登録（module形式の場合）
 window.openPKDrawer = openPKDrawer;
 window.closePKDrawer = closePKDrawer;
 
-// PK戦ボタンでドロワーを開く
-document.getElementById('pkBtn').addEventListener('click', () => {
-    openPKDrawer();
-});
-
-// 「閉じる」ボタンが不要になった場合（右上の「✕」やオーバーレイで閉じるため）、
-// pkCloseBtn のイベントリスナーは削除するか、closePKDrawer() を呼ぶように修正してください。
-
-// ドロワー用ここまで
-
 // ダイアログ初期化（ホーム/アウェイチーム取得）
 function initPKDialog() {
-    const homeSelect = document.querySelector('.scoreTeamSelect');
-    const awayInput = document.querySelector('.scoreTeamInput');
+    const pkData = getCurrentPKData();
+    const matchState = tournament.matches[tournament.currentMatch];
 
-    const homeName = homeSelect ? (homeSelect.options[homeSelect.selectedIndex]?.text || "ホーム") : "ホーム";
-    const awayName = awayInput ? (awayInput.value || "アウェイ") : "アウェイ";
+    // ホームチーム名・アウェイチーム名の取得
+    const homeName = matchState ? (matchState.homeTeam || "ホーム") : "ホーム";
+    const awayName = matchState ? (matchState.awayTeam || "アウェイ") : "アウェイ";
 
     const firstSelect = document.getElementById('pkFirstTeamSelect');
     const secondSelect = document.getElementById('pkSecondTeamSelect');
 
-    firstSelect.innerHTML = `<option value="${homeName}">${homeName}</option><option value="${awayName}">${awayName}</option>`;
-    secondSelect.innerHTML = `<option value="${awayName}">${awayName}</option><option value="${homeName}">${homeName}</option>`;
+    if (firstSelect && secondSelect) {
+        firstSelect.innerHTML = `<option value="${homeName}">${homeName}</option><option value="${awayName}">${awayName}</option>`;
+        secondSelect.innerHTML = `<option value="${awayName}">${awayName}</option><option value="${homeName}">${homeName}</option>`;
 
-    firstSelect.value = homeName;
-    secondSelect.value = awayName;
+        // 保存済みの選択があればそれをセット、無ければデフォルト
+        firstSelect.value = pkData.firstTeam || homeName;
+        secondSelect.value = pkData.secondTeam || awayName;
 
-    firstSelect.onchange = () => {
-        secondSelect.value = (firstSelect.value === homeName) ? awayName : homeName;
-        updatePKDisplay();
-    };
-    secondSelect.onchange = () => {
-        firstSelect.value = (secondSelect.value === homeName) ? awayName : homeName;
-        updatePKDisplay();
-    };
+        firstSelect.onchange = () => {
+            secondSelect.value = (firstSelect.value === homeName) ? awayName : homeName;
+            pkData.firstTeam = firstSelect.value;
+            pkData.secondTeam = secondSelect.value;
+            updatePKDisplay();
+        };
+        secondSelect.onchange = () => {
+            firstSelect.value = (secondSelect.value === homeName) ? awayName : homeName;
+            pkData.firstTeam = firstSelect.value;
+            pkData.secondTeam = secondSelect.value;
+            updatePKDisplay();
+        };
+    }
 
     updatePKDisplay();
 }
 
 // 次の入力ターン判定
 function getPKNextTurn() {
+    const pkData = getCurrentPKData();
     const total = pkData.history.length;
     const round = Math.floor(total / 2) + 1;
     const isFirst = (total % 2 === 0);
@@ -2130,46 +2122,46 @@ function getPKNextTurn() {
 }
 
 // 結果追加
-document.getElementById('pkSuccessBtn').addEventListener('click', () => addPKResult('○'));
-document.getElementById('pkFailBtn').addEventListener('click', () => addPKResult('✖'));
-
 function addPKResult(resultMark) {
+    const pkData = getCurrentPKData();
     const turn = getPKNextTurn();
+    
     pkData.history.push({
         team: turn.isFirst ? 'first' : 'second',
         round: turn.round,
         result: resultMark
     });
+    
     updatePKDisplay();
     
-    // 結果追加時にテーブルの右端まで自動スクロール
+    // 自動スクロール
     const wrapper = document.querySelector('.pkTableWrapper');
     if (wrapper) {
         wrapper.scrollLeft = wrapper.scrollWidth;
     }
 }
 
-// 1つ戻すボタン
-document.getElementById('pkUndoBtn').addEventListener('click', () => {
-    if (pkData.history.length > 0) {
-        pkData.history.pop();
-        updatePKDisplay();
-    }
-});
 // 画面表示更新
 function updatePKDisplay() {
-    const firstTeamName = document.getElementById('pkFirstTeamSelect').value || "先攻";
-    const secondTeamName = document.getElementById('pkSecondTeamSelect').value || "後攻";
+    const pkData = getCurrentPKData();
+    const firstSelect = document.getElementById('pkFirstTeamSelect');
+    const secondSelect = document.getElementById('pkSecondTeamSelect');
 
-    document.getElementById('pkFirstTeamName').textContent = firstTeamName;
-    document.getElementById('pkSecondTeamName').textContent = secondTeamName;
+    const firstTeamName = (firstSelect && firstSelect.value) ? firstSelect.value : "先攻";
+    const secondTeamName = (secondSelect && secondSelect.value) ? secondSelect.value : "後攻";
+
+    const firstTeamLabel = document.getElementById('pkFirstTeamName');
+    const secondTeamLabel = document.getElementById('pkSecondTeamName');
+    if (firstTeamLabel) firstTeamLabel.textContent = firstTeamName;
+    if (secondTeamLabel) secondTeamLabel.textContent = secondTeamName;
 
     const headerRow = document.getElementById('pkHeaderRow');
     const firstRow = document.getElementById('pkFirstRow');
     const secondRow = document.getElementById('pkSecondRow');
 
-    // ★修正①：既存の動的セル（2列目〜合計の手前まで）をクリア
-    // 「チーム名(左)」と「合計(右)」の2つ(length === 2)になるまで、最後から2番目の子要素を消し続ける
+    if (!headerRow || !firstRow || !secondRow) return;
+
+    // 動的セルのクリア
     while (headerRow.children.length > 2) {
         headerRow.removeChild(headerRow.children[headerRow.children.length - 2]);
     }
@@ -2180,30 +2172,23 @@ function updatePKDisplay() {
         secondRow.removeChild(secondRow.children[secondRow.children.length - 2]);
     }
 
-    // 各行の一番右にある「合計セル（.pkStickyRight）」を取得しておく
     const headerTotal = headerRow.querySelector('.pkStickyRight');
     const firstTotalCell = firstRow.querySelector('.pkStickyRight');
     const secondTotalCell = secondRow.querySelector('.pkStickyRight');
 
-    // 最大ラウンド数の計算 (最低3本分はあらかじめマス目を表示。サドンデスで超えたら増やす)
     let maxRound = 3;
     pkData.history.forEach(item => {
         if (item.round > maxRound) maxRound = item.round;
     });
 
-    // 集計変数
     let firstTotal = 0;
     let secondTotal = 0;
 
-    // ヘッダー（数字）とセルを組み立て
     for (let r = 1; r <= maxRound; r++) {
-        // ヘッダー列（1, 2, 3...）
         const th = document.createElement('th');
         th.textContent = r;
-        // ★修正②：合計ヘッダーの手前に挿入
         headerRow.insertBefore(th, headerTotal);
 
-        // 先攻セル
         const tdFirst = document.createElement('td');
         const firstItem = pkData.history.find(h => h.team === 'first' && h.round === r);
         if (firstItem) {
@@ -2211,10 +2196,8 @@ function updatePKDisplay() {
             tdFirst.className = `pkCellMark ${firstItem.result === '○' ? 'success' : 'fail'}`;
             if (firstItem.result === '○') firstTotal++;
         }
-        // ★修正②：先攻合計セルの手前に挿入
         firstRow.insertBefore(tdFirst, firstTotalCell);
 
-        // 後攻セル
         const tdSecond = document.createElement('td');
         const secondItem = pkData.history.find(h => h.team === 'second' && h.round === r);
         if (secondItem) {
@@ -2222,95 +2205,28 @@ function updatePKDisplay() {
             tdSecond.className = `pkCellMark ${secondItem.result === '○' ? 'success' : 'fail'}`;
             if (secondItem.result === '○') secondTotal++;
         }
-        // ★修正②：後攻合計セルの手前に挿入
         secondRow.insertBefore(tdSecond, secondTotalCell);
     }
 
-    // 合計数の表示更新（※「○本」などの表記はお好みで変更できます）
-    document.getElementById('pkFirstTotal').textContent = `${firstTotal}`;
-    document.getElementById('pkSecondTotal').textContent = `${secondTotal}`;
+    const firstTotalEl = document.getElementById('pkFirstTotal');
+    const secondTotalEl = document.getElementById('pkSecondTotal');
+    if (firstTotalEl) firstTotalEl.textContent = `${firstTotal}`;
+    if (secondTotalEl) secondTotalEl.textContent = `${secondTotal}`;
 
-    // 次のターン案内表示
     const turn = getPKNextTurn();
     const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
     const isSuddenDeath = turn.round > 3;
     const suddenText = isSuddenDeath ? "【サドンデス】" : "";
 
-    document.getElementById('pkCurrentTurn').textContent = 
-        `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
-}
-
-/*
-// 画面表示更新
-function updatePKDisplay() {
-    const firstTeamName = document.getElementById('pkFirstTeamSelect').value || "先攻";
-    const secondTeamName = document.getElementById('pkSecondTeamSelect').value || "後攻";
-
-    document.getElementById('pkFirstTeamName').textContent = firstTeamName;
-    document.getElementById('pkSecondTeamName').textContent = secondTeamName;
-
-    const headerRow = document.getElementById('pkHeaderRow');
-    const firstRow = document.getElementById('pkFirstRow');
-    const secondRow = document.getElementById('pkSecondRow');
-
-    // 既存の動的セル（2列目以降）をクリア
-    while (headerRow.children.length > 1) headerRow.removeChild(headerRow.lastChild);
-    while (firstRow.children.length > 1) firstRow.removeChild(firstRow.lastChild);
-    while (secondRow.children.length > 1) secondRow.removeChild(secondRow.lastChild);
-
-    // 最大ラウンド数の計算 (最低5本分はあらかじめマス目を表示。サドンデスで超えたら増やす)
-    let maxRound = 3;
-    pkData.history.forEach(item => {
-        if (item.round > maxRound) maxRound = item.round;
-    });
-
-    // 集計変数
-    let firstTotal = 0;
-    let secondTotal = 0;
-
-    // ヘッダー（数字）とセルを組み立て
-    for (let r = 1; r <= maxRound; r++) {
-        // ヘッダー列（1, 2, 3...）
-        const th = document.createElement('th');
-        th.textContent = r;
-        headerRow.appendChild(th);
-        
-
-        // 先攻セル
-        const tdFirst = document.createElement('td');
-        const firstItem = pkData.history.find(h => h.team === 'first' && h.round === r);
-        if (firstItem) {
-            tdFirst.textContent = firstItem.result;
-            tdFirst.className = `pkCellMark ${firstItem.result === '○' ? 'success' : 'fail'}`;
-            if (firstItem.result === '○') firstTotal++;
-        }
-        firstRow.appendChild(tdFirst);
-
-        // 後攻セル
-        const tdSecond = document.createElement('td');
-        const secondItem = pkData.history.find(h => h.team === 'second' && h.round === r);
-        if (secondItem) {
-            tdSecond.textContent = secondItem.result;
-            tdSecond.className = `pkCellMark ${secondItem.result === '○' ? 'success' : 'fail'}`;
-            if (secondItem.result === '○') secondTotal++;
-        }
-        secondRow.appendChild(tdSecond);
+    const currentTurnEl = document.getElementById('pkCurrentTurn');
+    if (currentTurnEl) {
+        currentTurnEl.textContent = `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
     }
-
-    // 合計数の表示更新
-    document.getElementById('pkFirstTotal').textContent = `${firstTotal}勝`;
-    document.getElementById('pkSecondTotal').textContent = `${secondTotal}勝`;
-
-    // 次のターン案内表示
-    const turn = getPKNextTurn();
-    const nextTeamLabel = turn.isFirst ? `先攻 (${firstTeamName})` : `後攻 (${secondTeamName})`;
-    const isSuddenDeath = turn.round > 5;
-    const suddenText = isSuddenDeath ? "【サドンデス】" : "";
-
-    document.getElementById('pkCurrentTurn').textContent = 
-        `${suddenText}入力待ち: ${nextTeamLabel} ${turn.round}本目`;
 }
-*/
+
+
+
+
 
 // PK結果を保存する処理の修正例
 function savePKData() {
