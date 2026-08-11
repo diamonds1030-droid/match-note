@@ -2616,47 +2616,6 @@ function openAllResultsDialog() {
 }
 
 
-// ★ 2. 全試合の簡易版結果をダイアログ表示する関数
-function openAllResultsDialog() {
-    if (!tournament || !tournament.matches) return;
-
-    const tournamentName = tournament.name || "大会名未設定";
-
-    // 全試合リストのHTMLを生成
-    const matchesHtml = tournament.matches.map((m, index) => {
-        const home = m.homeTeamName || "未設定";
-        const away = m.awayTeamName || "未設定";
-        const hScore = m.homeScore ?? 0;
-        const aScore = m.awayScore ?? 0;
-
-        return `
-            <div class="simpleMatchItem">
-                <div style="font-size: 12px; color: #888; width: 50px;">第${index + 1}試合</div>
-                <span class="simpleMatchTeam">${home}</span>
-                <span class="simpleMatchScore">${hScore} - ${aScore}</span>
-                <span class="simpleMatchTeam">${away}</span>
-            </div>
-        `;
-    }).join("");
-
-    openDialog({
-        title: "全試合の結果",
-        content: `
-            <div style="width: 100%; max-height: 50vh; overflow-y: auto;">
-                <div class="simpleTournamentName" style="margin-bottom: 12px;">🏆 ${tournamentName}</div>
-                ${matchesHtml}
-            </div>
-        `,
-        buttons: [
-            {
-                text: "閉じる",
-                onclick: closeDialog
-            }
-        ]
-    });
-}
-
-
 // ==============================
 // ホーム画面などのボタンイベント
 // ==============================
