@@ -1046,7 +1046,7 @@ button:active {
     background: #ffffff;
     width: 88%;
     max-width: 360px;
-    max-height: 90vh;
+    max-height: 90dvh;
     border-radius: 16px;
     padding: 24px 20px;
     box-sizing: border-box;
