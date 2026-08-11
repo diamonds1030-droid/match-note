@@ -513,6 +513,8 @@ button:active {
 
 .card .iconButton {
     align-self: center;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 .card > div:first-child {
