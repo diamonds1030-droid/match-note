@@ -196,10 +196,6 @@ function showPage(pageId) {
     if (pageId !== 'playerPage') {
         resetPlayerPage();
     }
-    // ★ ホーム画面が表示されたらカードを最新化
-    if (pageId === "homePage") {
-        renderLatestResult();
-    }
     updateHeader(pageId);
 }
 
