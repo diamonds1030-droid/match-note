@@ -788,7 +788,7 @@ button:active {
 
 .footer-btn i {
   font-size: 18px;
-  transform: translateY(-8px); /* ★ アイコン単体を上に4px持ち上げる（数値で調整可能） */
+  transform: translateY(8px); /* ★ アイコン単体を上に4px持ち上げる（数値で調整可能） */
 }
 
 .footer-btn:active {
