@@ -343,17 +343,18 @@ function initializeHeaderButtons(){
         });
     });
     
-    // ★ チーム名変更ダイアログの表示（チーム選択機能付き）
+    // ★ チーム名変更ダイアログの表示（修正版）
     bindSingleClick("editTeamNameButton", () => {
         if (teams.length === 0) {
             alert("登録されているチームがありません。");
             return;
         }
 
-        // チーム選択用の <option> タグ群を生成
-        const teamOptions = teams.map(team => 
-            `<option value="${team.id}">${team.teamName}</option>`
-        ).join("");
+        // チーム選択用の <option> タグ群を生成（先頭にデフォルト選択肢を追加）
+        const teamOptions = `
+            <option value="">チームを選択して下さい</option>
+            ${teams.map(team => `<option value="${team.id}">${team.teamName}</option>`).join("")}
+        `;
 
         openDialog({
             title: "チーム名の変更",
@@ -366,7 +367,7 @@ function initializeHeaderButtons(){
                 </div>
                 <div class="dialogFormGroup" style="margin-top: 15px;">
                     <label for="newTeamName">新しいチーム名 <span class="required">*</span></label>
-                    <input id="newTeamName" class="dialogInput" value="${teams[0]?.teamName || ''}" placeholder="例: urawa">
+                    <input id="newTeamName" class="dialogInput" value="" placeholder="新しいチーム名を入力">
                 </div>
             `,
             buttons: [
@@ -381,7 +382,7 @@ function initializeHeaderButtons(){
             ]
         });
 
-        // ドロップダウンでチームを変更した時に、入力欄の初期値をそのチーム名に切り替える処理
+        // ドロップダウンでチームを変更した時に、入力欄の値を連動させる処理
         const selectEl = document.getElementById("selectEditTeam");
         const inputEl = document.getElementById("newTeamName");
         if (selectEl && inputEl) {
@@ -389,10 +390,13 @@ function initializeHeaderButtons(){
                 const selectedTeam = teams.find(t => t.id === e.target.value);
                 if (selectedTeam) {
                     inputEl.value = selectedTeam.teamName;
+                } else {
+                    inputEl.value = ""; // 「チームを選択して下さい」を選んだ時は空欄にする
                 }
             });
         }
     });
+
 
 
 
