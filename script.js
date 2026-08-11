@@ -249,6 +249,9 @@ const HEADER_CONFIG = {
     matchPage:{
         title:"試合ノート",
         buttons:`
+            <button id="deleteMatchButton" class="iconButton">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
             <button id="saveMatchButton" class="iconButton">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
             </button>
@@ -470,6 +473,45 @@ function initializeHeaderButtons(){
             ]
         });
     });
+    
+        // ★ 選択中の試合タブを削除するイベント処理
+    bindSingleClick("deleteMatchButton", () => {
+        // 試合が1つしかない場合は削除不可にする
+        if (tournament.matches.length <= 1) {
+            alert("これ以上試合を削除することはできません。（最低1試合必要です）");
+            return;
+        }
+
+        const currentIdx = tournament.currentMatch;
+
+        openDialog({
+            title: "試合の削除",
+            content: `<p>${currentIdx + 1}試合目のデータを削除しますか？</p>`,
+            buttons: [
+                {
+                    text: "キャンセル",
+                    onclick: closeDialog
+                },
+                {
+                    text: "削除",
+                    onclick: () => {
+                        // 1. 配列から現在の試合データを削除
+                        tournament.matches.splice(currentIdx, 1);
+
+                        // 2. カレント試合インデックスの調整（末尾を消した場合は1つ前にずらす）
+                        if (tournament.currentMatch >= tournament.matches.length) {
+                            tournament.currentMatch = tournament.matches.length - 1;
+                        }
+
+                        // 3. 画面の再描画
+                        refreshMatch();
+                        closeDialog();
+                    }
+                }
+            ]
+        });
+    });
+
 
 
     bindSingleClick("saveMatchButton", saveTournament);
