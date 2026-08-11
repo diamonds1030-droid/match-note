@@ -783,12 +783,11 @@ button:active {
   cursor: pointer;
   flex: 1;
   height: 100%;
-  padding-top: 0px;         /* ★ ボタン全体の起点位置をほんの少し上に上げる */
 }
 
 .footer-btn i {
   font-size: 18px;
-  transform: translateY(8px); /* ★ アイコン単体を上に4px持ち上げる（数値で調整可能） */
+  transform: translateY(-20px); /* ★ アイコン単体を上に4px持ち上げる（数値で調整可能） */
 }
 
 .footer-btn:active {
