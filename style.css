@@ -1048,7 +1048,7 @@ button:active {
     max-width: 360px;
     max-height: 90dvh;
     border-radius: 16px;
-    padding: 24px 20px;
+    padding: 12px 12px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -1168,13 +1168,13 @@ button:active {
 .pkInputButtons {
     display: flex;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
 .pkResultBtn {
     flex: 1;
-    height: 48px;
-    font-size: 18px;
+    height: 44px;
+    font-size: 16px;
     font-weight: bold;
     border-radius: 8px;
     margin-bottom: 0;
@@ -1203,7 +1203,7 @@ button:active {
     overflow-y: hidden;         /* ★ 縦スクロールを防止 */
     border: 1px solid #ccc;
     border-radius: 6px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     background: #fff;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
