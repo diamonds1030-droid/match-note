@@ -42,7 +42,7 @@ input, select, textarea {
     min-height: 0 !important; /* Flexbox内の高さ突き破り防止 */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 20px;
+    padding: 10px;
 }
 
 /* ホーム画面のみメインエリアのスクロールを禁止 */
