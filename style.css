@@ -1399,3 +1399,94 @@ button:active {
         padding-bottom: calc(20px + env(safe-area-inset-bottom));
     }
 }
+
+/* ==========================================
+   ホーム画面：最新の結果 簡易版カード
+========================================== */
+.latestResultCard {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    margin: 16px 0;
+}
+
+/* ヘッダー領域（タイトル + もっと見る） */
+.latestResultHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.latestResultTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    border-left: 4px solid #2e7d32;
+    padding-left: 8px;
+    margin: 0;
+}
+
+/* 「もっと見る」ボタン */
+.moreLinkButton {
+    background: none;
+    border: none;
+    color: #2e7d32;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px 8px;
+    height: auto;
+    width: auto;
+    margin-bottom: 0;
+}
+
+.moreLinkButton:active {
+    opacity: 0.6;
+    transform: none;
+}
+
+/* 大会名 */
+.simpleTournamentName {
+    font-size: 13px;
+    color: #666;
+    font-weight: bold;
+    margin-bottom: 8px;
+    background: #f5f5f5;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* 試合結果行 */
+.simpleMatchItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.simpleMatchItem:last-child {
+    border-bottom: none;
+}
+
+.simpleMatchTeam {
+    flex: 1;
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.simpleMatchScore {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2e7d32;
+    padding: 0 12px;
+    white-space: nowrap;
+}
