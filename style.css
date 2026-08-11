@@ -776,19 +776,21 @@ button:active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 2px;                 /* ★ 隙間を4pxから2pxに詰める */
+  justify-content: flex-start; /* ★ center から flex-start（上揃え）に変更 */
+  gap: 2px;                    /* ★ アイコンと文字の間の距離（お好みで0〜3pxに設定） */
   color: #555555;
   font-size: 12px;
   cursor: pointer;
   flex: 1;
   height: 100%;
+  padding-top: 4px;            /* ★ フッター上端からの距離（数値が小さいほど上へ行きます） */
 }
 
 .footer-btn i {
   font-size: 18px;
-  transform: translateY(-20px); /* ★ アイコン単体を上に4px持ち上げる（数値で調整可能） */
+  transform: none;            /* ★ 個別のtranslateYは解除して位置を揃える */
 }
+
 
 .footer-btn:active {
   background-color: #f5f5f5;
