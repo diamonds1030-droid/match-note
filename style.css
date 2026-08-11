@@ -1048,7 +1048,7 @@ button:active {
     max-width: 360px;
     max-height: 90dvh;
     border-radius: 16px;
-    padding: 12px 12px;
+    padding: 10px 10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -1070,17 +1070,15 @@ button:active {
 /* コンテンツエリア */
 #dialogContent {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     box-sizing: border-box;
-    height: auto;              /* ★ AUTOをやめ、アウェイの行が入る十分な高さを指定 */
-    max-height: auto;
 }
 
 /* ダイアログ内の全入力欄（はみ出し防止 & サイズ統一） */
 #dialogContent input {
     width: 100%;
     height: 48px;
-    padding: 0 12px;
+    padding: 0 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -1163,19 +1161,19 @@ button:active {
     background: #e3f2fd;
     padding: 6px;
     border-radius: 6px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     min-height: 2.8em;
 }
 
 .pkInputButtons {
     display: flex;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .pkResultBtn {
     flex: 1;
-    height: 44px;
+    height: 42px;
     font-size: 16px;
     font-weight: bold;
     border-radius: 8px;
