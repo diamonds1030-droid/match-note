@@ -1047,7 +1047,7 @@ button:active {
     width: 88%;
     max-width: 360px;
     border-radius: 16px;
-    padding: 24px 20px;
+    padding: 12px 10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
