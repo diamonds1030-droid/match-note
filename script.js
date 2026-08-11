@@ -78,7 +78,6 @@ window.onload = async function(){
     initializeButtons();
     refreshMatch();
     loadTournamentList();
-    renderLatestResult();
 }
 
 function refreshMatch() {
@@ -2523,96 +2522,6 @@ function savePKData() {
 
     // 大会全体を保存（Firestoreへ）
     saveTournament();
-}
-
-// ==============================
-// 試合結果の簡易版
-// ==============================
-// ★ 1. ホーム画面に最新結果を描画する関数（修正版）
-function renderLatestResult() {
-    const container = document.getElementById("latestResultContainer");
-    if (!container) return;
-
-    // 大会データがない、または試合がない場合
-    if (!tournament || !tournament.matches || tournament.matches.length === 0) {
-        container.innerHTML = "";
-        return;
-    }
-
-    const tournamentName = tournament.name || "大会名未設定";
-    
-    // 直近（最後の試合、または現在の試合）のデータを取得
-    const lastMatchIdx = tournament.matches.length - 1;
-    const match = tournament.matches[lastMatchIdx];
-
-    // ★ 修正：正しいプロパティ名（homeTeam / awayTeam）を参照
-    const homeTeam = match.homeTeam || "チームA";
-    const awayTeam = match.awayTeam || "チームB";
-    const homeScore = match.homeScore ?? 0;
-    const awayScore = match.awayScore ?? 0;
-
-    const html = `
-        <div class="latestResultCard">
-            <div class="latestResultHeader">
-                <h3 class="latestResultTitle">最新の結果</h3>
-                <button id="showAllResultsButton" class="moreLinkButton">
-                    もっと見る <i class="fa-solid fa-chevron-right"></i>
-                </button>
-            </div>
-            <div class="simpleTournamentName">🏆 ${tournamentName}</div>
-            <div class="simpleMatchItem">
-                <span class="simpleMatchTeam">${homeTeam}</span>
-                <span class="simpleMatchScore">${homeScore} - ${awayScore}</span>
-                <span class="simpleMatchTeam">${awayTeam}</span>
-            </div>
-        </div>
-    `;
-
-    container.innerHTML = html;
-
-    // 「もっと見る」ボタンのクリックイベントをバインド
-    bindSingleClick("showAllResultsButton", openAllResultsDialog);
-}
-
-// ★ 2. 全試合の簡易版結果をダイアログ表示する関数（修正版）
-function openAllResultsDialog() {
-    if (!tournament || !tournament.matches) return;
-
-    const tournamentName = tournament.name || "大会名未設定";
-
-    // 全試合リストのHTMLを生成
-    const matchesHtml = tournament.matches.map((m, index) => {
-        // ★ 修正：正しいプロパティ名（homeTeam / awayTeam）を参照
-        const home = m.homeTeam || "チームA";
-        const away = m.awayTeam || "チームB";
-        const hScore = m.homeScore ?? 0;
-        const aScore = m.awayScore ?? 0;
-
-        return `
-            <div class="simpleMatchItem">
-                <div style="font-size: 12px; color: #888; width: 50px;">第${index + 1}試合</div>
-                <span class="simpleMatchTeam">${home}</span>
-                <span class="simpleMatchScore">${hScore} - ${aScore}</span>
-                <span class="simpleMatchTeam">${away}</span>
-            </div>
-        `;
-    }).join("");
-
-    openDialog({
-        title: "全試合の結果",
-        content: `
-            <div style="width: 100%; max-height: 50vh; overflow-y: auto;">
-                <div class="simpleTournamentName" style="margin-bottom: 12px;">🏆 ${tournamentName}</div>
-                ${matchesHtml}
-            </div>
-        `,
-        buttons: [
-            {
-                text: "閉じる",
-                onclick: closeDialog
-            }
-        ]
-    });
 }
 
 
