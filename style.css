@@ -1138,7 +1138,7 @@ button:active {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .pkTeamRow {
@@ -1161,19 +1161,19 @@ button:active {
     background: #e3f2fd;
     padding: 6px;
     border-radius: 6px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     min-height: 2.8em;
 }
 
 .pkInputButtons {
     display: flex;
     gap: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .pkResultBtn {
     flex: 1;
-    height: 42px;
+    height: 40px;
     font-size: 16px;
     font-weight: bold;
     border-radius: 8px;
@@ -1203,7 +1203,7 @@ button:active {
     overflow-y: hidden;         /* ★ 縦スクロールを防止 */
     border: 1px solid #ccc;
     border-radius: 6px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     background: #fff;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
