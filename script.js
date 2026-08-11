@@ -78,6 +78,7 @@ window.onload = async function(){
     initializeButtons();
     refreshMatch();
     loadTournamentList();
+    renderGoalRanking();
 }
 
 function refreshMatch() {
@@ -195,6 +196,9 @@ function showPage(pageId) {
     }
     if (pageId !== 'playerPage') {
         resetPlayerPage();
+    }
+    if (pageId === 'homePage') {
+        renderGoalRanking();
     }
     updateHeader(pageId);
 }
@@ -680,6 +684,7 @@ matchState.awayTeam =
             tournament
         );
         loadTournamentList();
+        renderGoalRanking();
         alert("保存しました");
     }
     catch(e){
@@ -713,7 +718,6 @@ async function loadTournamentList(){
     tournaments.sort((a,b)=>{
         return new Date(b.date) - new Date(a.date);
     });
-    
     tournaments.forEach(data=>{
         const card=document.createElement("div");
         card.className="historySwipe";
@@ -730,50 +734,36 @@ async function loadTournamentList(){
             <span>${data.matches.length}試合</span>
             </div>
         </div>
-
         `;
         //カードタップ
         const content =
     card.querySelector(".historyContent");
 content.onclick=()=>{
-
     if(content.classList.contains("open")){
         return;
     }
-
     loadTournament(data.id);
-
 };
         //削除ボタン
         const deleteButton = card.querySelector(".historyDelete");
-
         deleteButton.onclick=(e)=>{
-
     e.stopPropagation();
-
     deleteTournamentId=data.id;
-
     openDialog({
-
         title:"試合ノート削除",
-
         content:
         `
         <p>${data.name}</p>
         <p>削除しますか？</p>
         `,
-
         buttons:[
-
             {
                 text:"キャンセル"
             },
-
             {
                 text:"削除",
                 className:"deleteButton",
                 onclick:async()=>{
-
                     await deleteDoc(
                         doc(
                             db,
@@ -781,16 +771,12 @@ content.onclick=()=>{
                             deleteTournamentId
                         )
                     );
-
                     await loadTournamentList();
-
+                    renderGoalRanking();
                 }
             }
-
         ]
-
     });
-
 };
 
         let startX=0;
@@ -2737,6 +2723,67 @@ function undoPKResult() {
         updatePKDisplay();    // 表示を更新
     } else {
         alert("取り消す記録がありません");
+    }
+}
+
+
+// ==============================
+// 得点ランキング表示 (★新規追加機能)
+// ==============================
+async function renderGoalRanking() {
+    const rankingArea = document.getElementById("goalRanking");
+    if (!rankingArea) return;
+
+    try {
+        const snapshot = await getDocs(collection(db, "tournaments"));
+        const goalCounts = {};
+
+        snapshot.forEach(docSnap => {
+            const tournamentData = docSnap.data();
+            if (tournamentData.matches && Array.isArray(tournamentData.matches)) {
+                tournamentData.matches.forEach(m => {
+                    if (m.goals && Array.isArray(m.goals)) {
+                        m.goals.forEach(g => {
+                            // 自チーム選手の得点（「相手得点」以外）を集計
+                            if (g.scorer && g.scorer !== "相手得点") {
+                                goalCounts[g.scorer] = (goalCounts[g.scorer] || 0) + 1;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        // 配列化＆降順ソート
+        const sortedRanking = Object.keys(goalCounts)
+            .map(name => ({ name, goals: goalCounts[name] }))
+            .sort((a, b) => b.goals - a.goals);
+
+        if (sortedRanking.length === 0) {
+            rankingArea.innerHTML = `<p style="text-align:center; color:#888; font-size:14px; padding: 10px;">得点記録はありません</p>`;
+            return;
+        }
+
+        let html = '<div class="rankingList">';
+        sortedRanking.slice(0, 5).forEach((item, index) => { // 上位5名を表示
+            const rankClass = index === 0 ? "rank-1" : index === 1 ? "rank-2" : index === 2 ? "rank-3" : "";
+            const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`;
+            
+            html += `
+                <div class="rankingItem ${rankClass}" style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid #eee;">
+                    <div style="font-weight:bold;">
+                        <span style="margin-right:8px; display:inline-block; width:24px;">${medal}</span>
+                        <span>${item.name}</span>
+                    </div>
+                    <div style="font-weight:bold; color:#007bff;">${item.goals} <span style="font-size:12px; color:#666;">点</span></div>
+                </div>
+            `;
+        });
+        html += '</div>';
+
+        rankingArea.innerHTML = html;
+    } catch (e) {
+        console.error("得点ランキング集計エラー:", e);
     }
 }
 
