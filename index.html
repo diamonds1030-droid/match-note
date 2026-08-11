@@ -75,6 +75,36 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </main>
 
 </section>
+
+<section id="homePage" class="page active">
+
+    <header class="subHeader">
+        <h2>⚽ 試合ノート</h2>
+    </header>
+
+    <main>
+        <!-- ナビゲーションボタンエリア -->
+        <div class="buttonGroup">
+            <button id="teamButton">👥 チーム管理</button>
+            <button id="matchButton">📝 試合ノート作成</button>
+            <button id="historyButton">📖 試合ノート一覧</button>
+            <!--
+            <button id="playerButton">👤 選手登録</button>
+            <button id="createTournamentButton">🏆 新しい大会</button>
+            -->
+        </div>
+
+        <!-- ★追加：通算得点ランキング表示エリア -->
+        <div class="card rankingCard">
+            <h3 class="rankingTitle">🏆 通算得点ランキング</h3>
+            <div id="goalRanking">
+                <!-- ここに JavaScript (renderGoalRanking) で自動挿入されます -->
+            </div>
+        </div>
+    </main>
+
+</section>
+
  
 <!-- ===================================== -->
 <!-- チーム管理 -->
