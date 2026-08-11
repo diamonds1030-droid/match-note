@@ -1197,8 +1197,8 @@ button:active {
 /* 外枠：縦スクロールを完全に止め、枠自体に上下の余白を作る */
 .pkTableWrapper {
     width: 100%;
-    height: 120px;              /* ★ AUTOをやめ、アウェイの行が入る十分な高さを指定 */
-    max-height: 120px;          /* ★ heightと同じ値に揃える */
+    height: 160px;              /* ★ AUTOをやめ、アウェイの行が入る十分な高さを指定 */
+    max-height: 160px;          /* ★ heightと同じ値に揃える */
     overflow-x: auto;
     overflow-y: hidden;         /* ★ 縦スクロールを防止 */
     border: 1px solid #ccc;
