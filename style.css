@@ -1399,3 +1399,60 @@ button:active {
         padding-bottom: calc(20px + env(safe-area-inset-bottom));
     }
 }
+
+/* ==============================
+   得点ランキング用スタイル
+   ============================== */
+
+/* ランキングカード全体の枠組み */
+.rankingCard {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* タイトル */
+.rankingTitle {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* ランキングリスト */
+.rankingList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 1行ごとのデザイン */
+.rankingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease;
+}
+
+/* 順位に応じたハイライト（1〜3位） */
+.rankingItem.rank-1 {
+  background-color: #fff9e6; /* 金メダル背景（薄い黄色） */
+  border-left: 4px solid #ffd700;
+}
+
+.rankingItem.rank-2 {
+  background-color: #f5f5f5; /* 銀メダル背景（薄いグレー） */
+  border-left: 4px solid #c0c0c0;
+}
+
+.rankingItem.rank-3 {
+  background-color: #fff3eb; /* 銅メダル背景（薄いオレンジ） */
+  border-left: 4px solid #cd7f32;
+}
